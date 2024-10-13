@@ -1,0 +1,150 @@
+<%- include('../layouts/userLayouts/header') %>
+<%- include('../layouts/userLayouts/navbar') %>
+
+<!--Body Content-->
+<div id="page-content">
+    <!--Page Title-->
+    <div class="page section-header text-center">
+        <div class="page-title">
+            <div class="wrapper">
+                <h1 class="page-width">Verify OTP</h1>
+            </div>
+        </div>
+    </div>
+    <!--End Page Title-->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 main-col offset-md-3">
+                <div class="mb-4">
+                    <form id="otpForm">
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="otp">Enter OTP</label>
+                                    <input type="text" name="otp" placeholder="Enter the OTP you received" id="otp" required autofocus="">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="timer" class="mt-2">
+                            <span id="countdown"></span>
+                        </div>
+                        <div class="row">
+                          <div class="text-center col-12 col-sm-12 col-md-12 col-lg-12">
+                            <input type="button" id="verifyBtn" class="btn mb-3" style="display:block" value="Verify OTP">
+                        </div>
+                        
+                        <div class="text-center col-12 col-sm-12 col-md-12 col-lg-12">
+                            <input type="button" id="resendBtn" class="btn mb-3" style="display:none" value="Resend OTP">  
+                        </div>
+                        
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Body Content-->
+
+<script>
+
+    //timer function
+    const startTimer = (n) => {
+        if (n <= 0) {
+            document.getElementById("countdown").textContent = "Time's up";
+            document.getElementById("verifyBtn").style.display = "none";
+            document.getElementById("resendBtn").style.display = "block";
+        } else {
+            document.getElementById("countdown").textContent = `Time remaining: ${n} seconds`;
+            n--;
+            setTimeout(() => {
+                startTimer(n);
+            }, 1000);
+        }
+    };
+
+    // Start the timer with 60 seconds
+    startTimer(30);
+
+    // Event listener for form submission for verify  button
+    document.addEventListener("DOMContentLoaded", () => {
+        const verifyBtn = document.getElementById("verifyBtn");
+
+        verifyBtn.addEventListener("click", async (event) => {
+            // Prevent the default form submission
+            event.preventDefault();
+
+            const otpValue = document.getElementById("otp").value;
+
+            // console.log("OTP Entered:", otpValue);
+
+            try {
+                const response = await fetch("/otpVerify", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ otp:otpValue })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log(result);
+                    alert(result.message)
+
+                    setTimeout(() => {
+                        window.location.href = "/login";
+                    }, 1000); 
+
+
+                } else {
+                    alert("OTP verification failed. Please try again.");
+                }
+            } catch (error) {
+                console.error("Error during OTP verification:", error);
+                alert("An error occurred. Please try again.");
+            }
+        });
+    });
+    //for resend button
+    const resendBtn=document.getElementById("resendBtn")
+
+    resendBtn.addEventListener("click",async(event)=>{
+        event.preventDefault()
+
+        try{
+            const response=await fetch("/resendOtp",{
+                method:"GET",
+                headers:{"Content-Type":"application/json"}
+
+            })
+            const result=await response.json()
+
+
+            if(response.ok){
+                console.log("otp resent successfully",result.otp)
+                startTimer(60)
+                // resendBtn.style.display="none"
+                document.getElementById("resendBtn").style.display = "none"
+                document.getElementById("verifyBtn").style.display = "block"
+            
+                console.log(result)
+                alert(result.message)
+            }else{
+                alert("Otp Resend failed,please try again")
+            }
+        }catch(error){
+            console.log("Error during Resend Otp",error)
+            alert("An error occured,please try again")
+        }
+    })
+
+
+   
+
+
+</script>
+
+<!--Footer-->
+<%- include('../layouts/userLayouts/footer') %>

@@ -1,0 +1,168 @@
+<%- include('../layouts/userLayouts/header') %>
+<%- include('../layouts/userLayouts/navbar') %>
+
+<!--Body Content-->
+<div id="page-content">
+    <!--Page Title-->
+    <div class="page section-header text-center">
+        <div class="page-title">
+            <div class="wrapper">
+                <h1 class="page-width">Create an Account</h1>
+            </div>
+        </div>
+    </div>
+    <!--End Page Title-->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 main-col offset-md-3">
+                <div class="mb-4">
+                    <form method="post" action="/register" id="customerRegistrationForm" autocomplete="off" accept-charset="UTF-8" class="contact-form">
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="FirstName">First Name</label>
+                                    <input type="text" name="customerfirstName" placeholder="" id="firstName" autofocus="">
+                                    <span class="error" style="color:red" id="firstNameError"></span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="LastName">Last Name</label>
+                                    <input type="text" name="customerlastName" placeholder="" id="lastName">
+                                    <span class="error" style="color:red" id="lastNameError"></span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="CustomerEmail">Email</label>
+                                    <input type="text" name="customerEmail" placeholder="" id="customerEmail" class="" autocorrect="off" autocapitalize="off" autofocus="">
+                                    <span class="error" style="color:red" id="emailError"></span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="CustomerPassword">Password</label>
+                                    <input type="password" value="" name="password" placeholder="" id="customerPassword" class="">
+                                    <span class="error" style="color:red" id="passwordError"></span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="CustomerConfirmPassword">Confirm Password</label>
+                                    <input type="password" value="" name="confirmPassword" placeholder="" id="customerConfirmPassword" class="">
+                                    <span class="error" style="color:red" id="confirmPasswordError"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="text-center col-12 col-sm-12 col-md-12 col-lg-12">
+                                <input type="submit" class="btn mb-3" value="Create" onclick="validateForm()">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!--End Body Content-->
+
+<%- include('../layouts/userLayouts/footer') %>
+
+<!-- JavaScript Validation Script -->
+<!-- JavaScript Validation Script -->
+<script>
+    function validateForm(event) {
+        
+        event.preventDefault();
+        
+        let valid = true;
+
+        // Clear previous error messages
+        document.querySelectorAll('.error').forEach(function (error) {
+            error.textContent = '';
+        });
+
+        // Get form fields
+        const firstName = document.getElementById('firstName').value.trim();
+        const lastName = document.getElementById('lastName').value.trim();
+        const email = document.getElementById('customerEmail').value.trim();
+        const password = document.getElementById('customerPassword').value.trim();
+        const confirmPassword = document.getElementById('customerConfirmPassword').value.trim();
+
+        // First Name Validation
+        if (firstName === "") {
+            document.getElementById('firstNameError').textContent = "First Name is required.";
+            valid = false;
+        }
+
+        // Last Name Validation
+        if (lastName === "") {
+            document.getElementById('lastNameError').textContent = "Last Name is required.";
+            valid = false;
+        }
+
+        // Email Validation
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (email === "") {
+            document.getElementById('emailError').textContent = "Email is required.";
+            valid = false;
+        } else if (!emailPattern.test(email)) {
+            document.getElementById('emailError').textContent = "Please enter a valid email address.";
+            valid = false;
+        }
+
+        // Password Validation
+        if (password === "") {
+            document.getElementById('passwordError').textContent = "Password is required.";
+            valid = false;
+        } else if (password.length < 6) {
+            document.getElementById('passwordError').textContent = "Password must be at least 6 characters.";
+            valid = false;
+        }
+
+        // Confirm Password Validation
+        if (confirmPassword === "") {
+            document.getElementById('confirmPasswordError').textContent = "Confirm Password is required.";
+            valid = false;
+        } else if (password !== confirmPassword) {
+            document.getElementById('confirmPasswordError').textContent = "Passwords does not match.";
+            valid = false;
+        }
+
+        // If form is valid, submit it
+        if (valid) {
+            document.getElementById('customerRegistrationForm').submit();
+        }
+    }
+
+    // Attach the validateForm function to the button click event
+    document.querySelector('input[type="submit"]').addEventListener('click', validateForm);
+
+
+
+
+// for shpw email already exists or not
+    window.addEventListener('DOMContentLoaded',(event)=>{
+
+let emailExitsMessage="<%= typeof emailExitsMessage !== 'undefined' ? emailExitsMessage : '' %>"
+ 
+ 
+
+
+if(emailExitsMessage){
+    Swal.fire({
+    title: 'Error!',
+    text: emailExitsMessage,
+    icon: 'error',
+    confirmButtonText: 'Try Again'
+});
+}
+})
+
+
+</script>
+

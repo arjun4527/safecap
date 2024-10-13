@@ -1,0 +1,631 @@
+<%- include('../layouts/userLayouts/header') %>
+<%- include('../layouts/userLayouts/navbar') %>
+
+
+
+        <!--End Mobile Menu-->
+        
+        <!--Body Content-->
+        <div id="page-content">
+            <!--MainContent-->
+            <div id="MainContent" class="main-content" role="main">
+                <!--Breadcrumb-->
+                <div class="bredcrumbWrap">
+                    <div class="container breadcrumbs">
+                        <a href="index.html" title="Back to the home page">Home</a><span aria-hidden="true">›</span><span>Product Details</span>
+                     </div>
+                </div>
+                <!--End Breadcrumb-->
+                
+                <div id="ProductSection-product-template" class="product-template__container prstyle1 container">
+                    <!--product-single-->
+                    <div class="product-single">
+                        <div class="row">
+                           
+
+                            
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                <div class="product-details-img">
+                                    <div class="product-thumb">
+                                        <div id="gallery" class="product-dec-slider-2 product-tab-left">
+                                             <a data-image="/productImages/<%= productData.productImage[0] %>" data-zoom-image="/productImages/<%= productData.productImage[0] %>" class="slick-slide slick-cloned" data-slick-index="-4" aria-hidden="true" tabindex="-1">
+                                                <img class="blur-up lazyload" src="/productImages/<%= productData.productImage[0] %>" alt="" />
+                                            </a>
+                                            <a data-image="/productImages/<%= productData.productImage[1] %>" data-zoom-image="/productImages/<%= productData.productImage[1] %>" class="slick-slide slick-cloned" data-slick-index="-3" aria-hidden="true" tabindex="-1">
+                                                <img class="blur-up lazyload" src="/productImages/<%= productData.productImage[1] %>" alt="" />
+                                            </a>
+                                            <a data-image="/productImages/<%= productData.productImage[2] %>" data-zoom-image="/productImages/<%= productData.productImage[2] %>" class="slick-slide slick-cloned" data-slick-index="-2" aria-hidden="true" tabindex="-1">
+                                                <img class="blur-up lazyload" src="/productImages/<%= productData.productImage[2] %>" alt="" />
+                                            </a>
+                                            <a data-image="/productImages/<%= productData.productImage[3] %>" data-zoom-image="/productImages/<%= productData.productImage[3] %>" class="slick-slide slick-cloned" data-slick-index="-1" aria-hidden="true" tabindex="-1">
+                                                <img class="blur-up lazyload" src="/productImages/<%= productData.productImage[3] %>" alt="" />
+                                            </a>
+                                             
+                                        </div>
+                                    </div>
+                                     <!-- main photo  -->
+                                     <div class="zoompro-wrap product-zoom-right pl-20">
+                                        <div class="zoompro-span">
+                                            <img class="blur-up lazyload zoompro" data-zoom-image="/productImages/<%= productData.productImage[0] %>"alt="" src="/productImages/<%= productData.productImage[0] %>" />
+                                        </div>
+
+                                        
+                                        <!-- <div class="product-labels"><span class="lbl on-sale">Sale</span><span class="lbl pr-label1">new</span></div> -->
+                                         <div class="product-buttons">
+                                            <!-- <a href="https://www.youtube.com/watch?v=93A2jOW5Mog" class="btn popup-video" title="View Video"><i class="icon anm anm-play-r" aria-hidden="true"></i></a> -->
+                                             <a href="#" class="btn prlightbox" title="Zoom"><i class="icon anm anm-expand-l-arrows" aria-hidden="true"></i></a>  
+                                        </div> 
+                                    </div> 
+                                    <!-- main photo end   -->
+                                    <div class="lightboximages">
+                                        <a href="/productImages/<%= productData.productImage[0] %>" data-size="1462x2048"></a>
+                                        <a href="/productImages/<%= productData.productImage[1] %>" data-size="1462x2048"></a>
+                                        <a href="/productImages/<%= productData.productImage[2] %>" data-size="1462x2048"></a>
+                                        <a href="/productImages/<%= productData.productImage[3] %>" data-size="1462x2048"></a>
+                                    </div> 
+        
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <div class="product-single__meta">
+                                        <h1 class="product-single__title"><%= productData.productName%></h1>
+                                        <!-- <div class="product-nav clearfix">					
+                                            <a href="#" class="next" title="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                                        </div> -->
+                                        <div class="prInfoRow">
+                                            <div class="product-stock"> <span class="instock ">In Stock</span> <span class="outstock hide">Unavailable</span> </div>
+                                             <div class="product-sku"> <span class="variant-sku"></span></div> 
+                                             <div class="product-review"><a class="reviewLink" href="#tab2"><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star-o"></i><i class="font-13 fa fa-star-o"></i><span class="spr-badge-caption">6 reviews</span></a></div> 
+                                        </div>
+                                        <p class="product-single__price product-single__price-product-template">
+                                            <!-- <span class="visually-hidden">Regular price</span>
+                                            <s id="ComparePrice-product-template"><span class="money">₹600.00</span></s> -->
+                                            <span class="product-price__price product-price__price-product-template product-price__sale product-price__sale--single">
+                                                <span id="ProductPrice-product-template"><span class="money">₹<%= productData.variants[0].price %></span></span>
+                                            </span>
+                                            <!-- <span class="discount-badge"> <span class="devider">|</span>&nbsp;
+                                                <span>You Save</span>
+                                                <span id="SaveAmount-product-template" class="product-single__save-amount">
+                                                <span class="money">$100.00</span>
+                                                </span>
+                                                <span class="off">(<span>16</span>%)</span>
+                                            </span>   -->
+                                        </p>
+                                        <!-- <div class="orderMsg" data-user="23" data-time="24">
+                                            <img src="assets/images/order-icon.jpg" alt="" /> <strong class="items">5</strong> sold in last <strong class="time">26</strong> hours</div>
+                                        </div> -->
+                                    <div class="product-single__description rte">
+                                        <!-- <ul>
+                                            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+                                            <li>Sed ut perspiciatis unde omnis iste natus error sit</li>
+                                            <li>Neque porro quisquam est qui dolorem ipsum quia dolor</li>
+                                            <li>Lorem Ipsum is not simply random text.</li>
+                                        </ul> -->
+                                        <h3><%= productData.description %></h3>
+                                    </div>
+                                    
+                                    <div id="quantity_message"> Only  <span class="items"><%=productData.variants[0].stock %></span>  left in stock.</div>
+                                    
+                                    <!-- countdown start -->
+                                    <!-- <div class="saleTime product-countdown" data-countdown="2022/03/01"></div> -->
+                                    <!-- countdown end -->
+                                    <form method="post" action="http://annimexweb.com/cart/add" id="product_form_10508262282" accept-charset="UTF-8" class="product-form product-form-product-template hidedropdown" enctype="multipart/form-data">
+                                        <!-- <div class="swatch clearfix swatch-0 option1" data-option-index="0">
+                                            <div class="product-form__item">
+                                              <label class="header">Color: <span class="slVariant">Red</span></label>
+                                              <div data-value="Black" class="swatch-element color black available">
+                                                <input class="swatchInput" id="swatch-0-black" type="radio" name="option-0" value="Black"><label class="swatchLbl color small rectangle" for="swatch-0-black" style="background-color:black;" title="Black"></label>
+                                              </div>
+                                              <div data-value="Maroon" class="swatch-element color maroon available">
+                                                <input class="swatchInput" id="swatch-0-maroon" type="radio" name="option-0" value="Maroon"><label class="swatchLbl color small rectangle" for="swatch-0-maroon" style="background-color:maroon;" title="Maroon"></label>
+                                              </div>
+                                              <div data-value="Blue" class="swatch-element color blue available">
+                                                <input class="swatchInput" id="swatch-0-blue" type="radio" name="option-0" value="Blue"><label class="swatchLbl color small rectangle" for="swatch-0-blue" style="background-color:blue;" title="Blue"></label>
+                                              </div>
+                                              <div data-value="Dark Green" class="swatch-element color dark-green available">
+                                                <input class="swatchInput" id="swatch-0-dark-green" type="radio" name="option-0" value="Dark Green"><label class="swatchLbl color small rectangle" for="swatch-0-dark-green" style="background-color:darkgreen;" title="Dark Green"></label>
+                                              </div>
+                                            </div>
+                                        </div> -->
+                                        <div class="swatch clearfix swatch-1 option2" data-option-index="1">
+                                            <div class="product-form__item">
+                                               
+                                                <label class="header">Size: <span data-size="" class="sVariant">s</span></label>
+                                              
+
+                                              
+                                              <!-- <div data-value="S" data-price="" class="swatch-element s available">
+                                                <input class="swatchInput" id="swatch-1-s" type="radio" name="option-1" value="S">
+                                                <label class="swatchLbl medium rectangle" for="swatch-1-s" title="S">S</label>
+                                              </div>
+                                              <div data-value="S" data-price="" class="swatch-element m available">
+                                                <input class="swatchInput" id="swatch-1-m" type="radio" name="option-1" value="M">
+                                                <label class="swatchLbl medium rectangle" for="swatch-1-m" title="M">M</label>
+                                              </div>
+                                              <div data-value="L" data-price="" class="swatch-element l available">
+                                                <input class="swatchInput" id="swatch-1-l" type="radio" name="option-1" value="L">
+                                                <label class="swatchLbl medium rectangle" for="swatch-1-l" title="L">L</label>
+                                              </div> -->
+                                              <% productData.variants.forEach(variant => { %>
+                                            
+
+                                              <div data-value="<%= variant.size %>" data-price="<%= variant.price %>" data-stock="<%= variant.stock %>" class="swatch-element <%= variant.size.toLowerCase() %> available">
+                                                <input class="swatchInput" id="swatch-1-<%= variant.size.toLowerCase() %>" type="radio" name="option-1" value="<%= variant.size %>">
+                                                <label class="swatchLbl medium rectangle" for="swatch-1-<%= variant.size.toLowerCase() %>" title="<%= variant.size %>"><%= variant.size %></label>
+                                            </div>
+                                            <% }) %>
+
+                                            </div>
+                                        </div>
+                                        <p class="infolinks"><a href="#sizechart" class="sizelink btn"> Size Guide</a> <a href="#productInquiry" class="emaillink btn"> Ask About this Product</a></p>
+                                        <!-- Product Action -->
+                                        <div class="product-action clearfix">
+                                            <div class="product-form__item--quantity">
+                                                <div class="wrapQtyBtn">
+                                                    <div class="qtyField">
+                                                        <a class="qtyBtn minus" href="javascript:void(0);"><i class="fa anm anm-minus-r" aria-hidden="true"></i></a>
+                                                        <input type="text" id="Quantity" name="quantity" value="1" class="product-form__input qty">
+                                                        <a class="qtyBtn plus" href="javascript:void(0);"><i class="fa anm anm-plus-r" aria-hidden="true"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>    
+                                            <% if(productData.is_blocked || brandData.is_blocked || categoryData.is_blocked){ %>
+                                                <span style="color: red; font-weight:700;">Currently Unavailable</span> 
+                                           <% }else{ %>
+                                              <div class="product-form__item--submit">
+                                                <button type="button" name="add" class="btn product-form__cart-submit">
+                                                    <span>Add to cart</span>
+                                                </button>
+                                            </div>
+                                            <div class="shopify-payment-button" data-shopify="payment-button">
+                                                <button type="button" class="shopify-payment-button__button shopify-payment-button__button--unbranded">Buy it now</button>
+                                            </div>
+                                          <% } %>                      
+                                            
+                                        </div>
+                                        <!-- End Product Action -->
+                                    </form>
+                                    <div class="display-table shareRow">
+                                            <div class="display-table-cell medium-up--one-third">
+                                                <div class="wishlist-btn">
+                                                    <a class="wishlist add-to-wishlist" href="#" title="Add to Wishlist"><i class="icon anm anm-heart-l" aria-hidden="true"></i> <span>Add to Wishlist</span></a>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="display-table-cell text-right">
+                                                <div class="social-sharing">
+                                                    <a target="_blank" href="#" class="btn btn--small btn--secondary btn--share share-facebook" title="Share on Facebook">
+                                                        <i class="fa fa-facebook-square" aria-hidden="true"></i> <span class="share-title" aria-hidden="true">Share</span>
+                                                    </a>
+                                                    <a target="_blank" href="#" class="btn btn--small btn--secondary btn--share share-twitter" title="Tweet on Twitter">
+                                                        <i class="fa fa-twitter" aria-hidden="true"></i> <span class="share-title" aria-hidden="true">Tweet</span>
+                                                    </a>
+                                                    <a href="#" title="Share on google+" class="btn btn--small btn--secondary btn--share" >
+                                                        <i class="fa fa-google-plus" aria-hidden="true"></i> <span class="share-title" aria-hidden="true">Google+</span>
+                                                    </a>
+                                                    <a target="_blank" href="#" class="btn btn--small btn--secondary btn--share share-pinterest" title="Pin on Pinterest">
+                                                        <i class="fa fa-pinterest" aria-hidden="true"></i> <span class="share-title" aria-hidden="true">Pin it</span>
+                                                    </a>
+                                                    <a href="#" class="btn btn--small btn--secondary btn--share share-pinterest" title="Share by Email" target="_blank">
+                                                        <i class="fa fa-envelope" aria-hidden="true"></i> <span class="share-title" aria-hidden="true">Email</span>
+                                                    </a>
+                                                 </div>
+                                            </div> -->
+                                        </div>
+                                        
+                                    <p id="freeShipMsg" class="freeShipMsg" data-price="199"><i class="fa fa-truck" aria-hidden="true"></i> GETTING CLOSER! ONLY <b class="freeShip"><span class="money" data-currency-usd="$199.00" data-currency="USD">$199.00</span></b> AWAY FROM <b>FREE SHIPPING!</b></p>
+                                    <p class="shippingMsg"><i class="fa fa-clock-o" aria-hidden="true"></i> ESTIMATED DELIVERY BETWEEN <b id="fromDate">Wed. May 1</b> and <b id="toDate">Tue. May 7</b>.</p>
+                                    <div class="userViewMsg" data-user="20" data-time="11000"><i class="fa fa-users" aria-hidden="true"></i> <strong class="uersView">14</strong> PEOPLE ARE LOOKING FOR THIS PRODUCT</div>
+                                </div>
+                                
+                        </div>
+                    </div>
+                    <!--End-product-single-->
+                    <!--Product Fearure-->
+                    <div class="prFeatures">
+                        <div class="row">
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-3 feature">
+                                <img src="assets/images/credit-card.png" alt="Safe Payment" title="Safe Payment" />
+                                <div class="details"><h3>Safe Payment</h3>Pay with the world's most payment methods.</div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-3 feature">
+                                <img src="assets/images/shield.png" alt="Confidence" title="Confidence" />
+                                <div class="details"><h3>Confidence</h3>Protection covers your purchase and personal data.</div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-3 feature">
+                                <img src="assets/images/worldwide.png" alt="Worldwide Delivery" title="Worldwide Delivery" />
+                                <div class="details"><h3>All India Delivery</h3>FREE &amp; fast shipping to over 200+ countries &amp; regions.</div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-3 feature">
+                                <img src="assets/images/phone-call.png" alt="Hotline" title="Hotline" />
+                                <div class="details"><h3>Hotline</h3>Talk to help line for your question on 4141 456 789, 4125 666 888</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End Product Fearure-->
+                    <!--Product Tabs-->
+                    <div class="tabs-listing">
+                        <ul class="product-tabs">
+                            <li rel="tab1"><a class="tablink"><h3>Product Details</h3></a></li>
+                            <li rel="tab2"><a class="tablink"><h3>Product Reviews</h3></a></li>
+                            <li rel="tab3"><a class="tablink"><h3>Size Chart</h3></a></li>
+                            <li rel="tab4"><a class="tablink"><h3>Shipping &amp; Returns</h3></a></li>
+                        </ul>
+                        <div class="tab-container">
+                            <div id="tab1" class="tab-content">
+                                <div class="product-description rte">
+                                    <!-- <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+                                    <ul>
+                                      <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+                                      <li>Sed ut perspiciatis unde omnis iste natus error sit</li>
+                                      <li>Neque porro quisquam est qui dolorem ipsum quia dolor</li>
+                                      <li>Lorem Ipsum is not simply random text.</li>
+                                      <li>Free theme updates</li>
+                                    </ul>
+                                    <h3>Sed ut perspiciatis unde omnis iste natus error sit voluptatem</h3>
+                                    <p>You can change the position of any sections such as slider, banner, products, collection and so on by just dragging and dropping.&nbsp;</p>
+                                    <h3>Lorem Ipsum is not simply random text.</h3>
+<p>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.</p>
+                                    <p>Change colors, fonts, banners, megamenus and more. Preview changes are live before saving them.</p>
+                                    <h3>1914 translation by H. Rackham</h3>
+                                    <p>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.</p>
+                                    <h3>Section 1.10.33 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC</h3>
+                                    <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
+                                    <h3>The standard Lorem Ipsum passage, used since the 1500s</h3>
+                                    <p>You can use variant style from colors, images or variant images. Also available differnt type of design styles and size.</p>
+                                    <h3>Lorem Ipsum is not simply random text.</h3>
+<p>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.</p>
+                                    <h3>Proin ut lacus eget elit molestie posuere.</h3>
+                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.</p> -->
+                                </div>
+                            </div>
+                            
+                            <div id="tab2" class="tab-content">
+                                <div id="shopify-product-reviews">
+                                    <div class="spr-container">
+                                        <div class="spr-header clearfix">
+                                            <div class="spr-summary">
+                                                <span class="product-review"><a class="reviewLink"><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star-o"></i><i class="font-13 fa fa-star-o"></i> </a><span class="spr-summary-actions-togglereviews">Based on 6 reviews456</span></span>
+                                                <span class="spr-summary-actions">
+                                                    <a href="#" class="spr-summary-actions-newreview btn">Write a review</a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="spr-content">
+                                            <div class="spr-form clearfix">
+                                                <form method="post" action="#" id="new-review-form" class="new-review-form">
+                                                    <h3 class="spr-form-title">Write a review</h3>
+                                                    <fieldset class="spr-form-contact">
+                                                        <div class="spr-form-contact-name">
+                                                          <label class="spr-form-label" for="review_author_10508262282">Name</label>
+                                                          <input class="spr-form-input spr-form-input-text " id="review_author_10508262282" type="text" name="review[author]" value="" placeholder="Enter your name">
+                                                        </div>
+                                                        <div class="spr-form-contact-email">
+                                                          <label class="spr-form-label" for="review_email_10508262282">Email</label>
+                                                          <input class="spr-form-input spr-form-input-email " id="review_email_10508262282" type="email" name="review[email]" value="" placeholder="john.smith@example.com">
+                                                        </div>
+                                                    </fieldset>
+                                                    <fieldset class="spr-form-review">
+                                                      <div class="spr-form-review-rating">
+                                                        <label class="spr-form-label">Rating</label>
+                                                        <div class="spr-form-input spr-starrating">
+                                                          <div class="product-review"><a class="reviewLink" href="#"><i class="fa fa-star-o"></i><i class="font-13 fa fa-star-o"></i><i class="font-13 fa fa-star-o"></i><i class="font-13 fa fa-star-o"></i><i class="font-13 fa fa-star-o"></i></a></div>
+                                                        </div>
+                                                      </div>
+                                                
+                                                      <div class="spr-form-review-title">
+                                                        <label class="spr-form-label" for="review_title_10508262282">Review Title</label>
+                                                        <input class="spr-form-input spr-form-input-text " id="review_title_10508262282" type="text" name="review[title]" value="" placeholder="Give your review a title">
+                                                      </div>
+                                                
+                                                      <div class="spr-form-review-body">
+                                                        <label class="spr-form-label" for="review_body_10508262282">Body of Review <span class="spr-form-review-body-charactersremaining">(1500)</span></label>
+                                                        <div class="spr-form-input">
+                                                          <textarea class="spr-form-input spr-form-input-textarea " id="review_body_10508262282" data-product-id="10508262282" name="review[body]" rows="10" placeholder="Write your comments here"></textarea>
+                                                        </div>
+                                                      </div>
+                                                    </fieldset>
+                                                    <fieldset class="spr-form-actions">
+                                                        <input type="submit" class="spr-button spr-button-primary button button-primary btn btn-primary" value="Submit Review">
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+                                            <div class="spr-reviews">
+                                                <div class="spr-review">
+                                                    <div class="spr-review-header">
+                                                        <span class="product-review spr-starratings spr-review-header-starratings"><span class="reviewLink"><i class="fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i></span></span>
+                                                        <h3 class="spr-review-header-title">Lorem ipsum dolor sit amet</h3>
+                                                        <span class="spr-review-header-byline"><strong>dsacc</strong> on <strong>Apr 09, 2019</strong></span>
+                                                    </div>
+                                                    <div class="spr-review-content">
+                                                        <p class="spr-review-content-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                                    </div>
+                                                </div>
+                                                <div class="spr-review">
+                                                  <div class="spr-review-header">
+                                                    <span class="product-review spr-starratings spr-review-header-starratings"><span class="reviewLink"><i class="fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i></span></span>
+                                                    <h3 class="spr-review-header-title">Lorem Ipsum is simply dummy text of the printing</h3>
+                                                    <span class="spr-review-header-byline"><strong>larrydude</strong> on <strong>Dec 30, 2018</strong></span>
+                                                  </div>
+                                            
+                                                  <div class="spr-review-content">
+                                                    <p class="spr-review-content-body">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                                                    </p>
+                                                  </div>
+                                                </div>
+                                                <div class="spr-review">
+                                                  <div class="spr-review-header">
+                                                    <span class="product-review spr-starratings spr-review-header-starratings"><span class="reviewLink"><i class="fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i></span></span>
+                                                    <h3 class="spr-review-header-title">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</h3>
+                                                    <span class="spr-review-header-byline"><strong>quoctri1905</strong> on <strong>Dec 30, 2018</strong></span>
+                                                  </div>
+                                            
+                                                  <div class="spr-review-content">
+                                                    <p class="spr-review-content-body">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.<br>
+                                                    <br>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                                  </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <!-- size guide -->
+                            <div id="tab3" class="tab-content">
+                                
+                          </div>
+                            
+                            <div id="tab4" class="tab-content">
+                                <h4>Returns Policy</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eros justo, accumsan non dui sit amet. Phasellus semper volutpat mi sed imperdiet. Ut odio lectus, vulputate non ex non, mattis sollicitudin purus. Mauris consequat justo a enim interdum, in consequat dolor accumsan. Nulla iaculis diam purus, ut vehicula leo efficitur at.</p>
+                                <p>Interdum et malesuada fames ac ante ipsum primis in faucibus. In blandit nunc enim, sit amet pharetra erat aliquet ac.</p>
+                                <h4>Shipping</h4>
+                                <p>Pellentesque ultrices ut sem sit amet lacinia. Sed nisi dui, ultrices ut turpis pulvinar. Sed fringilla ex eget lorem consectetur, consectetur blandit lacus varius. Duis vel scelerisque elit, et vestibulum metus.  Integer sit amet tincidunt tortor. Ut lacinia ullamcorper massa, a fermentum arcu vehicula ut. Ut efficitur faucibus dui Nullam tristique dolor eget turpis consequat varius. Quisque a interdum augue. Nam ut nibh mauris.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End Product Tabs-->
+                    
+                    <!--Related Product Slider-->
+                    <div class="related-product grid-products">
+                        <header class="section-header">
+                            <h2 class="section-header__title text-center h2"><span>Related Products</span></h2>
+                            <!-- <p class="sub-heading">You can stop autoplay, increase/decrease aniamtion speed and number of grid to show and products from store admin.</p> -->
+                        </header>
+                        
+                        
+
+
+                    <div class="section">
+                       <div class="container-fluid">
+                         <div class="categories-list-items">
+                            <div class="container-fluid py-4">
+                              <div class="row g-4"> <!-- Adjust the gutter to g-4 for increased spacing between images -->
+                                <% relatedProduct.forEach(product => { %>
+                                  <div class="col-lg-4 col-md-4 col-sm-6"> <!-- 3 items per row on large (lg) and medium (md), 2 on small (sm) -->
+                                    <div class="mr-5 ml-5"> <!-- Adjust layout -->
+                                      
+                                      <!-- Image without borders and full width -->
+                                      <% if (product.productImage && product.productImage.length > 0) { %>
+                                        <img class="img-default" 
+                                             style="height: 400px; object-fit:fill;width: 100%;" 
+                                             src="/productImages/<%= product.productImage[0] %>" alt="<%= product.productName %>">
+                                             
+            
+                                             <!-- <img class="hover blur-up lazyload" data-src="/productImages/" src="/productImages/" alt="image" title="product"> -->
+                                                  
+                                      <% } else { %>
+                                        <!-- No image placeholder logic if needed -->
+                                      <% } %>
+                      
+                                      <div class="card-body text-center">
+                                        <h5 class="card-title">
+                                          <a href="#" class="text-dark text-decoration-none">
+                                            <%= product.productName %>
+                                          </a>
+                                        </h5>
+                                        <p class="card-text">
+                                          <!-- Optional description or product details can go here -->
+                                        </p>
+                                        <a href="/productDetails?id=<%= product._id %>" class="btn btn-success">View Details</a>
+                                        
+                                      </div>
+                                    </div>
+                                  </div>
+                                <% }) %>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>    
+
+
+                        
+                    <!--End Related Product Slider-->
+                    
+                    <!--Recently Product Slider-->
+                    
+                    <!--End Recently Product Slider-->
+                    </div>
+                <!--#ProductSection-product-template-->
+            </div>
+            <!--MainContent-->
+        </div>
+    	<!--End Body Content-->
+    
+    <!--Footer-->
+    <footer id="footer">
+        
+        <div class="site-footer">
+        	<div class="container">
+     			<!--Footer Links-->
+            	<div class="footer-top">
+                	<div class="row">
+                    	<div class="col-12 col-sm-12 col-md-3 col-lg-3 footer-links">
+                        	<h4 class="h4">Quick Shop</h4>
+                            <ul>
+                            	<li><a href="#">Women</a></li>
+                                <li><a href="#">Men</a></li>
+                                <li><a href="#">Kids</a></li>
+                                <li><a href="#">Sportswear</a></li>
+                                <li><a href="#">Sale</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 footer-links">
+                        	<h4 class="h4">Informations</h4>
+                            <ul>
+                            	<li><a href="#">About us</a></li>
+                                <li><a href="#">Careers</a></li>
+                                <li><a href="#">Privacy policy</a></li>
+                                <li><a href="#">Terms &amp; condition</a></li>
+                                <li><a href="#">My Account</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 footer-links">
+                        	<h4 class="h4">Customer Services</h4>
+                            <ul>
+                            	<li><a href="#">Request Personal Data</a></li>
+                                <li><a href="#">FAQ's</a></li>
+                                <li><a href="#">Contact Us</a></li>
+                                <li><a href="#">Orders and Returns</a></li>
+                                <li><a href="#">Support Center</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 contact-box">
+                        	<h4 class="h4">Contact Us</h4>
+                            <ul class="addressFooter">
+                            	<li><i class="icon anm anm-map-marker-al"></i><p>55 Gallaxy Enque,<br>2568 steet, 23568 NY</p></li>
+                                <li class="phone"><i class="icon anm anm-phone-s"></i><p>(440) 000 000 0000</p></li>
+                                <li class="email"><i class="icon anm anm-envelope-l"></i><p>sales@yousite.com</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--End Footer Links-->
+                <hr>
+                <div class="footer-bottom">
+                	<div class="row">
+                    	<!--Footer Copyright-->
+	                	<div class="col-12 col-sm-12 col-md-6 col-lg-6 order-1 order-md-0 order-lg-0 order-sm-1 copyright text-sm-center text-md-left text-lg-left"><span></span> <a href="templateshub.net">Templates Hub</a></div>
+                        <!--End Footer Copyright-->
+                        <!--Footer Payment Icon-->
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 order-0 order-md-1 order-lg-1 order-sm-0 payment-icons text-right text-md-center">
+                        	<ul class="payment-icons list--inline">
+                        		<li><i class="icon fa fa-cc-visa" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-cc-mastercard" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-cc-discover" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-cc-paypal" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-cc-amex" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-credit-card" aria-hidden="true"></i></li>
+                            </ul>
+                        </div>
+                        <!--End Footer Payment Icon-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--End Footer-->
+    <!--Scoll Top-->
+    <span id="site-scroll"><i class="icon anm anm-angle-up-r"></i></span>
+    <!--End Scoll Top-->
+    
+    
+    
+        
+     <!-- Including Jquery -->
+     <script src="assets/js/vendor/jquery-3.3.1.min.js"></script>
+     <script src="assets/js/vendor/jquery.cookie.js"></script>
+     <script src="assets/js/vendor/modernizr-3.6.0.min.js"></script>
+     <script src="assets/js/vendor/wow.min.js"></script>
+     <!-- Including Javascript -->
+     <script src="assets/js/bootstrap.min.js"></script>
+     <script src="assets/js/plugins.js"></script>
+     <script src="assets/js/popper.min.js"></script>
+     <script src="assets/js/lazysizes.js"></script>
+     <script src="assets/js/main.js"></script>
+     <!-- Photoswipe Gallery -->
+     <script src="assets/js/vendor/photoswipe.min.js"></script>
+     <script src="assets/js/vendor/photoswipe-ui-default.min.js"></script>
+     <script>
+        $(function(){
+            var $pswp = $('.pswp')[0],
+                image = [],
+                getItems = function() {
+                    var items = [];
+                    $('.lightboximages a').each(function() {
+                        var $href   = $(this).attr('href'),
+                            $size   = $(this).data('size').split('x'),
+                            item = {
+                                src : $href,
+                                w: $size[0],
+                                h: $size[1]
+                            }
+                            items.push(item);
+                    });
+                    return items;
+                }
+            var items = getItems();
+        
+            $.each(items, function(index, value) {
+                image[index]     = new Image();
+                image[index].src = value['src'];
+            });
+            $('.prlightbox').on('click', function (event) {
+                event.preventDefault();
+              
+                var $index = $(".active-thumb").parent().attr('data-slick-index');
+                $index++;
+                $index = $index-1;
+        
+                var options = {
+                    index: $index,
+                    bgOpacity: 0.9,
+                    showHideOpacity: true
+                }
+                var lightBox = new PhotoSwipe($pswp, PhotoSwipeUI_Default, items, options);
+                lightBox.init();
+            });
+        });
+        </script>
+    </div>
+
+	<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+        	<div class="pswp__bg"></div>
+            <div class="pswp__scroll-wrap"><div class="pswp__container"><div class="pswp__item"></div><div class="pswp__item"></div><div class="pswp__item"></div></div><div class="pswp__ui pswp__ui--hidden"><div class="pswp__top-bar"><div class="pswp__counter"></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button><button class="pswp__button pswp__button--share" title="Share"></button><button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button><button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class="pswp__preloader"><div class="pswp__preloader__icn"><div class="pswp__preloader__cut"><div class="pswp__preloader__donut"></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class="pswp__share-tooltip"></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button><button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class="pswp__caption"><div class="pswp__caption__center"></div></div></div></div></div>
+
+
+     <!-- for shoing price of different variants       -->
+    <script>
+        document.addEventListener('DOMContentLoaded',function(){
+
+            const sizeOption=document.querySelectorAll('.swatch-element')
+            const priceElement=document.querySelector('#ProductPrice-product-template .money')
+            const sizeDisplay=document.querySelector('.sVariant')
+            const stockDisplay=document.querySelector('#quantity_message .items')
+
+
+            
+
+            sizeOption.forEach(function (option){
+                option.addEventListener('click',function(){
+                    const newPrice=option.getAttribute('data-price')
+                    const selectedSize=option.getAttribute('data-value')
+                    const leftStock=option.getAttribute('data-stock')
+
+                    console.log("Stock Left:", leftStock);
+
+
+                    priceElement.innerText=`₹${newPrice}.00`
+                    sizeDisplay.innerText=selectedSize
+                    stockDisplay.innerHTML=leftStock
+                    
+                })
+            })
+            
+        })
+    </script>        
+
+</body>
+
+<!-- belle/product-countdown.html   11 Nov 2019 12:43:11 GMT -->
+</html>

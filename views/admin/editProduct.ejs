@@ -1,0 +1,537 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Evara Dashboard</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/adminAssets/imgs/theme/favicon.svg">
+    <!-- Template CSS -->
+    <link href="/adminAssets/css/main.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" />
+
+</head>
+
+<body>
+    <div class="screen-overlay"></div>
+    <aside class="navbar-aside" id="offcanvas_aside">
+        <div class="aside-top">
+            <a href="index.html" class="brand-wrap">
+                <img src="assets/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard">
+            </a>
+            <div>
+                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+            </div>
+        </div>
+        
+        <%- include('../layouts/adminLayouts/sideBar') %>
+
+
+    </aside>
+    <main class="main-wrap">
+        <header class="main-header navbar">
+            <div class="col-search">
+                <form class="searchform">
+                    <div class="input-group">
+                        <input list="search_terms" type="text" class="form-control" placeholder="Search term">
+                        <button class="btn btn-light bg" type="button"> <i class="material-icons md-search"></i></button>
+                    </div>
+                    <datalist id="search_terms">
+                        <option value="Products">
+                        <option value="New orders">
+                        <option value="Apple iphone">
+                        <option value="Ahmed Hassan">
+                    </datalist>
+                </form>
+            </div>
+            <div class="col-nav">
+                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i class="material-icons md-apps"></i> </button>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon" href="#">
+                            <i class="material-icons md-notifications animation-shake"></i>
+                            <span class="badge rounded-pill">3</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i class="material-icons md-public"></i></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+                            <a class="dropdown-item text-brand" href="#"><img src="assets/imgs/theme/flag-us.png" alt="English">English</a>
+                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-fr.png" alt="Français">Français</a>
+                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-jp.png" alt="Français">日本語</a>
+                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-cn.png" alt="Français">中国人</a>
+                        </div>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="assets/imgs/people/avatar2.jpg" alt="User"></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                            <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <section class="content-main">
+           
+            <form method="post" action="/admin/editProduct" id="editProductForm" enctype="multipart/form-data">
+                <h2 class="content-title">Edit Product</h2>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <!-- General Info Section -->
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <h6>1. General Info</h6>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <%= console.log("this is the id",productData._id)%>
+                                        <div class="mb-4">
+                                            <label class="form-label">Product Name</label>
+                                            <input type="text" placeholder="" value="<%= productData?.productName %>" class="form-control" id="name" name="productName">
+                                            <span class="error" style="color:red" id="nameError"></span>
+                                            <input type="hidden" placeholder="" value="<%= productData?._id %>" class="form-control" name="productId">
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="form-label">Description</label>
+                                            <textarea placeholder="" class="form-control" rows="4" id="description" name="description"><%= productData?.description %></textarea>
+                                            <span class="error" style="color:red" id="descriptionError"></span>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="form-label">Brand Name</label>
+                                            <select class="form-select" id="brand" name="brandId">
+                                                <% brandsData.forEach(function(brand) { %>
+                                                    <option value="<%= brand._id %>" <%= productData.brandId === brand._id ? 'selected' : '' %>><%= brand.name %></option>
+                                                <% }); %>
+                                            </select>
+                                            <span class="error" style="color:red" id="brandError"></span>
+                                        </div>
+                                    </div> <!-- col.// -->
+                                </div> <!-- row.// -->
+            
+                                <!-- Category Section -->
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <h6>4. Category</h6>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="mb-4">
+                                            <label class="form-label">Category</label>
+                                            <select class="form-select" id="category" name="categoryId">
+                                                <% categoryData.forEach(function(category) { %>
+                                                    <option value="<%= category._id %>" <%= productData.categoryId === category._id ? 'selected' : '' %>><%= category.name %></option>
+                                                <% }); %>
+                                            </select>
+                                            <span class="error" style="color:red" id="categoryError"></span>
+                                        </div>
+                                    </div> <!-- col.// -->
+                                </div> <!-- row.// -->
+            
+                                <hr class="mb-4 mt-0">
+            
+                                <!-- Size Section -->
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <h6>5. Size</h6>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="row">
+                                            <% productData.variants.forEach(function(variant) { %>
+                                                <div class="col-lg-4 mb-3">
+                                                    <label for="size<%= variant.size %>"><%= variant.size %></label>
+                                                    <div id="variant<%= variant.size %>" class="row gx-2 mt-2">
+                                                        <!-- Increased the size by changing col-lg-6 to col-lg-12 -->
+                                                        <div class="col-lg-12 mb-3">
+                                                            <label class="form-label">Price</label>
+                                                            <input id="price<%= variant.size %>" name="variants[<%= variant.size %>][price]" placeholder="₹" type="number" class="form-control form-control-lg" value="<%= variant.price %>">
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <label class="form-label">Stock</label>
+                                                            <input id="stock<%= variant.size %>" name="variants[<%= variant.size %>][stock]" placeholder="Stock" type="number" class="form-control form-control-lg" value="<%= variant.stock %>">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <% }); %>
+                                            <!-- <span class="error" style="color:red" id="variantError"></span> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Media Section -->
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <h6>6. Media</h6>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="mb-4">
+                                          <label class="form-label">Product Image 1</label>
+                                          <input class="form-control" type="file" name="image" id="input1" multiple
+                                            accept="image/png, image/jpeg, image/jpg" onchange="viewImage(event, 1)">
+                                          <span class="error" style="color:red" id="imageError"></span>
+                                        </div>
+                                      
+                                        <!-- Image preview -->
+                                        <div class="image-cropper d-flex align-items-center" id="cropperContainer1" style="display:none;">
+                                          <img src="" id="imgView1" style="width: 300px; height: auto;" alt="Image Preview">
+                                          <button type="button" id="saveButton1" class="btn-sm btn-primary">Save</button>
+                                        </div>
+                                        <img src="" id="croppedImg1" alt="Cropped Image" style="display:none;">
+                                      </div>
+                                      
+
+
+                                      <div class="col-md-9">
+                                        <div class="mb-4">
+                                          <label class="form-label">Product Image 2</label>
+                                          <input class="form-control" type="file" name="image" id="input2" multiple
+                                            accept="image/png, image/jpeg, image/jpg" onchange="viewImage(event, 2)">
+                                          <span class="error" style="color:red" id="imageError"></span>
+                                        </div>
+                                      
+                                        <!-- Image preview -->
+                                        <div class="image-cropper d-flex align-items-center" id="cropperContainer2" style="display:none;">
+                                          <img src="" id="imgView2" style="width: 300px; height: auto;" alt="Image Preview">
+                                          <button type="button" id="saveButton2" class="btn-sm btn-primary">Save</button>
+                                        </div>
+                                        <img src="" id="croppedImg2" alt="Cropped Image" style="display:none;">
+                                      </div>
+
+
+                                      <div class="col-md-9">
+                                        <div class="mb-4">
+                                          <label class="form-label">Product Image 3</label>
+                                          <input class="form-control" type="file" name="image" id="input3" multiple
+                                            accept="image/png, image/jpeg, image/jpg" onchange="viewImage(event, 3)">
+                                          <span class="error" style="color:red" id="imageError"></span>
+                                        </div>
+                                      
+                                        <!-- Image preview -->
+                                        <div class="image-cropper d-flex align-items-center" id="cropperContainer3" style="display:none;">
+                                          <img src="" id="imgView3" style="width: 300px; height: auto;" alt="Image Preview">
+                                          <button type="button" id="saveButton3" class="btn-sm btn-primary">Save</button>
+                                        </div>
+                                        <img src="" id="croppedImg3" alt="Cropped Image" style="display:none;">
+                                      </div>
+
+
+                                      <div class="col-md-9">
+                                        <div class="mb-4">
+                                          <label class="form-label">Product Image 4</label>
+                                          <input class="form-control" type="file" name="image" id="input4" multiple
+                                            accept="image/png, image/jpeg, image/jpg" onchange="viewImage(event, 4)">
+                                          <span class="error" style="color:red" id="imageError"></span>
+                                        </div>
+                                      
+                                        <!-- Image preview -->
+                                        <div class="image-cropper d-flex align-items-center" id="cropperContainer4" style="display:none;">
+                                          <img src="" id="imgView4" style="width: 300px; height: auto;" alt="Image Preview">
+                                          <button type="button" id="saveButton4" class="btn-sm btn-primary">Save</button>
+                                        </div>
+                                        <img src="" id="croppedImg4" alt="Cropped Image" style="display:none;">
+                                      </div>
+                                </div> <!-- row.// -->
+            
+                                <!-- Action Buttons -->
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="content-header">
+                                            <div>
+                                                <!-- <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button> -->
+                                                <button class="btn btn-md rounded font-sm hover-up" id="edit"  type="submit">Edit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- row.// -->
+                            </div> <!-- card-body.// -->
+                        </div> <!-- card.// -->
+                    </div> <!-- col-lg-6.// -->
+                </div>
+            </form>
+                
+                
+                
+                
+                <h2>Existing Images</h2>
+                <div class="product-images-preview" style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 10px;">
+                    <% if (productData.productImage && productData.productImage.length > 0) { %>
+                        <% productData.productImage.forEach(function(image, index) { %>
+                            <div class="image-item" style="position: relative; width: 150px; height: 150px; border: 1px solid #ddd; overflow: hidden;">
+                                <!-- Image -->
+                                <img src="/productImages/<%= image %>" alt="Product Image" style="width: 100%; height: 100%; object-fit: cover;">
+                                
+                                <!-- Remove Button inside the image -->
+                                <button type="button" class="btn btn-danger btn-sm remove-image-btn" 
+                                        style="position: absolute; top: 5px; right: 5px; padding: 5px 8px;" 
+                                        onclick="removeImage('<%= image %>','<%= productData._id %>')">
+                
+                                    X
+                                </button>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <p>No images uploaded yet.</p>
+                    <% } %>
+                </div>
+
+
+           
+            
+      
+
+
+
+<!-- Displaying existing product images with a remove button -->
+
+                                                    
+            
+        </section> <!-- content-main end// -->
+        <footer class="main-footer font-xs">
+            <div class="row pb-30 pt-15">
+                <div class="col-sm-6">
+                    <script>
+                    document.write(new Date().getFullYear())
+                    </script> ©, Evara - HTML Ecommerce Template .
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end">
+                        All rights reserved
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+    <script src="adminAssets/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="adminAssets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="adminAssets/js/vendors/select2.min.js"></script>
+    <script src="adminAssets/js/vendors/perfect-scrollbar.js"></script>
+    <script src="adminAssets/js/vendors/jquery.fullscreen.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Main Script -->
+    <script src="adminAssets/js/main.js" type="text/javascript"></script>
+
+    <!-- Add this in the head section or just before closing body tag -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+
+
+    
+    <script>
+      function removeImage(imageName,productId){
+        
+        
+        
+        if(confirm('Are you sure you want to remove this image?')){ 
+            $.ajax({
+                url:'/admin/removeProductImage',
+                type:'POST',
+                contentType: 'application/json',
+                data:JSON.stringify({productImage:imageName,
+                     id:productId}),
+                
+                     
+                     
+                success:function(response){
+
+                    if(response.success){
+                        alert("image removed successfully")
+
+                        $('img[src="/productImages/'+imageName+'"]').closest('.image-item').remove()
+                    }else{
+                        alert('Failed to remove image')
+                    }
+                },
+            
+                error:function(){
+                    alert("Error removing image")
+                }
+            })
+        }     
+     }
+
+
+
+     
+
+
+     // for form validation
+     function validateForm(){
+        let valid=true
+        
+
+        document.querySelectorAll(".error").forEach(function(error){
+            error.textContent=""
+        })
+
+        const productName=document.getElementById('name').value.trim()
+        const productDescription=document.getElementById('description').value.trim()
+    
+
+
+
+        if(productName===""){
+            document.getElementById('nameError').textContent="Product name is Required"
+            valid=false
+        }
+
+        if(productDescription.length<45){
+            document.getElementById('descriptionError').textContent="Description must contain 45 letters"
+            valid=false
+        }
+        return valid
+    }
+    document.getElementById("editProductForm").addEventListener("submit",event =>{
+            
+            if(!validateForm()){
+                event.preventDefault()
+            }
+            
+        
+    })
+
+
+
+
+
+
+
+    // for image cropper 
+   function viewImage1(event){
+    document.getElementById("imgView1").src=URL.createObjectURL(event.target.files[0])
+   }
+    
+   function viewImage2(event){
+    document.getElementById("imgView2").src=URL.createObjectURL(event.target.files[0])
+   }
+
+   function viewImage3(event){
+    document.getElementById("imgView3").src=URL.createObjectURL(event.target.files[0])
+   }
+
+   function viewImage4(event){
+    document.getElementById("imgView4").src=URL.createObjectURL(event.target.files[0])
+   }
+
+
+
+   function viewImage(event, index) {
+  let input = event.target;
+  let reader = new FileReader();
+
+  reader.onload = function () {
+    let dataURL = reader.result;
+
+    // Display the image for cropping
+    let image = document.getElementById("imgView" + index);
+    image.src = dataURL;
+
+    // Show the cropper container (ensure it's visible)
+    let cropperContainer = document.getElementById("cropperContainer" + index);
+    cropperContainer.style.display = "block";
+
+    // Initialize the cropper
+    let cropper = new Cropper(image, {
+      aspectRatio: 1, // You can adjust this based on your needs
+      viewMode: 1,
+      guides: true,
+      background: false,
+      autoCropArea: 1,
+      zoomable: true
+    });
+
+    // Handle the save button click to crop the image
+    let saveButton = document.getElementById("saveButton" + index);
+    saveButton.addEventListener('click', async function () {
+      let croppedCanvas = cropper.getCroppedCanvas();
+
+      // Set the cropped image in the preview
+      let croppedImage = document.getElementById("croppedImg" + index);
+      croppedImage.src = croppedCanvas.toDataURL("image/jpeg", 1.0);
+      croppedImage.style.display = "block";
+
+      // Create a new file from the cropped image
+      let timestamp = new Date().getTime();
+      let fileName = `cropped-img-${timestamp}-${index}.png`;
+
+      await croppedCanvas.toBlob(blob => {
+        let input = document.getElementById("input" + index);
+        let imgFile = new File([blob], fileName, { type: "image/png" });
+
+        // Replace the original file with the cropped file
+        const fileList = new DataTransfer();
+        fileList.items.add(imgFile);
+        input.files = fileList.files;
+      });
+
+      // Hide the cropper and destroy it
+      cropperContainer.style.display = "none";
+      cropper.destroy();
+    });
+  };
+
+  // Read the file to show the preview
+  reader.readAsDataURL(input.files[0]);
+}
+
+
+  
+  const selectedImages=[]
+  document.getElementById("input1").addEventListener("change",handleFileSelect)
+
+  function handleFileSelect(event){
+    const addedImagesContainer=document.getElementById("addedImagesContainer")
+    addedImagesContainer.innerHTML=""
+    const files=event.target.files
+    for(i=0;i<files.length;i++){
+        const file=files[i]
+        selectedImages.push(file)
+        const thumbnail=document.createElement("div")
+        thumbnail.classList.add("thumbnail")
+
+        const img=document.createElement("img")
+        img.src=URL.createObjectURL(file)
+        img.alt="thumbnail"
+        img.style.width="50px"
+        img.style.height="auto"
+        const removeIcon=document.createElement("span")
+        removeIcon.classList.add("remove.icon")
+        removeIcon.innerHTML="&times;"
+        removeIcon.addEventListener("click",function(){
+            const index=selectedImages.indexOf(file)
+            if(index!==-1){
+                selectedImages.splice(index,1)
+            }
+            thumbnail.remove()
+        })
+
+        thumbnail.appendChild(img)
+        thumbnail.appendChild(removeIcon)
+        addedImagesContainer.appendChild(thumbnail)
+    }
+  }
+
+
+
+    </script>
+    
+</body>
+
+</html>

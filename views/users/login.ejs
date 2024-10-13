@@ -1,0 +1,125 @@
+<%- include('../layouts/userLayouts/header') %>
+    <%- include('../layouts/userLayouts/navbar') %>
+
+        <!--Body Content-->
+        <div id="page-content">
+            <!--Page Title-->
+            <div class="page section-header text-center">
+                <div class="page-title">
+                    <div class="wrapper">
+                        <h1 class="page-width">Login</h1>
+                    </div>
+                </div>
+            </div>
+            <!--End Page Title-->
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 main-col offset-md-3">
+                        <div class="mb-4">
+                            <form method="post" action="/login" id="customerLoginForm" accept-charset="UTF-8"
+                                class="contact-form">
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label for="email">Email</label>
+                                            <input type="text" name="customerEmail" placeholder="Enter your email"
+                                                id="customerEmail">
+                                            <span class="error" style="color:red" id="emailError"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label for="password">Password</label>
+                                            <input type="password" name="password" placeholder="Enter your password"
+                                                id="customerPassword" class="">
+                                            <span class="error" style="color:red" id="passwordError"></span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="text-center col-12 col-sm-12 col-md-12 col-lg-12 mt-2">
+                                        <input type="button" class="btn mb-3" onclick="validateForm()" value="Login">
+
+                                    </div>
+
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 text-center mt-1 mr-0">
+                                        <a href="/forgotPassword" class="text-link ml-2">Forgot Password?</a>
+                                        <a href="/register" class="text-link ">Create Account</a>
+
+                                    </div>
+
+                                </div>
+                            </form>
+                            <div class="text-center col-12 col-sm-12 col-md-12 col-lg-12 mt-2">
+                                <a href="/google" >
+                                    <button class=" btn-danger p-2 mr-2">Login with Google</button>
+
+                                </a>
+
+                                <button class=" btn-primary p-2 ml-2">Login with Facebook</button>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Body Content-->
+
+        <%- include('../layouts/userLayouts/footer') %>
+
+            <script>
+                function validateForm() {
+                    let valid = true
+                
+
+                document.querySelectorAll(".error").forEach(function (error) {
+                    error.textContent = ''
+                })
+            
+                const email = document.getElementById("customerEmail").value.trim()
+                const password = document.getElementById("customerPassword").value.trim()
+
+
+                const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+                if (email === '') {
+                    document.getElementById("emailError").textContent = "Email is Required"
+                    valid = false
+                } else if (!emailPattern.test(email)) {
+                    document.getElementById("emailError").textContent = 'Please enter a valid email address'
+                    valid = false
+                }
+
+
+                if (password === '') {
+                    document.getElementById("passwordError").textContent = "Password is Required"
+                    valid = false
+                }
+
+                if (valid) {
+                    document.getElementById("customerLoginForm").submit()
+                }
+
+            }
+            // show message in swal fire
+             window.addEventListener('DOMContentLoaded',(event)=>{
+
+             // Combine all messages into a single variable
+let errorMessage = "<%= typeof errorMessage !== 'undefined' ? errorMessage : '' %>";
+
+if (errorMessage) {
+  Swal.fire({
+    title: 'Error!',
+    text: errorMessage,
+    icon: 'error',
+    confirmButtonText: 'Try Again'
+  });
+}
+
+             })
+
+
+            </script>
