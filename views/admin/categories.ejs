@@ -270,6 +270,22 @@ if (categoryExist) {
     background: '#f0f9ff',
   });
 }
+
+let updateCategory = "<%= typeof updateCategory !== 'undefined' ? updateCategory : '' %>";
+
+  if (updateCategory) {
+    Swal.fire({
+      title: 'Success!',
+      text: updateCategory,
+      icon: 'success',
+      confirmButtonText: 'Good Work',
+      toast: true,
+      position: 'top-end',
+      timer: 3000,
+      timerProgressBar: true,
+      background: '#f0f9ff',
+    });
+  }
    </script>
 
 

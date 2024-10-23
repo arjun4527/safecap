@@ -1,0 +1,425 @@
+<%- include('../layouts/userLayouts/header') %>
+<%- include('../layouts/userLayouts/navbar') %>
+
+
+	<!--End Mobile Menu-->
+    
+    <!--Body Content-->
+    <div id="page-content">
+    	<!--Page Title-->
+    	<div class="page section-header text-center">
+			<div class="page-title">
+        		<div class="wrapper"><h1 class="page-width">Profile</h1></div>
+      		</div>
+		</div>
+        <!--End Page Title-->
+        
+        <!-- Code by chatgpt start-->
+
+
+        <section style="padding-top: 150px; padding-bottom: 150px;">
+          <div style="max-width: 1200px; margin: 0 auto;">
+              <div style="display: flex;">
+                <div style="flex: 0 0 33.33%; padding: 15px;">
+                  <div style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px;">
+                      <ul style="list-style-type: none; padding: 0; margin: 0;">
+                          <li>
+                              <a style="display: block; padding: 20px; font-size: 18px; text-decoration: none; color: black; background-color: transparent; border: 1px solid #dee2e6; border-radius: 5px;" 
+                                 id="dashboard-tab" data-bs-toggle="tab" href="/profile" role="tab" aria-controls="dashboard" aria-selected="false" 
+                                 onclick="setActive(this)"><i class="fi-rs-settings-sliders" style="margin-right: 10px;"></i>Profile</a>
+                          </li>
+                          <li>
+                              <a style="display: block; padding: 20px; font-size: 18px; text-decoration: none; color: black; background-color: transparent; border: 1px solid #dee2e6; border-radius: 5px;" 
+                                 id="orders-tab" data-bs-toggle="tab" href="#orders" role="tab" aria-controls="orders" aria-selected="false" 
+                                 onclick="setActive(this)"><i class="fi-rs-shopping-bag" style="margin-right: 10px;"></i>Orders</a>
+                          </li>
+                          
+                          <li>
+                              <a style="display: block; padding: 20px; font-size: 18px; text-decoration: none; color: black; background-color: transparent; border: 1px solid #dee2e6; border-radius: 5px;" 
+                                 id="address-tab" data-bs-toggle="tab" href="/address" role="tab" aria-controls="address" aria-selected="true" 
+                                 onclick="setActive(this)"><i class="fi-rs-marker" style="margin-right: 10px;"></i>My Address</a>
+                          </li>
+                          <li>
+                              <a style="display: block; padding: 20px; font-size: 18px; text-decoration: none; color: black; background-color: transparent; border: 1px solid #dee2e6; border-radius: 5px;" 
+                                 id="account-detail-tab" data-bs-toggle="tab" href="/editProfile" role="tab" aria-controls="account-detail" aria-selected="true" 
+                                 onclick="setActive(this)"><i class="fi-rs-user" style="margin-right: 10px;"></i>Edit Profile</a>
+                          </li>
+                          <li>
+                              <a style="display: block; padding: 20px; font-size: 18px; text-decoration: none; color: black; background-color: transparent; border: 1px solid #dee2e6; border-radius: 5px;" 
+                                 href="/logout"><i class="fi-rs-sign-out" style="margin-right: 10px;"></i>Logout</a>
+                          </li>
+                      </ul>
+                  </div>
+              </div>
+                  <div style="flex: 0 0 66.67%; padding: 15px; ">
+                      <div class="tab-content" style="border: 1px solid #dee2e6; border-radius: 5px; height:200px">
+                          <div class="tab-pane fade active show" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+                              <div style="border: 1px solid #dee2e6; border-radius: 5px; margin-bottom: 20px;">
+
+                                
+                                  <div style="background-color: #f8f9fa; padding: 15px;">
+                                      <h1 style="margin: 0;">Hi,<%= userData.firstName %></h1><br>
+
+                                      <form method="post" action="#" id="" autocomplete="off" accept-charset="UTF-8" class="contact-form">
+                                        <div class="row">
+                                             <div class="col-12 col-sm-12 col-md-12 col-lg-12 ",style="width:25px">
+                                                <div style="display: flex; ">
+                                                    <!-- <div>
+                                                        <label for="FirstName" style="color: black; font-size:20px">First Name :</label>
+                                                    </div>  -->
+                                                    <div style="bottom: 10px;padding-top: 5px;">
+                                                        <h2><%= userData.firstName %></h2>
+                                                    </div> 
+                                                    <br>
+                                                    <div style="bottom: 10px;padding-top: 5px;">
+                                                        <h2><%= userData.lastName %></h2>
+                                                    </div> 
+                                                </div>
+                                            </div> 
+                                             <div class="col-12 col-sm-12 col-md-12 col-lg-12 ",style="width:25px">
+                                                <div style="display: flex; ">
+                                                    <!-- <div>
+                                                        <label for="FirstName" style="color: black; font-size:20px"></label><br>
+                                                    </div>  -->
+                                                    <!-- <div style="bottom: 10px;padding-top: 5px;">
+                                                        <h2><%= userData.lastName %></h2>
+                                                    </div>   -->
+                                                </div>
+                                            </div> 
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 ",style="width:25px">
+                                                <div style="display: flex; ">
+                                                    <div>
+                                                        <!-- <label for="FirstName" style="color: black; font-size:20px">email :</label> -->
+                                                    </div> 
+                                                    <div style="bottom: 10px;padding-top: 5px;">
+                                                        <h2><%= userData.email %></h2>
+                                                    </div>  
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                              <div class="form-group">
+                                                <!-- <label for="FirstName" style="color: black; font-size:20px">Address :</label> -->
+                                                <label for="FirstName" style="color: black; font-size:20px"><%= userAddress[1].name %></label><br>
+                                                <label for="FirstName" style="color: black; font-size:20px"><%= userAddress[1].address %></label><br>
+                                                <label for="FirstName" style="color: black; font-size:20px"><%= userAddress[1].phone %></label><br>
+                                                <label for="FirstName" style="color: black; font-size:20px"><%= userAddress[1].district %></label>
+                                                <label for="FirstName" style="color: black; font-size:20px"><%= userAddress[1].state %></label>
+                                              </div>
+                                            </div>  
+                                            
+                                            <!-- <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="CustomerPassword" style="color: black;">Password</label>
+                                                    <input type="password" value="" name="password" placeholder="" id="customerPassword" class="">
+                                                    <span class="error" style="color:red" id="passwordError"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="CustomerConfirmPassword" >Confirm Password</label>
+                                                    <input type="password" value="" name="confirmPassword" placeholder="" id="customerConfirmPassword" class="">
+                                                    <span class="error" style="color:red" id="confirmPasswordError"></span>
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                        <!-- <div class="row">
+                                            <div class="text-center col-12 col-sm-12 col-md-12 col-lg-12">
+                                                <input type="submit" class="btn mb-3" value="Create" onclick="validateForm()">
+                                            </div>
+                                        </div> -->
+                                    </form>
+                                  </div>
+                                  <!-- <div style="padding: 15px;">
+                                      <p>From your account dashboard, you can easily check &amp; view your <a href="#">recent orders</a>, manage your <a href="#">shipping and billing addresses</a>, and <a href="#">edit your password and account details.</a></p>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+                              <div style="border: 1px solid #dee2e6; border-radius: 5px; margin-bottom: 20px;">
+                                  <div style="background-color: #f8f9fa; padding: 15px;">
+                                      <h5 style="margin: 0;">Your Orders</h5>
+                                  </div>
+                                  <div style="padding: 15px;">
+                                      <div style="overflow-x: auto;">
+                                          <table style="width: 100%; border-collapse: collapse;">
+                                              <thead>
+                                                  <tr>
+                                                      <th style="border: 1px solid #dee2e6; padding: 8px;">Order</th>
+                                                      <th style="border: 1px solid #dee2e6; padding: 8px;">Date</th>
+                                                      <th style="border: 1px solid #dee2e6; padding: 8px;">Status</th>
+                                                      <th style="border: 1px solid #dee2e6; padding: 8px;">Total</th>
+                                                      <th style="border: 1px solid #dee2e6; padding: 8px;">Actions</th>
+                                                  </tr>
+                                              </thead>
+                                              <tbody>
+                                                  <tr>
+                                                      <td style="border: 1px solid #dee2e6; padding: 8px;">#1357</td>
+                                                      <td style="border: 1px solid #dee2e6; padding: 8px;">March 45, 2020</td>
+                                                      <td style="border: 1px solid #dee2e6; padding: 8px;">Processing</td>
+                                                      <td style="border: 1px solid #dee2e6; padding: 8px;">$125.00 for 2 items</td>
+                                                      <td style="border: 1px solid #dee2e6; padding: 8px;"><a href="#" style="display: inline-block; padding: 5px 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">View</a></td>
+                                                  </tr>
+                                                  <tr>
+                                                      <td style="border: 1px solid #dee2e6; padding: 8px;">#2468</td>
+                                                      <td style="border: 1px solid #dee2e6; padding: 8px;">June 29, 2020</td>
+                                                      <td style="border: 1px solid #dee2e6; padding: 8px;">Completed</td>
+                                                      <td style="border: 1px solid #dee2e6; padding: 8px;">$364.00 for 5 items</td>
+                                                      <td style="border: 1px solid #dee2e6; padding: 8px;"><a href="#" style="display: inline-block; padding: 5px 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">View</a></td>
+                                                  </tr>
+                                                  <tr>
+                                                      <td style="border: 1px solid #dee2e6; padding: 8px;">#2366</td>
+                                                      <td style="border: 1px solid #dee2e6; padding: 8px;">August 02, 2020</td>
+                                                      <td style="border: 1px solid #dee2e6; padding: 8px;">Completed</td>
+                                                      <td style="border: 1px solid #dee2e6; padding: 8px;">$280.00 for 3 items</td>
+                                                      <td style="border: 1px solid #dee2e6; padding: 8px;"><a href="#" style="display: inline-block; padding: 5px 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">View</a></td>
+                                                  </tr>
+                                              </tbody>
+                                          </table>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="tab-pane fade" id="track-orders" role="tabpanel" aria-labelledby="track-orders-tab">
+                              <div style="border: 1px solid #dee2e6; border-radius: 5px; margin-bottom: 20px;">
+                                  <div style="background-color: #f8f9fa; padding: 15px;">
+                                      <h5 style="margin: 0;">Orders Tracking</h5>
+                                  </div>
+                                  <div style="padding: 15px;">
+                                      <p>To track your order, please enter your Order ID in the box below and press the "Track" button. This was given to you on your receipt and in the confirmation email you should have received.</p>
+                                      <div style="display: flex;">
+                                          <div style="flex: 1; margin-right: 15px;">
+                                              <form style="margin-top: 30px; margin-bottom: 50px;" action="#" method="post">
+                                                  <div style="margin-bottom: 20px;">
+                                                      <label style="display: block;">Order ID</label>
+                                                      <input name="order-id" placeholder="Found in your order confirmation email" type="text" style="width: 100%; padding: 10px; border: 1px solid #dee2e6; border-radius: 5px;">
+                                                  </div>
+                                                  <div style="margin-bottom: 20px;">
+                                                      <label style="display: block;">Billing email</label>
+                                                      <input name="billing-email" placeholder="Email you used during checkout" type="email" style="width: 100%; padding: 10px; border: 1px solid #dee2e6; border-radius: 5px;">
+                                                  </div>
+                                                  <button style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;" type="submit">Track</button>
+                                              </form>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab">
+                              <div style="display: flex;">
+                                  <div style="flex: 1; margin-right: 15px;">
+                                      <div style="border: 1px solid #dee2e6; border-radius: 5px; margin-bottom: 20px;">
+                                          <div style="background-color: #f8f9fa; padding: 15px;">
+                                              <h5 style="margin: 0;">Billing Address</h5>
+                                          </div>
+                                          <div style="padding: 15px;">
+                                              <address>3522 Interstate<br> 75 Business Spur,<br> Sault Ste.<br> Marie, MI 49783</address>
+                                              <p>New York</p>
+                                              <a href="#" style="display: inline-block; padding: 5px 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Edit</a>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div style="flex: 1;">
+                                      <div style="border: 1px solid #dee2e6; border-radius: 5px; margin-bottom: 20px;">
+                                          <div style="background-color: #f8f9fa; padding: 15px;">
+                                              <h5 style="margin: 0;">Shipping Address</h5>
+                                          </div>
+                                          <div style="padding: 15px;">
+                                              <address>4299 Express Lane<br>Sarasota,<br> FL 34249 USA<br>Phone: 1.941.227.4444</address>
+                                              <p>Sarasota</p>
+                                              <a href="#" style="display: inline-block; padding: 5px 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Edit</a>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="tab-pane fade" id="account-detail" role="tabpanel" aria-labelledby="account-detail-tab">
+                              <div style="border: 1px solid #dee2e6; border-radius: 5px; margin-bottom: 20px;">
+                                  <div style="background-color: #f8f9fa; padding: 15px;">
+                                      <h5 style="margin: 0;">Account Details</h5>
+                                  </div>
+                                  <div style="padding: 15px;">
+                                      <p>Already have an account? <a href="page-login-register.html">Log in instead!</a></p>
+                                      <form method="post" name="enq">
+                                          <div style="display: flex; flex-wrap: wrap;">
+                                              <div style="flex: 0 0 50%; padding: 5px;">
+                                                  <label>First Name <span style="color: red;">*</span></label>
+                                                  <input required="" style="width: 100%; padding: 10px; border: 1px solid #dee2e6; border-radius: 5px;" name="name" type="text">
+                                              </div>
+                                              <div style="flex: 0 0 50%; padding: 5px;">
+                                                  <label>Last Name <span style="color: red;">*</span></label>
+                                                  <input required="" style="width: 100%; padding: 10px; border: 1px solid #dee2e6; border-radius: 5px;" name="phone" type="text">
+                                              </div>
+                                              <div style="flex: 0 0 100%; padding: 5px;">
+                                                  <label>Display Name <span style="color: red;">*</span></label>
+                                                  <input required="" style="width: 100%; padding: 10px; border: 1px solid #dee2e6; border-radius: 5px;" name="dname" type="text">
+                                              </div>
+                                              <div style="flex: 0 0 100%; padding: 5px;">
+                                                  <label>Email Address <span style="color: red;">*</span></label>
+                                                  <input required="" style="width: 100%; padding: 10px; border: 1px solid #dee2e6; border-radius: 5px;" name="email" type="email">
+                                              </div>
+                                              <div style="flex: 0 0 100%; padding: 5px;">
+                                                  <label>Current Password <span style="color: red;">*</span></label>
+                                                  <input required="" style="width: 100%; padding: 10px; border: 1px solid #dee2e6; border-radius: 5px;" name="password" type="password">
+                                              </div>
+                                              <div style="flex: 0 0 100%; padding: 5px;">
+                                                  <label>New Password <span style="color: red;">*</span></label>
+                                                  <input required="" style="width: 100%; padding: 10px; border: 1px solid #dee2e6; border-radius: 5px;" name="npassword" type="password">
+                                              </div>
+                                              <div style="flex: 0 0 100%; padding: 5px;">
+                                                  <label>Confirm Password <span style="color: red;">*</span></label>
+                                                  <input required="" style="width: 100%; padding: 10px; border: 1px solid #dee2e6; border-radius: 5px;" name="cpassword" type="password">
+                                              </div>
+                                              <div style="flex: 0 0 100%; padding: 5px;">
+                                                  <button type="submit" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;" name="submit" value="Submit">Save</button>
+                                              </div>
+                                          </div>
+                                      </form>
+                                  </div>
+                              </div>
+                          </div> -->
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>  
+    </section>
+      
+    
+
+
+
+        <!-- Code by chatgpt end-->
+
+
+
+    <!--End Body Content-->
+    
+    <!--Footer-->
+    <footer id="footer">
+        <div class="newsletter-section">
+            <div class="container">
+                <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-7 w-100 d-flex justify-content-start align-items-center">
+                            <div class="display-table">
+                                <div class="display-table-cell footer-newsletter">
+                                    <div class="section-header text-center">
+                                        <label class="h2"><span>sign up for </span>newsletter</label>
+                                    </div>
+                                    <form action="#" method="post">
+                                        <div class="input-group">
+                                            <input type="email" class="input-group__field newsletter__input" name="EMAIL" value="" placeholder="Email address" required="">
+                                            <span class="input-group__btn">
+                                                <button type="submit" class="btn newsletter__submit" name="commit" id="Subscribe"><span class="newsletter__submit-text--large">Subscribe</span></button>
+                                            </span>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-5 d-flex justify-content-end align-items-center">
+                            <div class="footer-social">
+                                <ul class="list--inline site-footer__social-icons social-icons">
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on Facebook"><i class="icon icon-facebook"></i></a></li>
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on Twitter"><i class="icon icon-twitter"></i> <span class="icon__fallback-text">Twitter</span></a></li>
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on Pinterest"><i class="icon icon-pinterest"></i> <span class="icon__fallback-text">Pinterest</span></a></li>
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on Instagram"><i class="icon icon-instagram"></i> <span class="icon__fallback-text">Instagram</span></a></li>
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on Tumblr"><i class="icon icon-tumblr-alt"></i> <span class="icon__fallback-text">Tumblr</span></a></li>
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on YouTube"><i class="icon icon-youtube"></i> <span class="icon__fallback-text">YouTube</span></a></li>
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on Vimeo"><i class="icon icon-vimeo-alt"></i> <span class="icon__fallback-text">Vimeo</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+            </div>    
+        </div>
+        <div class="site-footer">
+        	<div class="container">
+     			<!--Footer Links-->
+            	<div class="footer-top">
+                	<div class="row">
+                    	<div class="col-12 col-sm-12 col-md-3 col-lg-3 footer-links">
+                        	<h4 class="h4">Quick Shop</h4>
+                            <ul>
+                            	<li><a href="#">Women</a></li>
+                                <li><a href="#">Men</a></li>
+                                <li><a href="#">Kids</a></li>
+                                <li><a href="#">Sportswear</a></li>
+                                <li><a href="#">Sale</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 footer-links">
+                        	<h4 class="h4">Informations</h4>
+                            <ul>
+                            	<li><a href="#">About us</a></li>
+                                <li><a href="#">Careers</a></li>
+                                <li><a href="#">Privacy policy</a></li>
+                                <li><a href="#">Terms &amp; condition</a></li>
+                                <li><a href="#">My Account</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 footer-links">
+                        	<h4 class="h4">Customer Services</h4>
+                            <ul>
+                            	<li><a href="#">Request Personal Data</a></li>
+                                <li><a href="#">FAQ's</a></li>
+                                <li><a href="#">Contact Us</a></li>
+                                <li><a href="#">Orders and Returns</a></li>
+                                <li><a href="#">Support Center</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 contact-box">
+                        	<h4 class="h4">Contact Us</h4>
+                            <ul class="addressFooter">
+                            	<li><i class="icon anm anm-map-marker-al"></i><p>55 Gallaxy Enque,<br>2568 steet, 23568 NY</p></li>
+                                <li class="phone"><i class="icon anm anm-phone-s"></i><p>(440) 000 000 0000</p></li>
+                                <li class="email"><i class="icon anm anm-envelope-l"></i><p>sales@yousite.com</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--End Footer Links-->
+                <hr>
+                <div class="footer-bottom">
+                	<div class="row">
+                    	<!--Footer Copyright-->
+	                	<div class="col-12 col-sm-12 col-md-6 col-lg-6 order-1 order-md-0 order-lg-0 order-sm-1 copyright text-sm-center text-md-left text-lg-left"><span></span> <a href="templateshub.net">Templates Hub</a></div>
+                        <!--End Footer Copyright-->
+                        <!--Footer Payment Icon-->
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 order-0 order-md-1 order-lg-1 order-sm-0 payment-icons text-right text-md-center">
+                        	<ul class="payment-icons list--inline">
+                        		<li><i class="icon fa fa-cc-visa" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-cc-mastercard" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-cc-discover" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-cc-paypal" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-cc-amex" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-credit-card" aria-hidden="true"></i></li>
+                            </ul>
+                        </div>
+                        <!--End Footer Payment Icon-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--End Footer-->
+    <!--Scoll Top-->
+    <span id="site-scroll"><i class="icon anm anm-angle-up-r"></i></span>
+    <!--End Scoll Top-->
+    
+     <!-- Including Jquery -->
+     <script src="assets/js/vendor/jquery-3.3.1.min.js"></script>
+     <script src="assets/js/vendor/jquery.cookie.js"></script>
+     <script src="assets/js/vendor/modernizr-3.6.0.min.js"></script>
+     <script src="assets/js/vendor/wow.min.js"></script>
+     <!-- Including Javascript -->
+     <script src="assets/js/bootstrap.min.js"></script>
+     <script src="assets/js/plugins.js"></script>
+     <script src="assets/js/popper.min.js"></script>
+     <script src="assets/js/lazysizes.js"></script>
+     <script src="assets/js/main.js"></script>
+</div>
+</body>
+
+<!-- belle/cart-variant1.html   11 Nov 2019 12:44:32 GMT -->
+</html>

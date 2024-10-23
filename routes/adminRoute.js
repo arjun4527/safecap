@@ -18,7 +18,18 @@ admin_route.use(session({
 }))
 
 
-const adminController=require("../controllers/adminController")
+const authenticationController=require("../controllers/adminController/authenticationController")
+const brandController=require("../controllers/adminController/brandController")
+const categoryController=require("../controllers/adminController/categoryController")
+const customerController=require("../controllers/adminController/customerController")
+const productController=require("../controllers/adminController/productController")
+
+
+
+
+
+
+const noCacheMiddleware = require("../middleWare/cacheClear")
 
 
 admin_route.set("view engine","ejs")
@@ -58,32 +69,54 @@ const upload=multer({storage:storage})
 
 const auth=require("../middleWare/adminAuth")
 
+//Athentication
+admin_route.get("/",noCacheMiddleware,auth.isLogout,authenticationController.loadLogin)
+admin_route.post("/",noCacheMiddleware,auth.isLogout,authenticationController.verifyLogin)
+admin_route.get("/logout",noCacheMiddleware,authenticationController.adminLogout)
+admin_route.get("/dashboard",noCacheMiddleware,auth.isLogin,authenticationController.loadDashboard)
 
-admin_route.get("/",auth.isLogout,adminController.loadLogin)
-admin_route.post("/",auth.isLogout,adminController.verifyLogin)
-admin_route.get("/dashboard",auth.isLogin,adminController.loadDashboard)
-admin_route.get("/categories",auth.isLogin,adminController.loadCategories)
-admin_route.post("/categories",auth.isLogin,adminController.addCategories)
-admin_route.get("/brands",auth.isLogin,adminController.loadbrands)
-admin_route.post("/brands",upload.single("brandImage"),adminController.addbrands)
-admin_route.get("/addProduct",auth.isLogin,adminController.loadAddProduct)
-admin_route.post("/addProduct",upload.array("image",4),adminController.addProduct)
-admin_route.get("/productList",auth.isLogin,adminController.loadProductList)
-admin_route.get("/productDetails",auth.isLogin,adminController.loadProductDetails)
-admin_route.get("/editProduct",auth.isLogin,adminController.loadEditProduct)
-admin_route.post("/removeProductImage",auth.isLogin,adminController.removeProductImage)
-admin_route.post("/editProduct",upload.array("image",4),adminController.editProduct)
-admin_route.post("/productStatus",auth.isLogin,adminController.productStatus)
-admin_route.post("/categoryStatus",auth.isLogin,adminController.categoryStatus)
-admin_route.get("/logout",adminController.adminLogout)
-admin_route.get("/editBrand",upload.single("brandImage"),auth.isLogin,adminController.loadEditBrand)
-admin_route.post("/editBrand",upload.single("brandImage"),auth.isLogin,adminController.editBrand)
-admin_route.post("/removeBrandImage",auth.isLogin,adminController.removeBrandImage)
-admin_route.get("/customerList",auth.isLogin,adminController.customerList)
-admin_route.post("/customerStatus",auth.isLogin,adminController.customerStatus)
-admin_route.post("/brandStatus",auth.isLogin,adminController.brandStatus)
-admin_route.get("/editCategory",auth.isLogin,adminController.loadEditCategory)
-admin_route.post("/editCategory",auth.isLogin,adminController.editCategory)
+
+
+//Categories
+admin_route.get("/categories",noCacheMiddleware,auth.isLogin,categoryController.loadCategories)
+admin_route.post("/categories",noCacheMiddleware,auth.isLogin,categoryController.addCategories)
+admin_route.post("/categoryStatus",noCacheMiddleware,auth.isLogin,categoryController.categoryStatus)
+admin_route.get("/editCategory",noCacheMiddleware,auth.isLogin,categoryController.loadEditCategory)
+admin_route.post("/editCategory",noCacheMiddleware,auth.isLogin,categoryController.editCategory)
+
+
+//Brands
+admin_route.get("/brands",noCacheMiddleware,auth.isLogin,brandController.loadbrands)
+admin_route.post("/brands",noCacheMiddleware,upload.single("brandImage"),brandController.addbrands)
+admin_route.get("/editBrand",noCacheMiddleware,upload.single("brandImage"),auth.isLogin,brandController.loadEditBrand)
+admin_route.post("/editBrand",noCacheMiddleware,upload.single("brandImage"),auth.isLogin,brandController.editBrand)
+admin_route.post("/removeBrandImage",noCacheMiddleware,auth.isLogin,brandController.removeBrandImage)
+admin_route.post("/brandStatus",noCacheMiddleware,auth.isLogin,brandController.brandStatus)
+
+
+
+//Products
+admin_route.get("/addProduct",noCacheMiddleware,auth.isLogin,productController.loadAddProduct)
+admin_route.post("/addProduct",noCacheMiddleware,upload.array("image",4),productController.addProduct)
+admin_route.get("/productList",noCacheMiddleware,auth.isLogin,productController.loadProductList)
+admin_route.get("/productDetails",noCacheMiddleware,auth.isLogin,productController.loadProductDetails)
+admin_route.get("/editProduct",noCacheMiddleware,auth.isLogin,productController.loadEditProduct)
+admin_route.post("/removeProductImage",noCacheMiddleware,auth.isLogin,productController.removeProductImage)
+admin_route.post("/editProduct",noCacheMiddleware,upload.array("image",4),productController.editProduct)
+admin_route.post("/productStatus",noCacheMiddleware,auth.isLogin,productController.productStatus)
+
+
+
+
+//Customers
+admin_route.get("/customerList",noCacheMiddleware,auth.isLogin,customerController.customerList)
+admin_route.post("/customerStatus",noCacheMiddleware,auth.isLogin,customerController.customerStatus)
+
+
+
+
+
+
 
 
 

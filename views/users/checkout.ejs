@@ -1,0 +1,410 @@
+<%- include('../layouts/userLayouts/header') %>
+<%- include('../layouts/userLayouts/navbar') %>
+	<!--End Mobile Menu-->
+    
+    <!--Body Content-->
+    <div id="page-content">
+    	<!--Page Title-->
+    	<div class="page section-header text-center">
+			<div class="page-title">
+        		<div class="wrapper"><h1 class="page-width">Checkout</h1></div>
+      		</div>
+		</div>
+        <!--End Page Title-->
+        
+        <div class="container">
+        	<!-- <div class="row"> -->
+                 <!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
+                    <div class="customer-box returning-customer">
+                        <h3><i class="icon anm anm-user-al"></i> Returning customer? <a href="#customer-login" id="customer" class="text-white text-decoration-underline" data-toggle="collapse">Click here to login</a></h3>
+                        <div id="customer-login" class="collapse customer-content">
+                            <div class="customer-info">
+                                <p class="coupon-text">If you have shopped with us before, please enter your details in the boxes below. If you are a new customer, please proceed to the Billing &amp; Shipping section.</p>
+                                 <form>
+                                    <div class="row">
+                                        <div class="form-group col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                            <label for="exampleInputEmail1">Email address <span class="required-f">*</span></label>
+                                            <input type="email" class="no-margin" id="exampleInputEmail1">
+                                        </div>
+                                        <div class="form-group col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                            <label for="exampleInputPassword1">Password <span class="required-f">*</span></label>
+                                            <input type="password" id="exampleInputPassword1">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-check width-100 margin-20px-bottom">
+                                                <label class="form-check-label">
+                                                    <input type="checkbox" class="form-check-input" value=""> Remember me!
+                                                </label>
+                                                <a href="#" class="float-right">Forgot your password?</a>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                                        </div>
+                                    </div>
+                                </form> 
+                            </div>
+                        </div>
+                    </div>
+                </div>  -->
+
+                <!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
+                    <div class="customer-box customer-coupon">
+                        <h3 class="font-15 xs-font-13"><i class="icon anm anm-gift-l"></i> Have a coupon? <a href="#have-coupon" class="text-white text-decoration-underline" data-toggle="collapse">Click here to enter your code</a></h3>
+                        <div id="have-coupon" class="collapse coupon-checkout-content">
+                            <div class="discount-coupon">
+                                <div id="coupon" class="coupon-dec tab-pane active">
+                                    <p class="margin-10px-bottom">Enter your coupon code if you have one.</p>
+                                    <label class="required get" for="coupon-code"><span class="required-f">*</span> Coupon</label>
+                                    <input id="coupon-code" required="" type="text" class="mb-3">
+                                    <button class="coupon-btn btn" type="submit">Apply Coupon</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            <!-- </div> -->
+
+            <div class="row billing-fields">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 sm-margin-30px-bottom">
+                    <div class="create-ac-content bg-light-gray padding-20px-all">
+                      
+                    
+                      <div style="max-width: 600px; margin: auto;">
+                        <h1 style="text-align: center;">ORDERS</h1>
+                        <% cartData.items.forEach(item=>{ %>
+                          <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; display: flex; align-items: center;">
+                            <div class="cart__image-wrapper" style="margin-right: 15px;">
+                                <a href="#">
+                                    <img class="cart__image" src="/productImages/<%= item.product.productImage[0] %>" alt="" style="width: 100px; height: auto;">
+                                </a>
+                            </div>
+                            <div>
+                                <h2 style="margin: 0;"><%= item.product.productName %></h2>
+                                <p style="color:black; font-size: 20px;">Price: <%=item.price %></p>
+                                <p style="color:black; font-size: 20px;">Quantity: <%=item.quantity %></p>
+                                <p style="color:black; font-size: 20px;">Size: <%=item.size %></p>
+
+                            </div>
+                            <!-- <div >
+                              <a   href="/productDetails?id="  >
+                                <button style="background-color: blue; color: white; height: 25px;">More Info</button>
+                              </a>
+                            </div> -->
+                        </div>
+                        
+                       <% }) %>
+                        
+                
+                       
+                    </div>
+
+
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                    <div class="your-order-payment">
+                        <div class="your-order">
+                            <h2 class="order-title mb-4", style="color:black">Your Order</h2>
+
+                            <div class="table-responsive-sm order-table"> 
+                                <table class="bg-white table table-bordered table-hover text-center">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-left" style="color:black">Product Name</th>
+                                            <th style="color:black">Price</th>
+                                            <th style="color:black">Size</th>
+                                            <th style="color:black">Qty</th>
+                                            <th style="color:black">Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                         <% itemsWithPrices.forEach(item=>{ %>
+
+                                     
+
+                                        <tr>
+                                            <td class="text-left" style="color:black"><%= item.product.productName %></td>
+                                            <td style="color:black"><%=item.price %></td>
+                                            <td style="color:black"><%=item.size %></td>
+                                            <td style="color:black"><%=item.quantity %></td>
+                                            <td style="color:black"><%= item.calculatedPrice %></td>
+                                        </tr>
+                                       
+
+                                        <% }) %>   
+
+                                        
+                                        
+                                    </tbody>
+                                    <tfoot class="font-weight-600">
+                                        <tr>
+                                            <td colspan="4" class="text-right" style="color:black">Total </td>
+                                            <td style="color:black"><%= total %></td>
+                                        </tr>
+                                        <tr>
+                                          <td colspan="4" class="text-right" style="color:black">Tax </td>
+                                          <td style="color:black"><%= tax %></td>
+                                      </tr>
+                                      <tr>
+                                        <td colspan="4" class="text-right" style="color:black">Shipping </td>
+                                        <td style="color:black"><%= shipping %></td>
+                                    </tr>
+                                        <tr>
+                                            <td colspan="4" class="text-right" style="color:black; font-weight: bold;"> Grand Total</td>
+                                            <td style="color:black; font-weight: bold;"><%= grandTotal %>/-</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <hr />
+
+                        <div class="your-payment">
+                            <h2 class="payment-title mb-3">payment method</h2>
+                            <div class="payment-method">
+                                
+                                <div>
+                                  <label style="display: block; color:black; font-size: 17px;">
+                                    <input type="radio" name="" id="razorPay" value="razorPay" style="margin-right: 10px; "> RazorPay
+                                </label>
+                                <label style="display: block; color:black; font-size: 17px;">
+                                    <input type="radio" name="size" id="cashOnDelivery" value="cashOnDelivery" style="margin-right: 10px; "> Cash on Delivery
+                                </label>
+                                <label style="display: block; color:black; font-size: 17px;">
+                                    <input type="radio" name="size"id=wallet value="wallet" style="margin-right: 10px; "> Wallet
+                                </label>
+                                </div><br>
+
+                                <hr />
+
+                                <div style="display:block">
+                                  <div style="display:flex">
+                                    <h2 class="payment-title mb-3">Select the Delivery Address</h2>
+                                    <div style="margin-left: auto;">
+                                      <a href="/addAddress" class="btn mb-3">+Add Address</a>
+                                    </div>
+
+                                  </div>
+                                 
+                                <% for(i=0;i<addressData.length;i++){ %>
+                                  <div style="display: flex; align-items: center; margin-bottom: 10px; border: 1px solid #ccc; padding: 10px;">
+                                    <div style="flex: 1;">
+                                        <label style="display: block; color: black; font-size: 17px;">
+                                            <input type="radio" name="size" data-address-id="<%= addressData[i]._id %>" value="" style="margin-right: 10px;">
+                                            <strong><%= addressData[i].name %></strong>
+                                        </label>
+                                        <label style="display: block; color: black; font-size: 17px;"><%= addressData[i].address %></label>
+                                        <label style="display: block; color: black; font-size: 17px;"><%= addressData[i].pincode %></label>
+                                        <label style="display: block; color: black; font-size: 17px;"><%= addressData[i].district %></label>
+                                        <label style="display: block; color: black; font-size: 17px;"><%= addressData[i].state %></label>
+                                        <label style="display: block; color: black; font-size: 17px;"><%= addressData[i].phone %></label>
+                                    </div>
+                                    
+                                    <div>
+                                        <button 
+                                            type="button" 
+                                            class="btn btn-danger" 
+                                            style="padding: 5px 8px; background-color: red; color: white; border: none; border-radius: 4px; margin-bottom: 150px; margin-left: 150px"
+                                            onclick="removeAddress('<%= addressData[i]._id %>')"> <!-- Assuming you have an ID for each address -->
+                                            X
+                                        </button>
+                                        <div style="margin-right:100px;">
+                                          <a href="/editAddress?id=<%= addressData[i]._id %>" class="btn mb-3">Edit</a>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                                  
+                                <% } %>
+                                  
+                                
+                                  
+                                </div>
+
+
+                                <div class="order-button-payment">
+                                    <button class="btn" value="Place order" type="submit">Place order</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <!--End Body Content-->
+    
+    <!--Footer-->
+    <footer id="footer">
+        <div class="newsletter-section">
+            <div class="container">
+                <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-7 w-100 d-flex justify-content-start align-items-center">
+                            <div class="display-table">
+                                <div class="display-table-cell footer-newsletter">
+                                    <div class="section-header text-center">
+                                        <label class="h2"><span>sign up for </span>newsletter</label>
+                                    </div>
+                                    <form action="#" method="post">
+                                        <div class="input-group">
+                                            <input type="email" class="input-group__field newsletter__input" name="EMAIL" value="" placeholder="Email address" required="">
+                                            <span class="input-group__btn">
+                                                <button type="submit" class="btn newsletter__submit" name="commit" id="Subscribe"><span class="newsletter__submit-text--large">Subscribe</span></button>
+                                            </span>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-5 d-flex justify-content-end align-items-center">
+                            <div class="footer-social">
+                                <ul class="list--inline site-footer__social-icons social-icons">
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on Facebook"><i class="icon icon-facebook"></i></a></li>
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on Twitter"><i class="icon icon-twitter"></i> <span class="icon__fallback-text">Twitter</span></a></li>
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on Pinterest"><i class="icon icon-pinterest"></i> <span class="icon__fallback-text">Pinterest</span></a></li>
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on Instagram"><i class="icon icon-instagram"></i> <span class="icon__fallback-text">Instagram</span></a></li>
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on Tumblr"><i class="icon icon-tumblr-alt"></i> <span class="icon__fallback-text">Tumblr</span></a></li>
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on YouTube"><i class="icon icon-youtube"></i> <span class="icon__fallback-text">YouTube</span></a></li>
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on Vimeo"><i class="icon icon-vimeo-alt"></i> <span class="icon__fallback-text">Vimeo</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+            </div>    
+        </div>
+        <div class="site-footer">
+        	<div class="container">
+     			<!--Footer Links-->
+            	<div class="footer-top">
+                	<div class="row">
+                    	<div class="col-12 col-sm-12 col-md-3 col-lg-3 footer-links">
+                        	<h4 class="h4">Quick Shop</h4>
+                            <ul>
+                            	<li><a href="#">Women</a></li>
+                                <li><a href="#">Men</a></li>
+                                <li><a href="#">Kids</a></li>
+                                <li><a href="#">Sportswear</a></li>
+                                <li><a href="#">Sale</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 footer-links">
+                        	<h4 class="h4">Informations</h4>
+                            <ul>
+                            	<li><a href="#">About us</a></li>
+                                <li><a href="#">Careers</a></li>
+                                <li><a href="#">Privacy policy</a></li>
+                                <li><a href="#">Terms &amp; condition</a></li>
+                                <li><a href="#">My Account</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 footer-links">
+                        	<h4 class="h4">Customer Services</h4>
+                            <ul>
+                            	<li><a href="#">Request Personal Data</a></li>
+                                <li><a href="#">FAQ's</a></li>
+                                <li><a href="#">Contact Us</a></li>
+                                <li><a href="#">Orders and Returns</a></li>
+                                <li><a href="#">Support Center</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 contact-box">
+                        	<h4 class="h4">Contact Us</h4>
+                            <ul class="addressFooter">
+                            	<li><i class="icon anm anm-map-marker-al"></i><p>55 Gallaxy Enque,<br>2568 steet, 23568 NY</p></li>
+                                <li class="phone"><i class="icon anm anm-phone-s"></i><p>(440) 000 000 0000</p></li>
+                                <li class="email"><i class="icon anm anm-envelope-l"></i><p>sales@yousite.com</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--End Footer Links-->
+                <hr>
+                <div class="footer-bottom">
+                	<div class="row">
+                    	<!--Footer Copyright-->
+	                	<div class="col-12 col-sm-12 col-md-6 col-lg-6 order-1 order-md-0 order-lg-0 order-sm-1 copyright text-sm-center text-md-left text-lg-left"><span></span> <a href="templateshub.net">Templates Hub</a></div>
+                        <!--End Footer Copyright-->
+                        <!--Footer Payment Icon-->
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 order-0 order-md-1 order-lg-1 order-sm-0 payment-icons text-right text-md-center">
+                        	<ul class="payment-icons list--inline">
+                        		<li><i class="icon fa fa-cc-visa" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-cc-mastercard" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-cc-discover" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-cc-paypal" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-cc-amex" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-credit-card" aria-hidden="true"></i></li>
+                            </ul>
+                        </div>
+                        <!--End Footer Payment Icon-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--End Footer-->
+    <!--Scoll Top-->
+    <span id="site-scroll"><i class="icon anm anm-angle-up-r"></i></span>
+    <!--End Scoll Top-->
+    
+     <!-- Including Jquery -->
+     <script src="assets/js/vendor/jquery-3.3.1.min.js"></script>
+     <script src="assets/js/vendor/jquery.cookie.js"></script>
+     <script src="assets/js/vendor/modernizr-3.6.0.min.js"></script>
+     <script src="assets/js/vendor/wow.min.js"></script>
+     <!-- Including Javascript -->
+     <script src="assets/js/bootstrap.min.js"></script>
+     <script src="assets/js/plugins.js"></script>
+     <script src="assets/js/popper.min.js"></script>
+     <script src="assets/js/lazysizes.js"></script>
+     <script src="assets/js/main.js"></script>
+</div>
+</body>
+
+
+<script>
+
+function removeAddress(id){
+  
+  fetch("/removeAddress", {
+  method: "DELETE",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ id: id }),
+})
+.then(response => {
+  if (!response.ok) {
+    throw new Error(`Error: ${response.status} ${response.statusText}`);
+  }
+  return response.json(); // Assuming the server returns JSON
+})
+.then(data => {
+  console.log("Success:", data);
+//   setTimeout(function() {
+//     removeAddressMessage("Success", data.message, "success");
+// }, 1000);
+  window.location.reload(); 
+//   document.getElementById("address-container").textContent=null
+})
+.catch(error => {
+  console.error("Error:", error);
+});
+}
+
+
+</script>
+
+
+
+
+
+<!-- belle/checkout.html   11 Nov 2019 12:44:33 GMT -->
+</html>

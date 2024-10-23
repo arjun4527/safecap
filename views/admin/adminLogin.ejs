@@ -70,10 +70,14 @@
                     <h4 class="card-title mb-4">Admin Sign in</h4>
                     <form method="post" action="/admin" id="adminLoginForm" >
                         <div class="mb-3">
-                            <input class="form-control" name="adminEmail" placeholder="Username or email" type="text">
+                            <input class="form-control" name="adminEmail"  id="email" placeholder="Username or email" type="text">
+                            <span class="error" style="color:red" id="emailError"></span>
+
                         </div> <!-- form-group// -->
                         <div class="mb-3">
-                            <input class="form-control" name="adminPassword" placeholder="Password" type="password">
+                            <input class="form-control" name="adminPassword" placeholder="Password" id="password" type="password">
+                            <span class="error" style="color:red" id="passwordError"></span>
+
                         </div> <!-- form-group// -->
                         <!-- <div class="mb-3">
                             <a href="#" class="float-end font-sm text-muted">Forgot password?</a>
@@ -83,7 +87,7 @@
                             </label>
                         </div> form-group form-check .// -->
                         <div class="mb-4">
-                            <button type="submit" class="btn btn-primary w-100"> Login </button>
+                            <button type="submit" class="btn btn-primary w-100" onclick="validateForm()"> Login </button>
                         </div> <!-- form-group// -->
                     </form>
                     <!-- <p class="text-center small text-muted mb-15">or sign up with</p>
@@ -134,6 +138,40 @@ if (noEntry) {
     confirmButtonText: 'Try Again'
   });
 }
+
+
+// for validation
+function validateForm(){
+    let valid=true
+
+    document.querySelectorAll(".error").forEach(function(error){
+        error.textContent=''
+    })
+
+    const email=document.getElementById('email').value.trim()
+    const password=document.getElementById('password').value.trim()
+
+
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+                if (email === '') {
+                    document.getElementById("emailError").textContent = "Email is Required"
+                    valid = false
+                } else if (!emailPattern.test(email)) {
+                    document.getElementById("emailError").textContent = 'Please enter a valid email address'
+                    valid = false
+                }
+    if(password===''){
+        document.getElementById('passwordError').textContent="Password is Required"
+        valid=false
+    }
+    return valid
+}
+document.getElementById("adminLoginForm").addEventListener("submit",event =>{
+    if(!validateForm())(
+        event.preventDefault()
+    )
+})
+
     </script>
 </body>
 

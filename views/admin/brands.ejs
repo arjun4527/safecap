@@ -117,7 +117,7 @@
       </div>
       <div class="modal-body">
         <!-- Form for Brand Image and Name -->
-        <form id="brandForm" method="post" action="/admin/brands" enctype="multipart/form-data">
+        <form id="brandForm" method="post"  action="/admin/brands" enctype="multipart/form-data">
           <div class="mb-3">
             <label for="brandName" class="form-label">Brand Name</label>
             <input type="text" class="form-control" name="brandName" id="brandName" placeholder="Enter brand name" >
@@ -258,7 +258,7 @@
     document.addEventListener("DOMContentLoaded", function(){
         
         const statusBtns = document.querySelectorAll('[id^="statusButton"]');
-    console.log("kaathzz",statusBtns)
+    // console.log("kaathzz",statusBtns)
 
 // Loop through each button 
      statusBtns.forEach(statusBtn => {
@@ -323,7 +323,7 @@
     }
     return valid
 }
-document.getElementById("editBrandForm").addEventListener("submit",event =>{
+document.getElementById("brandForm").addEventListener("submit",event =>{
     if(!validateForm())(
         event.preventDefault()
     )
@@ -334,14 +334,52 @@ document.getElementById("editBrandForm").addEventListener("submit",event =>{
 
 
 
-  let added = "<%= typeof added !== 'undefined' && added ? added : '' %>";
+  let added = "<%= typeof added !== 'undefined'  ? added : '' %>";
 
   if (added) {
     Swal.fire({
       title: 'Success!',
       text: added,
-      icon: 'success', // Corrected icon case
+      icon: 'success', 
       confirmButtonText: 'Good Work',
+      toast: true,  
+      position: 'top-end',
+      timer: 3000,  
+      timerProgressBar: true,
+      background: '#f0f9ff',
+    });
+  }
+
+
+  let brandExist = "<%= typeof brandExist !== 'undefined' ? brandExist : '' %>";
+
+  
+  
+  if (brandExist) {
+    Swal.fire({
+      title: 'Sorry!',
+      text: brandExist,
+      icon: 'error', 
+      confirmButtonText: 'Try again',
+      toast: true,  
+      position: 'top-end',
+      timer: 3000,  
+      timerProgressBar: true,
+      background: '#f0f9ff',
+    });
+  }
+
+  
+
+  let updateBrand = "<%= typeof updateBrand !== 'undefined' ? updateBrand : '' %>";
+
+
+  if (updateBrand) {
+    Swal.fire({
+      title: 'Success!',
+      text: updateBrand,
+      icon: 'success', 
+      confirmButtonText: 'Good work',
       toast: true,  
       position: 'top-end',
       timer: 3000,  

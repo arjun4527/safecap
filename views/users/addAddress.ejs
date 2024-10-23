@@ -1,0 +1,430 @@
+<%- include('../layouts/userLayouts/header') %>
+<%- include('../layouts/userLayouts/navbar') %>
+
+
+	<!--End Mobile Menu-->
+    
+    <!--Body Content-->
+    <div id="page-content">
+    	<!--Page Title-->
+    	<div class="page section-header text-center">
+			<div class="page-title">
+        		<div class="wrapper"><h1 class="page-width">Profile</h1></div>
+      		</div>
+		</div>
+        <!--End Page Title-->
+        
+        <!-- Code by chatgpt start-->
+
+
+        <section style="padding-top: 150px; padding-bottom: 50px;"> <!-- Adjust bottom padding -->
+          <div style="max-width: 1200px; margin: 0 auto;">
+              <div style="display: flex;">
+                  <div style="flex: 0 0 33.33%; padding: 15px;">
+                      <div style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px;">
+                          <ul style="list-style-type: none; padding: 0; margin: 0;">
+                              <li>
+                                  <a style="display: block; padding: 20px; font-size: 18px; text-decoration: none; color: black; background-color: transparent; border: 1px solid #dee2e6; border-radius: 5px;" 
+                                     id="dashboard-tab" data-bs-toggle="tab" href="/profile" role="tab" aria-controls="dashboard" aria-selected="false" 
+                                     onclick="setActive(this)"><i class="fi-rs-settings-sliders" style="margin-right: 10px;"></i>Profile</a>
+                              </li>
+                              <li>
+                                  <a style="display: block; padding: 20px; font-size: 18px; text-decoration: none; color: black; background-color: transparent; border: 1px solid #dee2e6; border-radius: 5px;" 
+                                     id="orders-tab" data-bs-toggle="tab" href="#orders" role="tab" aria-controls="orders" aria-selected="false" 
+                                     onclick="setActive(this)"><i class="fi-rs-shopping-bag" style="margin-right: 10px;"></i>Orders</a>
+                              </li>
+                              <li>
+                                  <a style="display: block; padding: 20px; font-size: 18px; text-decoration: none; color: black; background-color: transparent; border: 1px solid #dee2e6; border-radius: 5px;" 
+                                     id="address-tab" data-bs-toggle="tab" href="/address" role="tab" aria-controls="address" aria-selected="true" 
+                                     onclick="setActive(this)"><i class="fi-rs-marker" style="margin-right: 10px;"></i>My Address</a>
+                              </li>
+                              <li>
+                                  <a style="display: block; padding: 20px; font-size: 18px; text-decoration: none; color: black; background-color: transparent; border: 1px solid #dee2e6; border-radius: 5px;" 
+                                     id="account-detail-tab" data-bs-toggle="tab" href="/editProfile" role="tab" aria-controls="account-detail" aria-selected="true" 
+                                     onclick="setActive(this)"><i class="fi-rs-user" style="margin-right: 10px;"></i>Edit Profile</a>
+                              </li>
+                              <li>
+                                  <a style="display: block; padding: 20px; font-size: 18px; text-decoration: none; color: black; background-color: transparent; border: 1px solid #dee2e6; border-radius: 5px;" 
+                                     href="/logout"><i class="fi-rs-sign-out" style="margin-right: 10px;"></i>Logout</a>
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+                  <div style="flex: 0 0 66.67%; padding: 15px;">
+                      <div class="tab-content" style="border: 1px solid #dee2e6; border-radius: 5px;">
+                          <div class="tab-pane fade active show" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+                              <div style="border: 1px solid #dee2e6; border-radius: 5px; margin-bottom: 20px;">
+                                  <div style="background-color: #f8f9fa; padding: 15px;">
+                                      <h1 style="margin: 0;">Add Address</h1>
+                                      <form id="addAddressForm" method="POST" >
+                                        <div>
+                                          <label for="name" style="color: black; font-size:20px;">Name:</label>
+                                          <input type="text" id="name" name="name" required><br><br>
+                                          <span class="error" style="color:red" id="nameError"></span>
+                                        </div>
+                                          
+
+                                        <div>
+                                          <label for="phone" style="color: black; font-size:20px;">Phone:</label>
+                                          <input type="tel" id="phone" name="phone" required><br><br>
+                                          <span class="error" style="color:red" id="phoneError"></span>
+                                        </div>
+                                          
+
+                                          <div>
+                                            <label for="pincode" style="color: black; font-size:20px;">Pincode:</label>
+                                            <input type="text" id="pincode" name="pincode" required><br><br>
+                                            <span class="error" style="color:red" id="pincodeError"></span>
+                                          </div>
+                                          
+
+
+                                          <div>
+                                            <label for="altPhone" style="color: black; font-size:20px;">Alternative Phone:</label>
+                                            <input type="tel" id="altPhone" name="altPhone"><br><br>
+                                            <span class="error" style="color:red" id="altPhoneError"></span>
+                                          </div>
+                                          
+
+                                          <div>
+                                            <label for="address" style="color: black; font-size:20px;">Address:</label>
+                                            <textarea id="address" name="address" required></textarea><br><br>
+                                            <span class="error" style="color:red" id="addressError"></span>
+                                          </div>
+                                         
+
+                                          <div>
+                                            <label for="district" style="color: black; font-size:20px;">District:</label>
+                                          <input type="text" id="district" name="district" required><br><br>
+                                          <span class="error" style="color:red" id="districtError"></span>
+                                          </div>
+                                          
+
+                                          
+                                         <label for="state"  style="color: black; font-size:20px;">State:</label>
+                                         <select id="state"  style="color: black; font-size:15px;" name="state" required>
+                                             <option value="">Select State</option>
+                                             <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                             <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                             <option value="Assam">Assam</option>
+                                             <option value="Bihar">Bihar</option>
+                                             <option value="Chhattisgarh">Chhattisgarh</option>
+                                             <option value="Goa">Goa</option>
+                                             <option value="Gujarat">Gujarat</option>
+                                             <option value="Haryana">Haryana</option>
+                                             <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                             <option value="Jharkhand">Jharkhand</option>
+                                             <option value="Karnataka">Karnataka</option>
+                                             <option value="Kerala">Kerala</option>
+                                             <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                             <option value="Maharashtra">Maharashtra</option>
+                                             <option value="Manipur">Manipur</option>
+                                             <option value="Meghalaya">Meghalaya</option>
+                                             <option value="Mizoram">Mizoram</option>
+                                             <option value="Nagaland">Nagaland</option>
+                                             <option value="Odisha">Odisha</option>
+                                             <option value="Punjab">Punjab</option>
+                                             <option value="Rajasthan">Rajasthan</option>
+                                             <option value="Sikkim">Sikkim</option>
+                                             <option value="Tamil Nadu">Tamil Nadu</option>
+                                             <option value="Telangana">Telangana</option>
+                                             <option value="Tripura">Tripura</option>
+                                             <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                             <option value="Uttarakhand">Uttarakhand</option>
+                                             <option value="West Bengal">West Bengal</option>
+                                             <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                                             <option value="Chandigarh">Chandigarh</option>
+                                             <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
+                                             <option value="Lakshadweep">Lakshadweep</option>
+                                             <option value="Delhi">Delhi</option>
+                                             <option value="Puducherry">Puducherry</option>
+                                         </select>
+                                         <br><br>
+
+                                         <div>
+                                          <label for="landMark" style="color: black; font-size:20px;">Landmark:</label>
+                                          <input type="text" id="landMark" name="landMark"><br><br>
+                                          <span class="error" style="color:red" id="landMarkError"></span>
+                                        </div>                                     
+                                          
+
+                                          
+                                          <input type="submit" class="btn mb-3" value="Add" onclick="validateForm()">
+                                        </form>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+      
+      <!-- Footer -->
+      <footer id="footer">
+          <div class="newsletter-section">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-12 col-sm-12 col-md-12 col-lg-7 w-100 d-flex justify-content-start align-items-center">
+                          <div class="display-table">
+                              <div class="display-table-cell footer-newsletter">
+                                  <div class="section-header text-center">
+                                      <label class="h2"><span>sign up for </span>newsletter</label>
+                                  </div>
+                                  <form action="#" method="post">
+                                      <div class="input-group">
+                                          <input type="email" class="input-group__field newsletter__input" name="EMAIL" placeholder="Email address" required>
+                                          <span class="input-group__btn">
+                                              <button type="submit" class="btn newsletter__submit" id="Subscribe">Subscribe</button>
+                                          </span>
+                                      </div>
+                                  </form>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-12 col-sm-12 col-md-12 col-lg-5 d-flex justify-content-end align-items-center">
+                          <div class="footer-social">
+                              <ul class="list--inline site-footer__social-icons social-icons">
+                                  <li><a class="social-icons__link" href="#" target="_blank"><i class="icon icon-facebook"></i></a></li>
+                                  <li><a class="social-icons__link" href="#" target="_blank"><i class="icon icon-twitter"></i></a></li>
+                                  <li><a class="social-icons__link" href="#" target="_blank"><i class="icon icon-pinterest"></i></a></li>
+                                  <li><a class="social-icons__link" href="#" target="_blank"><i class="icon icon-instagram"></i></a></li>
+                                  <li><a class="social-icons__link" href="#" target="_blank"><i class="icon icon-youtube"></i></a></li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+              </div>    
+          </div>
+          <div class="site-footer">
+              <div class="container"
+     			<!-- Footer Links -->
+            	<div class="footer-top">
+                	<div class="row">
+                    	<div class="col-12 col-sm-12 col-md-3 col-lg-3 footer-links">
+                        	<h4 class="h4">Quick Shop</h4>
+                            <ul>
+                            	<li><a href="#">Women</a></li>
+                                <li><a href="#">Men</a></li>
+                                <li><a href="#">Kids</a></li>
+                                <li><a href="#">Sportswear</a></li>
+                                <li><a href="#">Sale</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 footer-links">
+                        	<h4 class="h4">Informations</h4>
+                            <ul>
+                            	<li><a href="#">About us</a></li>
+                                <li><a href="#">Careers</a></li>
+                                <li><a href="#">Privacy policy</a></li>
+                                <li><a href="#">Terms &amp; condition</a></li>
+                                <li><a href="#">My Account</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 footer-links">
+                        	<h4 class="h4">Customer Services</h4>
+                            <ul>
+                            	<li><a href="#">Request Personal Data</a></li>
+                                <li><a href="#">FAQ's</a></li>
+                                <li><a href="#">Contact Us</a></li>
+                                <li><a href="#">Orders and Returns</a></li>
+                                <li><a href="#">Support Center</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 contact-box">
+                        	<h4 class="h4">Contact Us</h4>
+                            <ul class="addressFooter">
+                            	<li><i class="icon anm anm-map-marker-al"></i><p>55 Gallaxy Enque,<br>2568 steet, 23568 NY</p></li>
+                                <li class="phone"><i class="icon anm anm-phone-s"></i><p>(440) 000 000 0000</p></li>
+                                <li class="email"><i class="icon anm anm-envelope-l"></i><p>sales@yousite.com</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--End Footer Links-->
+                <hr>
+                <div class="footer-bottom">
+                	<div class="row">
+                    	<!--Footer Copyright-->
+	                	<div class="col-12 col-sm-12 col-md-6 col-lg-6 order-1 order-md-0 order-lg-0 order-sm-1 copyright text-sm-center text-md-left text-lg-left"><span></span> <a href="templateshub.net">Templates Hub</a></div>
+                        <!--End Footer Copyright-->
+                        <!--Footer Payment Icon-->
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 order-0 order-md-1 order-lg-1 order-sm-0 payment-icons text-right text-md-center">
+                        	<ul class="payment-icons list--inline">
+                        		<li><i class="icon fa fa-cc-visa" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-cc-mastercard" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-cc-discover" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-cc-paypal" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-cc-amex" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-credit-card" aria-hidden="true"></i></li>
+                            </ul>
+                        </div>
+                        <!--End Footer Payment Icon-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--End Footer-->
+    <!--Scoll Top-->
+    <span id="site-scroll"><i class="icon anm anm-angle-up-r"></i></span>
+    <!--End Scoll Top-->
+    
+     <!-- Including Jquery -->
+     <script src="assets/js/vendor/jquery-3.3.1.min.js"></script>
+     <script src="assets/js/vendor/jquery.cookie.js"></script>
+     <script src="assets/js/vendor/modernizr-3.6.0.min.js"></script>
+     <script src="assets/js/vendor/wow.min.js"></script>
+     <!-- Including Javascript -->
+     <script src="assets/js/bootstrap.min.js"></script>
+     <script src="assets/js/plugins.js"></script>
+     <script src="assets/js/popper.min.js"></script>
+     <script src="assets/js/lazysizes.js"></script>
+     <script src="assets/js/main.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</div>
+</body>
+
+
+<script>
+  function validateForm(event) {
+      
+      event.preventDefault();
+      
+      let valid = true;
+
+      // Clear previous error messages
+      document.querySelectorAll('.error').forEach(function (error) {
+          error.textContent = '';
+      });
+
+      // Get form fields
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const pincode = document.getElementById('pincode').value.trim();
+      const altPhone = document.getElementById('altPhone').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const district = document.getElementById('district').value.trim();
+      const state = document.getElementById('state').value.trim();
+      const landMark = document.getElementById('landMark').value.trim();
+
+
+
+
+
+        if (name === "") {
+            document.getElementById('nameError').textContent = " Name is required.";
+            valid = false;
+        }
+
+        const phonePattern=/^(?:\+91[-\s]?|91[-\s]?)?[789]\d{9}$/
+        if (phone === "") {
+            document.getElementById('phoneError').textContent = "Phone number is required.";  
+        }else if(!phonePattern.test(phone)){
+          document.getElementById('phoneError').textContent = "Phone number is not valid.";  
+           valid=false
+        }
+        
+        const pincodePattern=/^\d{6}$/
+        if (pincode === "") {
+            document.getElementById('pincodeError').textContent = " pincode is required.";
+        }else if(!pincodePattern.test(pincode)){
+          document.getElementById('pincodeError').textContent = " pincode is nor valid.";
+          valid=false
+        }
+
+        // const phonePattern=/^(?:\+91[-\s]?|91[-\s]?)?[789]\d{9}$/
+        if (altPhone) {
+            // document.getElementById('altPhoneError').textContent = "Phone number is required.";  
+         if(!phonePattern.test(altPhone)){
+          document.getElementById('altPhoneError').textContent = "Phone number is not valid.";  
+           valid=false
+         }
+        } 
+
+        if (address === "") {
+            document.getElementById('addressError').textContent = " Address is required.";
+            valid = false;
+        }
+
+        if (district === "") {
+            document.getElementById('districtError').textContent = " District name is required.";
+            valid = false;
+        }
+
+        if (landMark === "") {
+            document.getElementById('landMarkError').textContent = " LandMark is required.";
+            valid = false;
+        }
+
+        if (valid) {
+            // document.getElementById('editProfileForm').submit();
+            addAddress(name,phone,pincode,altPhone,address,district,state,landMark)
+        }
+
+               
+  
+  }   
+  document.querySelector('input[type="submit"]').addEventListener('click', validateForm);
+
+
+
+function addAddress(name,phone,pincode,altPhone,address,district,state,landMark){
+
+    $.ajax({
+    url:"/addAddress",
+    method:"POST",
+    data:JSON.stringify({name:name,phone:phone,pincode:pincode,altPhone:altPhone,address:address,district:district,state:state,landMark:landMark}),
+    contentType:"application/json",
+    success:function(response){
+        console.log("fes",response)
+          if(response.success){
+            
+            addAddressMessage("Success",response.message,"success")
+            clearAddressForm()
+          }
+
+
+          
+    }
+  })
+
+}
+
+function clearAddressForm() {
+  document.getElementById("addAddressForm").reset(); 
+}
+
+
+
+
+
+function addAddressMessage(heading,message,sign){
+    
+        Swal.fire({
+                           title: heading,
+                           text: message,
+                           icon: sign, 
+                           confirmButtonText: "OK",
+                           toast: true,  
+                           position: 'top-end',
+                           timer: 3000,  
+                           timerProgressBar: true,
+                           background: '',
+                           
+                           });
+        
+    }
+
+
+
+  
+
+
+
+
+
+      </script>
+<!-- belle/cart-variant1.html   11 Nov 2019 12:44:32 GMT -->
+</html>

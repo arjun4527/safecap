@@ -1,0 +1,492 @@
+<%- include('../layouts/userLayouts/header') %>
+<%- include('../layouts/userLayouts/navbar') %>
+
+
+	<!--End Mobile Menu-->
+    
+    <!--Body Content-->
+    <div id="page-content">
+    	<!--Page Title-->
+    	<div class="page section-header text-center">
+			<div class="page-title">
+        		<div class="wrapper"><h1 class="page-width">Shopping Cart</h1></div>
+      		</div>
+		</div>
+        <!--End Page Title-->
+        
+        <div class="container">
+        	<div class="row">
+
+                
+                        <div class="me">
+                            <% if(cart.items.length===0){ %>
+                                <div style="height:400px">
+                                    <div style="color:red; font-size:30px;justify-content:right; font-weight: bold ; display: block;right:200px ">oops!</div>
+                                <div style="color:red; font-size:30px;justify-content:right;right:200px">Your cart is empty</div>
+                                </div>
+                                
+                            <% }else{ %>
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 main-col">
+                                <div class="alert alert-success text-uppercase" role="alert">
+                                   <!-- <i class="icon anm anm-truck-l icon-large"></i> &nbsp;<strong>Congratulations!</strong> You've got free shipping! -->
+                               </div> -->
+                               <form action="#" method="post" class="cart style2">
+                                   <table>
+                                       <thead class="cart__row cart__header">
+                                           <tr>
+                                               <th colspan="2" class="text-center">Product</th>
+                                               <th class="text-center">Price</th>
+                                               <th class="text-center">Quantity</th>
+                                               <th class="text-right">Total</th>
+                                               <th class="action">&nbsp;</th>
+                                           </tr>
+                                       </thead>
+                                       <tbody id="cart-tbody">
+                                           <% itemsWithPrices.forEach(item => { %>
+                                           <tr class="cart__row border-bottom line1 cart-flex border-top ">
+                                              
+                                                   <td class="cart__image-wrapper cart-flex-item">
+                                                       <a href="#"><img class="cart__image"  src="/productImages/<%= item.product.productImage[0] %>" alt="<%= item.product.productName %>"></a>
+                                                   </td>
+                                               
+                                                 
+                                                   <td class="cart__meta small--text-left cart-flex-item ">
+                                                       <div class="list-view-item__title ">
+                                                           <a href="#" class="text-dark ">  <%= item.product.productName %></a>
+                                                       </div>
+                                                       
+                                                       <div class="cart__meta-text text-dark">
+                                                           Category: <%= item.product.category.name %><br>Size: <%= item.size %><br>
+                                                       </div>
+                                                   </td>
+                                                   <td class="cart__price-wrapper cart-flex-item text-dark">
+                                                       <span class="money">$<%= item.price %></span>
+                                                   </td>
+                                                   <td class="cart__update-wrapper cart-flex-item text-right">
+                                                       <div class="cart__qty text-center">
+                                                           <div class="qtyField">
+                                                               <a id="minusBtn <%= item.product._id %>" class="qtyBtn minus">
+                                                                   <i class="icon icon-minus"></i>
+                                                               </a>
+                                                               <input class="cart__qty-input qty text-dark"  
+                                                                      data-product-id="<%= item.product._id %>" 
+                                                                      data-size="<%= item.size %>"
+                                                                      type="number" 
+                                                                      name="updates[]" 
+                                                                      id="qty<%= item.product._id %>" 
+                                                                      value="<%= item.quantity %>" 
+                                                                      max="5" 
+                                                                      min="1"
+                                                                      step="1"> 
+                                                               <a id="plusBtn <%= item.product._id %>" class="qtyBtn plus">
+                                                                   <i class="icon icon-plus"></i>
+                                                               </a>
+                                                           </div>
+                                                           
+                                                       </div>
+                                                   </td>
+                                               
+                                                       <td class="text-right small--hide cart-price text-dark">
+                                                           <div  ><span id="price<%= item.product._id %>_<%= item.size %>" value="<%= item.calculatedPrice %>" class="money">Rs<%= item.calculatedPrice %></span></div>
+                                                         </td>
+                                                         
+                                           
+                                                  
+                                                   <td class="text-center small--hide"><a href="#" class="btn btn--secondary cart__remove" onclick="removeProduct('<%= item.product._id %>','<%= item.size %>')" title="Remove tem"><i class="icon icon anm anm-times-l"></i></a></td>
+                                           </tr>
+                                           <% }) %>
+                                       </tbody>
+                                       <tfoot>
+                                           <tr>
+                                               <td colspan="3" class="text-left"><a href="/" class="btn btn-secondary btn--small cart-continue">Continue shopping</a></td>
+                                               <td colspan="3" class="text-right">
+                                                   <button type="submit" name="clear" onclick="clearCart()" class="btn btn-secondary btn--small  small--hide">Clear Cart</button>
+                                                   
+                                               </td>
+                                           </tr>
+                                       </tfoot>
+                               </table> 
+                               </form>                   
+                              </div>
+                           
+                              
+                           <div class="container-fluid mt-3">
+                               <div class="row ">
+                                   <div class="col-12 col-sm-12 col-md-4 col-lg-4 mt-5">
+                                       <h5>Discount Codes</h5>
+                                       <form action="#" method="post">
+                                           <div class="form-group">
+                                               <label for="address_zip">Enter your coupon code if you have one.</label>
+                                               <input type="text" name="coupon">
+                                           </div>
+                                           <div class="actionRow">
+                                               <div><input type="button" class="btn btn-secondary btn--small" value="Apply Coupon"></div>
+                                           </div>
+                                       </form>
+                                   </div>
+                                   
+                                   
+                                   
+                                   <div class="container-fluid  d-flex justify-content-end col-lg-12"> 
+                                       <div class="col-12 col-sm-12 col-md-4 col-lg-4 cart__footer mr-5">
+                                           <div class="solid-border">	
+                                               
+                                               <div class="row border-bottom pb-2 pt-2">
+                                                   <span class="col-12 col-sm-6 cart__subtotal-title"><strong>Sub Total</strong></span>
+                                                   <span class="col-12 col-sm-6 cart__subtotal-title cart__subtotal text-right"><span class="money"><%= subtotal %></span></span>
+                                               </div>
+                                               <div class="row border-bottom pb-2 pt-2">
+                                                   <span class="col-12 col-sm-6 cart__subtotal-title"><strong>Tax-5%</strong></span>
+                                                   <span class="col-12 col-sm-6 cart__subtotal-title cart__subtotal text-right"><span class="money"><%= tax %></span></span>
+                                               </div>
+                                               <div class="row border-bottom pb-2 pt-2">
+                                                   <span class="col-12 col-sm-6 cart__subtotal-title"><strong>Shipping</strong></span>
+                                                   <span class="col-12 col-sm-6 cart__subtotal-title cart__subtotal text-right"><span class="money"><%= shipping %></span></span>
+                                               </div>
+                                               <div class="row border-bottom pb-2 pt-2">
+                                                   <span class="col-12 col-sm-6 cart__subtotal-title"><strong>Grand Total</strong></span>
+                                                   <span class="col-12 col-sm-6 cart__subtotal-title cart__subtotal text-right"><span class="money"><%= grandTotal %>/- </span></span>
+                                               </div>
+           
+                                               
+           
+                                               <div class="cart__shipping">Shipping &amp; taxes calculated at checkout</div>
+                                               <p class="cart_tearm">
+                                                   <!-- <label>
+                                                       <input type="checkbox" name="tearm" class="checkbox" value="tearm" required="">
+                                                       I agree with the terms and conditions
+                                                   </label> -->
+                                               </p>
+                                               
+                                                <!-- <input type="submit" name="checkout" id="cartCheckout" class="btn btn--small-wide checkout" value="Proceed To Checkout" disabled="disabled"> -->
+                                                <div class=appu >
+                                                    <a href="/checkout"><button style="background-color: black; color: white; padding: 10px 10px 10px 10px; margin-left: 1px; font-size: 15px; height:50px; width: 270px; font-weight: 700;"> CHECKOUT</button></a>
+                                                </div>
+                                               
+                                               
+                                               <div class="paymnet-img"><img src="assets/images/payment-img.jpg" alt="Payment"></div>
+                                               <p><a href="#;">Checkout with Multiple Addresses</a></p>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   
+                                   
+                                   
+                               </div>
+                           </div>
+                           <% } %>
+
+                        </div>
+                    
+               
+                
+                
+            </div>
+        </div>
+        
+    </div>
+    <!--End Body Content-->
+    
+    <!--Footer-->
+    <footer id="footer">
+        <div class="newsletter-section">
+            <div class="container">
+                <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-7 w-100 d-flex justify-content-start align-items-center">
+                            <div class="display-table">
+                                <div class="display-table-cell footer-newsletter">
+                                    <div class="section-header text-center">
+                                        <label class="h2"><span>sign up for </span>newsletter</label>
+                                    </div>
+                                    <form action="#" method="post">
+                                        <div class="input-group">
+                                            <input type="email" class="input-group__field newsletter__input" name="EMAIL" value="" placeholder="Email address" required="">
+                                            <span class="input-group__btn">
+                                                <button type="submit" class="btn newsletter__submit" name="commit" id="Subscribe"><span class="newsletter__submit-text--large">Subscribe</span></button>
+                                            </span>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-5 d-flex justify-content-end align-items-center">
+                            <div class="footer-social">
+                                <ul class="list--inline site-footer__social-icons social-icons">
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on Facebook"><i class="icon icon-facebook"></i></a></li>
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on Twitter"><i class="icon icon-twitter"></i> <span class="icon__fallback-text">Twitter</span></a></li>
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on Pinterest"><i class="icon icon-pinterest"></i> <span class="icon__fallback-text">Pinterest</span></a></li>
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on Instagram"><i class="icon icon-instagram"></i> <span class="icon__fallback-text">Instagram</span></a></li>
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on Tumblr"><i class="icon icon-tumblr-alt"></i> <span class="icon__fallback-text">Tumblr</span></a></li>
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on YouTube"><i class="icon icon-youtube"></i> <span class="icon__fallback-text">YouTube</span></a></li>
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on Vimeo"><i class="icon icon-vimeo-alt"></i> <span class="icon__fallback-text">Vimeo</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+            </div>    
+        </div>
+        <div class="site-footer">
+        	<div class="container">
+     			<!--Footer Links-->
+            	<div class="footer-top">
+                	<div class="row">
+                    	<div class="col-12 col-sm-12 col-md-3 col-lg-3 footer-links">
+                        	<h4 class="h4">Quick Shop</h4>
+                            <ul>
+                            	<li><a href="#">Women</a></li>
+                                <li><a href="#">Men</a></li>
+                                <li><a href="#">Kids</a></li>
+                                <li><a href="#">Sportswear</a></li>
+                                <li><a href="#">Sale</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 footer-links">
+                        	<h4 class="h4">Informations</h4>
+                            <ul>
+                            	<li><a href="#">About us</a></li>
+                                <li><a href="#">Careers</a></li>
+                                <li><a href="#">Privacy policy</a></li>
+                                <li><a href="#">Terms &amp; condition</a></li>
+                                <li><a href="#">My Account</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 footer-links">
+                        	<h4 class="h4">Customer Services</h4>
+                            <ul>
+                            	<li><a href="#">Request Personal Data</a></li>
+                                <li><a href="#">FAQ's</a></li>
+                                <li><a href="#">Contact Us</a></li>
+                                <li><a href="#">Orders and Returns</a></li>
+                                <li><a href="#">Support Center</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 contact-box">
+                        	<h4 class="h4">Contact Us</h4>
+                            <ul class="addressFooter">
+                            	<li><i class="icon anm anm-map-marker-al"></i><p>55 Gallaxy Enque,<br>2568 steet, 23568 NY</p></li>
+                                <li class="phone"><i class="icon anm anm-phone-s"></i><p>(440) 000 000 0000</p></li>
+                                <li class="email"><i class="icon anm anm-envelope-l"></i><p>sales@yousite.com</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--End Footer Links-->
+                <hr>
+                <div class="footer-bottom">
+                	<div class="row">
+                    	<!--Footer Copyright-->
+	                	<div class="col-12 col-sm-12 col-md-6 col-lg-6 order-1 order-md-0 order-lg-0 order-sm-1 copyright text-sm-center text-md-left text-lg-left"><span></span> <a href="templateshub.net">Templates Hub</a></div>
+                        <!--End Footer Copyright-->
+                        <!--Footer Payment Icon-->
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 order-0 order-md-1 order-lg-1 order-sm-0 payment-icons text-right text-md-center">
+                        	<ul class="payment-icons list--inline">
+                        		<li><i class="icon fa fa-cc-visa" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-cc-mastercard" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-cc-discover" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-cc-paypal" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-cc-amex" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-credit-card" aria-hidden="true"></i></li>
+                            </ul>
+                        </div>
+                        <!--End Footer Payment Icon-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--End Footer-->
+    <!--Scoll Top-->
+    <span id="site-scroll"><i class="icon anm anm-angle-up-r"></i></span>
+    <!--End Scoll Top-->
+    
+     <!-- Including Jquery -->
+     <script src="assets/js/vendor/jquery-3.3.1.min.js"></script>
+     <script src="assets/js/vendor/jquery.cookie.js"></script>
+     <script src="assets/js/vendor/modernizr-3.6.0.min.js"></script>
+     <script src="assets/js/vendor/wow.min.js"></script>
+     <!-- Including Javascript -->
+     <script src="assets/js/bootstrap.min.js"></script>
+     <script src="assets/js/plugins.js"></script>
+     <script src="assets/js/popper.min.js"></script>
+     <script src="assets/js/lazysizes.js"></script>
+     <script src="assets/js/main.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</div>
+</body>
+
+<script>
+    
+    document.addEventListener('DOMContentLoaded', function() {
+
+        const minusBtns = document.querySelectorAll('[id^="minusBtn"]');
+        const plusBtns = document.querySelectorAll('[id^="plusBtn"]');
+        const qtyInputs = document.querySelectorAll('[id^="qty"]');
+
+  
+let currentQty,productId,size
+qtyInputs.forEach(qtyInput=>{
+     currentQty = parseInt(qtyInput.value) || 1;
+     productId = qtyInput.getAttribute("data-product-id").trim(); 
+     size = qtyInput.getAttribute("data-size").trim(); 
+    //  quantity(currentQty, productId, size); 
+   
+})
+
+  minusBtns.forEach((minusBtn,index)=>{
+    minusBtn.addEventListener('click', function() {
+        const qtyInput = qtyInputs[index];
+        const productId = qtyInput.getAttribute("data-product-id").trim(); 
+        const size = qtyInput.getAttribute("data-size").trim(); 
+
+    let currentQty = parseInt(qtyInput.value);  
+            qtyInput.value = currentQty; 
+            quantity(currentQty, productId, size);  
+  });
+  })
+  
+
+  
+  plusBtns.forEach((plusBtn,index)=>{
+    plusBtn.addEventListener('click', function() {
+        
+        const qtyInput = qtyInputs[index];
+        const productId = qtyInput.getAttribute("data-product-id").trim(); 
+        const size = qtyInput.getAttribute("data-size").trim(); 
+
+
+    let currentQty = parseInt(qtyInput.value); 
+            qtyInput.value = currentQty;  
+            quantity(currentQty, productId, size); 
+  });
+  })
+});
+
+plusBtns.forEach(plusBtn=>{
+  
+    if(currentQty>5){
+      plusBtn.style.display=none
+    }
+})
+
+
+function quantity(currentQty, productId,size) {
+
+  $.ajax({
+    url: "/totalAmount",
+    method: "POST",
+    data: JSON.stringify({ currentQty: currentQty, id: productId ,size:size}),
+    contentType: "application/json",
+    success: function(response) {
+        if(!response.success){
+            alertMessage("Error",response.message,"error")
+        }
+        const itemsWithPrices=response.itemsWithPrices
+
+        itemsWithPrices.forEach(item=>{
+            if(item.product.toString()===productId.toString() && item.size===size){
+                const newPrice = item.calculatedPrice
+                const priceElement = document.getElementById(`price${productId}_${size}`);
+                     priceElement.textContent = newPrice;
+                     window.location.reload();
+                
+            }
+        })
+}
+    
+  })
+}
+
+function removeProduct(id, size) {
+    $.ajax({
+        url: "/removeProduct",
+        method: "POST",
+        data: JSON.stringify({ id: id, size: size }),
+        contentType: "application/json",
+        success: function(response) {
+            if (response.success) {
+                window.location.reload();
+               
+                alertMessage("Success", response.message, "success")
+            }
+        },
+        error: function(error) {
+            console.log('Error removing product:', error);
+        }
+    });
+}
+
+
+
+function clearCart(){
+    console.log("Be happy")
+    $.ajax({
+        url: "/clearCart",
+        method: "POST",
+        data: JSON.stringify(),
+        contentType: "application/json",
+        success: function(response) {
+            if(response.success){
+                window.location.reload()
+            //    cartEmptyMessage("Success",response.message,"success")
+            }
+        },
+        error: function(error) {
+            console.log('Error removing product:', error);
+        }
+    })
+}    
+
+
+function alertMessage(heading,message,sign){
+        Swal.fire({
+                           title: heading,
+                           text: message,
+                           icon: sign, 
+                        //    confirmButtonText: button,
+                           toast: true,  
+                           position: 'top-end',
+                           timer: 3000,  
+                           timerProgressBar: true,
+                           background: '',
+                           
+                           });
+        
+    }
+
+    function cartEmptyMessage(heading,message,sign){
+        Swal.fire({
+                           title: heading,
+                           text: message,
+                           icon: sign, 
+                           confirmButtonText: "OK",
+                           toast: true,  
+                           position: 'center',
+                           timer: 3000,  
+                           timerProgressBar: true,
+                           background: '',
+                           
+                           });
+        
+    }
+
+
+
+
+
+
+    
+
+    
+
+
+
+
+
+
+
+</script>
+
+
+<!-- belle/cart-variant1.html   11 Nov 2019 12:44:32 GMT -->
+</html>

@@ -25,7 +25,7 @@ async(req,accessToken,refreshToken,profile,cb)=>{
       })
       await user.save()
     }
-    req.session.user=user._id
+    // req.session.user=user._id
     return cb(null,user)
   }catch(error){
     return cb(error,null)

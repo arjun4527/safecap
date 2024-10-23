@@ -1,5 +1,5 @@
 <%- include('../layouts/userLayouts/header') %>
-<%- include('../layouts/userLayouts/navbar') %>
+
 
 <!--Body Content-->
 <div id="page-content">
@@ -64,15 +64,15 @@
         }
     };
 
-    // Start the timer with 60 seconds
+    
     startTimer(30);
 
-    // Event listener for form submission for verify  button
+    
     document.addEventListener("DOMContentLoaded", () => {
         const verifyBtn = document.getElementById("verifyBtn");
 
         verifyBtn.addEventListener("click", async (event) => {
-            // Prevent the default form submission
+
             event.preventDefault();
 
             const otpValue = document.getElementById("otp").value;
@@ -91,7 +91,7 @@
                 if (response.ok) {
                     const result = await response.json();
                     console.log(result);
-                    alert(result.message)
+                    sweetAlert12(result.message)
 
                     setTimeout(() => {
                         window.location.href = "/login";
@@ -106,45 +106,63 @@
                 alert("An error occurred. Please try again.");
             }
         });
-    });
+  
     //for resend button
-    const resendBtn=document.getElementById("resendBtn")
+    const resendBtn = document.getElementById("resendBtn");
 
-    resendBtn.addEventListener("click",async(event)=>{
-        event.preventDefault()
+resendBtn.addEventListener("click", async (event) => {
+    event.preventDefault();
 
-        try{
-            const response=await fetch("/resendOtp",{
-                method:"GET",
-                headers:{"Content-Type":"application/json"}
+    try {
+        const response = await fetch("/resendOtp", {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
+        });
 
-            })
-            const result=await response.json()
+        const result = await response.json();
 
+      
+            console.log("OTP resent successfully", result);
+            startTimer(60);  // Restart the timer
+            document.getElementById("resendBtn").style.display = "none";
+            document.getElementById("verifyBtn").style.display = "block";
 
-            if(response.ok){
-                console.log("otp resent successfully",result.otp)
-                startTimer(60)
-                // resendBtn.style.display="none"
-                document.getElementById("resendBtn").style.display = "none"
-                document.getElementById("verifyBtn").style.display = "block"
-            
-                console.log(result)
-                alert(result.message)
-            }else{
-                alert("Otp Resend failed,please try again")
-            }
-        }catch(error){
-            console.log("Error during Resend Otp",error)
-            alert("An error occured,please try again")
-        }
+            // Use SweetAlert instead of basic alert
+            sweetAlert12("OTP resent successfully! Please check your email or phone.");
+        
+    } catch (error) {
+        console.log("Error during Resend OTP", error);
+        sweetAlert12("An error occurred, please try again.");
+    }
     })
 
 
    
+    //for sweet  alert
+
+function sweetAlert12(message){
+   
+    
+
+if (message) {
+  Swal.fire({
+    title: 'Success!',
+    text: message,
+    icon: 'success', 
+    confirmButtonText: 'Good Work',
+    toast: true,  
+    position: 'top-end',
+    timer: 3000,  
+    timerProgressBar: true,
+    background: '#f0f9ff',
+  });
+}
+}
+
+});
 
 
 </script>
-
-<!--Footer-->
 <%- include('../layouts/userLayouts/footer') %>
+<!--Footer-->
+

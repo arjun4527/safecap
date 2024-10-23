@@ -15,7 +15,10 @@
     <link rel="shortcut icon" type="image/x-icon" href="/adminAssets/imgs/theme/favicon.svg">
     <!-- Template CSS -->
     <link href="/adminAssets/css/main.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.12.0/toastify.js" integrity="sha512-ZHzbWDQKpcZxIT9l5KhcnwQTidZFzwK/c7gpUUsFvGjEsxPusdUCyFxjjpc7e/Wj7vLhfMujNx7COwOmzbn+2w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
    
     
 </head>
@@ -69,7 +72,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-3">
-                            <form method="post" action="/admin/editCategory" enctype="multipart/form-data" id="editCategoryForm">
+                            <form method="POST" action="/admin/editCategory"  id="editCategoryForm">
                                 <div class="mb-4">
                                   
                                     <label for="product_name" class="form-label">Name</label>
@@ -77,14 +80,14 @@
                                     <span class="error" style="color:red" id="nameError"></span>
                                     
 
-                                    <input type="hidden"  value="<%= categoryData?._id %>" name="brandId" placeholder="Type here" class="form-control" id="brandId" />
+                                    <input type="hidden"  value="<%= categoryData?._id %>" name="categoryId" placeholder="Type here" class="form-control" id="brandId" />
 
                                 </div>
                               
                                 
                                 <div class="mb-4">
                                     <label class="form-label">Description</label>
-                                    <textarea  value="" name="categoryDescription" class="form-control" id="categoryDescription"><%=categoryData.description %></textarea>
+                                    <textarea  value="" name="categoryDescription" class="form-control" id="categoryDescription"><%=categoryData?.description %></textarea>
                                     <span class="error" style="color:red" id="descriptionError"></span>
 
                                 </div>
@@ -135,6 +138,8 @@
 
     <!-- Add this in the head section or just before closing body tag -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 
     <script>
@@ -185,13 +190,38 @@ function validateForm(){
         valid=false
     }
     return valid
+    
 }
 document.getElementById("editCategoryForm").addEventListener("submit",event =>{
     if(!validateForm())(
         event.preventDefault()
     )
 })
-   </script>
+
+
+ // for sweet alert
+
+let categoryExist = "<%= typeof categoryExist !== 'undefined' ? categoryExist : '' %>";
+
+if (categoryExist) {
+  Swal.fire({
+    title: 'Sorry!',
+    text: categoryExist,
+    icon: 'error',
+    confirmButtonText: 'Try Again',
+    toast: true,  
+    position: 'top-end',
+    timer: 3000,  
+    timerProgressBar: true,
+    background: '#f0f9ff',
+  });
+}
+
+
+  
+</script>
+
+   
 
 
 

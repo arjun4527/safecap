@@ -150,14 +150,14 @@
                                             
 
                                               <div data-value="<%= variant.size %>" data-price="<%= variant.price %>" data-stock="<%= variant.stock %>" class="swatch-element <%= variant.size.toLowerCase() %> available">
-                                                <input class="swatchInput" id="swatch-1-<%= variant.size.toLowerCase() %>" type="radio" name="option-1" value="<%= variant.size %>">
+                                                <input class="swatchInput" id="swatch-1-<%= variant.size.toLowerCase() %>" type="radio" name="option-1" value="<%= variant.size %>" data-size="<%= variant.size %>">
                                                 <label class="swatchLbl medium rectangle" for="swatch-1-<%= variant.size.toLowerCase() %>" title="<%= variant.size %>"><%= variant.size %></label>
                                             </div>
                                             <% }) %>
 
                                             </div>
                                         </div>
-                                        <p class="infolinks"><a href="#sizechart" class="sizelink btn"> Size Guide</a> <a href="#productInquiry" class="emaillink btn"> Ask About this Product</a></p>
+                                        <p class="infolinks"><a href="" data-bs-toggle="modal" data-bs-target="#exampleModal" class="sizelink btn"> Size Guide</a> <a href="#productInquiry" class="emaillink btn"> Ask About this Product</a></p>
                                         <!-- Product Action -->
                                         <div class="product-action clearfix">
                                             <div class="product-form__item--quantity">
@@ -173,9 +173,11 @@
                                                 <span style="color: red; font-weight:700;">Currently Unavailable</span> 
                                            <% }else{ %>
                                               <div class="product-form__item--submit">
-                                                <button type="button" name="add" class="btn product-form__cart-submit">
-                                                    <span>Add to cart</span>
+                                                <button type="button" id="addCart" name="add" class="btn product-form__cart-submit">
+                                                    Add to cart
                                                 </button>
+                                                
+                                                
                                             </div>
                                             <div class="shopify-payment-button" data-shopify="payment-button">
                                                 <button type="button" class="shopify-payment-button__button shopify-payment-button__button--unbranded">Buy it now</button>
@@ -212,9 +214,9 @@
                                             </div> -->
                                         </div>
                                         
-                                    <p id="freeShipMsg" class="freeShipMsg" data-price="199"><i class="fa fa-truck" aria-hidden="true"></i> GETTING CLOSER! ONLY <b class="freeShip"><span class="money" data-currency-usd="$199.00" data-currency="USD">$199.00</span></b> AWAY FROM <b>FREE SHIPPING!</b></p>
+                                    <!-- <p id="freeShipMsg" class="freeShipMsg" data-price="199"><i class="fa fa-truck" aria-hidden="true"></i> GETTING CLOSER! ONLY <b class="freeShip"><span class="money" data-currency-usd="$199.00" data-currency="USD">$199.00</span></b> AWAY FROM <b>FREE SHIPPING!</b></p>
                                     <p class="shippingMsg"><i class="fa fa-clock-o" aria-hidden="true"></i> ESTIMATED DELIVERY BETWEEN <b id="fromDate">Wed. May 1</b> and <b id="toDate">Tue. May 7</b>.</p>
-                                    <div class="userViewMsg" data-user="20" data-time="11000"><i class="fa fa-users" aria-hidden="true"></i> <strong class="uersView">14</strong> PEOPLE ARE LOOKING FOR THIS PRODUCT</div>
+                                    <div class="userViewMsg" data-user="20" data-time="11000"><i class="fa fa-users" aria-hidden="true"></i> <strong class="uersView">14</strong> PEOPLE ARE LOOKING FOR THIS PRODUCT</div> -->
                                 </div>
                                 
                         </div>
@@ -247,35 +249,40 @@
                         <ul class="product-tabs">
                             <li rel="tab1"><a class="tablink"><h3>Product Details</h3></a></li>
                             <li rel="tab2"><a class="tablink"><h3>Product Reviews</h3></a></li>
-                            <li rel="tab3"><a class="tablink"><h3>Size Chart</h3></a></li>
+                            <li rel="tab2" data-bs-toggle="modal" data-bs-target="#exampleModal" style="cursor: pointer;"><a class="tablink"><h3>Size Chart</h3></a></li>
+
                             <li rel="tab4"><a class="tablink"><h3>Shipping &amp; Returns</h3></a></li>
                         </ul>
+
+                        <!-- modal start  -->
+                          
+                        <!-- Button trigger modal -->
+                         
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog custom-modal-size custom-modal-position"> <!-- Custom classes for size and position -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">SIZE GUIDE</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <img src="/productImages/helmet-sizing-chart.png" alt="Helmet Sizing Chart" class="img-fluid"> <!-- Added img-fluid for responsive image -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+                        <!-- model end  -->
                         <div class="tab-container">
                             <div id="tab1" class="tab-content">
                                 <div class="product-description rte">
-                                    <!-- <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-                                    <ul>
-                                      <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-                                      <li>Sed ut perspiciatis unde omnis iste natus error sit</li>
-                                      <li>Neque porro quisquam est qui dolorem ipsum quia dolor</li>
-                                      <li>Lorem Ipsum is not simply random text.</li>
-                                      <li>Free theme updates</li>
-                                    </ul>
-                                    <h3>Sed ut perspiciatis unde omnis iste natus error sit voluptatem</h3>
-                                    <p>You can change the position of any sections such as slider, banner, products, collection and so on by just dragging and dropping.&nbsp;</p>
-                                    <h3>Lorem Ipsum is not simply random text.</h3>
-<p>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.</p>
-                                    <p>Change colors, fonts, banners, megamenus and more. Preview changes are live before saving them.</p>
-                                    <h3>1914 translation by H. Rackham</h3>
-                                    <p>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.</p>
-                                    <h3>Section 1.10.33 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC</h3>
-                                    <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
-                                    <h3>The standard Lorem Ipsum passage, used since the 1500s</h3>
-                                    <p>You can use variant style from colors, images or variant images. Also available differnt type of design styles and size.</p>
-                                    <h3>Lorem Ipsum is not simply random text.</h3>
-<p>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.</p>
-                                    <h3>Proin ut lacus eget elit molestie posuere.</h3>
-                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.</p> -->
+                                    
                                 </div>
                             </div>
                             
@@ -539,6 +546,8 @@
      <script src="assets/js/vendor/wow.min.js"></script>
      <!-- Including Javascript -->
      <script src="assets/js/bootstrap.min.js"></script>
+     <script src="/adminAssets/js/vendors/bootstrap.bundle.min.js"></script>
+
      <script src="assets/js/plugins.js"></script>
      <script src="assets/js/popper.min.js"></script>
      <script src="assets/js/lazysizes.js"></script>
@@ -546,6 +555,8 @@
      <!-- Photoswipe Gallery -->
      <script src="assets/js/vendor/photoswipe.min.js"></script>
      <script src="assets/js/vendor/photoswipe-ui-default.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
      <script>
         $(function(){
             var $pswp = $('.pswp')[0],
@@ -623,6 +634,110 @@
             })
             
         })
+
+
+
+        //for cart
+        let selectedSize = null;
+        let selectedStock = 0;
+        let selectedPrice = null;
+
+     document.addEventListener("DOMContentLoaded",()=>{
+        const addCart = document.getElementById("addCart");
+
+        const productId="<%= productData._id %>"
+
+        const sizeButtons=document.querySelectorAll(".swatch-element")
+
+        sizeButtons.forEach((button)=>{
+            button.addEventListener("click",(event)=>{
+                const selectedButton=event.target.closest(".swatch-element")
+
+
+                selectedSize=selectedButton.getAttribute("data-value")
+                selectedStock=parseInt(selectedButton.getAttribute("data-stock"))
+                selectedPrice=selectedButton.getAttribute("data-price")
+
+                
+                if(selectedStock>0){
+                    addCart.disabled=false
+                }else{
+                    addCart.disabled=true
+                    displayMessage("oops!","Selected size is out of stock","error","TryAgain")
+                }
+            })
+        })
+
+        addCart.addEventListener("click",async(event)=>{
+            if(!selectedSize){
+                displayMessage("oops!","please select a size","error","TryAgain")
+            }else{
+                $.ajax({
+                    url:"/cart",
+                    method:"POST",
+                    data:JSON.stringify({
+                        productId:productId,
+                        size:selectedSize,
+                        price:selectedPrice,
+                        quantity:1
+                    }),
+                       contentType : "application/json",
+                       success:function(response){
+                         if (response) {
+                            if(response.success){
+                                displayMessage("success",response.message,"success","Ok")
+                            }else{
+                                alertMessage("Error",response.message,"error")
+                            }
+                         
+                         } 
+                       },
+                       error:function(error){success
+                           if(error && error.responseJSON){
+                            displayMessage("Error",error.responseJSON.message,"error",)
+                            // alertMessage
+                            
+                           }
+                       }   
+                })
+            }
+        })
+
+     })
+
+     function displayMessage(heading,message,sign,button){
+        Swal.fire({
+                           title: heading,
+                           text: message,
+                           icon: sign, 
+                           confirmButtonText: button,
+                           toast: true,  
+                           position: 'top-end',
+                           timer: 3000,  
+                           timerProgressBar: true,
+                           background: '#FFFDD0',
+                           
+                           });
+        
+    }
+
+    function alertMessage(heading,message,sign,button){
+        Swal.fire({
+                           title: heading,
+                           text: message,
+                           icon: sign, 
+                        //    confirmButtonText: button,
+                           toast: true,  
+                           position: 'top-end',
+                           timer: 3000,  
+                           timerProgressBar: true,
+                           background: '',
+                           
+                           });
+        
+    }
+
+
     </script>        
 
 </body>
