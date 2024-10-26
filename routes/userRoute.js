@@ -87,12 +87,39 @@ user_route.post("/addAddress", noCacheMiddleware, auth.isLogin, userProfileContr
 user_route.delete("/removeAddress", noCacheMiddleware, auth.isLogin, userProfileController.removeAddress)
 user_route.get("/editAddress", noCacheMiddleware, auth.isLogin, userProfileController.loadEditAddress)
 user_route.post("/editAddress", noCacheMiddleware, auth.isLogin, userProfileController.editAddress)
+user_route.get("/orders", noCacheMiddleware, auth.isLogin, userProfileController.loadOrderList)
+user_route.get("/orderDetails", noCacheMiddleware, auth.isLogin, userProfileController.loadOrderDetails)
+user_route.post("/orderDetails", noCacheMiddleware, auth.isLogin, userProfileController.cancelProduct)
+user_route.post("/orderCancel", noCacheMiddleware, auth.isLogin, userProfileController.orderCancel)
+
+
+
+
 
 
 
 
 //checkout
 user_route.get("/checkout", noCacheMiddleware, auth.isLogin, checkoutController.loadCheckout)
+user_route.post("/checkout", noCacheMiddleware, auth.isLogin, checkoutController.placeOrder)
+user_route.get("/orderConfirmation", noCacheMiddleware, auth.isLogin, checkoutController.loadOrderConfirmation)
+
+
+
+//forgot password
+user_route.get("/forgotPassword", noCacheMiddleware, auth.isLogout, authenticationController.loadForgotPassword)
+user_route.post("/forgotPassword", noCacheMiddleware, auth.isLogout, authenticationController.forgotPassword)
+user_route.get("/resetPassword/:token", noCacheMiddleware, auth.isLogout, authenticationController.loadResetPassword)
+user_route.post("/resetPassword", noCacheMiddleware, auth.isLogout, authenticationController.resetPassword)
+
+
+
+
+
+
+
+
+
 
 
 

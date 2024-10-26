@@ -249,14 +249,226 @@ const userLogin=async(req,res)=>{
 
 
 //for user logout
-const userLogout= async(req,res)=>{
-  try{
-      req.session.destroy()
-      return res.redirect("/login")
-  }catch(error){
-    console.log(error.message)
+// const userLogout= async(req,res)=>{
+//   try{
+//       req.session.destroy()
+//       return res.redirect("/login")
+//   }catch(error){
+//     console.log(error.message)
+//   }
+// }
+
+const userLogout = async (req,res) =>{
+
+  try {
+      
+      req.session.destroy(err =>{
+          if(err){
+
+              console.log(`failed to destroy session`,err.message);
+
+              return res.status(500).send('failed to logout')
+          }
+
+          return res.redirect("/login")
+
+      })
+
+
+  } catch (error) {
+      
+      console.log(`error while logging out`,error.message);
+
+
+  }
+
+}
+
+
+//for load forgot password
+const loadForgotPassword=async(req,res)=>{
+  try {
+
+    const showMessage=req.session.sentLink || req.session.noUserFound || req.session.googleId
+
+    req.session.sentLink=null
+    req.session.noUserFound=null
+    req.session.googleId=null
+    return res.render("forgotPassword",{showMessage})
+  } catch (error) {
+    
   }
 }
+
+
+
+
+//forgot password
+const forgotPassword=async(req,res)=>{
+  try {
+    const {email}=req.body
+    
+    const userEmail=email
+
+    req.session.email = email
+    const userData=await User.findOne({email:userEmail})
+
+    if(!userData){
+      req.session.noUserFound="No User Found With that Email"
+      return res.redirect("/register")
+      // return res.status(200).json({success:true,message:})
+    }
+    if(userData.googleId){
+      req.session.googleId="Try With Google Signup"
+      return res.redirect("/login")
+      // return res.status(200).json({success:true,message:})
+    }
+
+    const token=crypto.randomBytes(32).toString("hex")
+
+    const hashedToken=crypto.createHash('sha256').update(token).digest('hex')
+
+    req.session.token=hashedToken
+
+    const tokenExpires=Date.now()+1200000
+
+    userData.resetPasswordToken = hashedToken
+
+    userData.resetPasswordExpires=tokenExpires
+
+    await userData.save()
+
+    const resetLink=`http://localhost:8000/resetPassword/${hashedToken}`
+
+    const transporter=nodemailer.createTransport({
+      service:"gmail",
+      auth:{
+        user:'mohandasarjun27@gmail.com',
+        pass:'ylqf efxg yydc ovre'
+    
+      }
+    
+    })
+
+    const mailDetails={
+      from:'mohandasarjun27@gmail.com',
+      to:email,
+      subject:'Reset Password',
+      text:`Please reset your password using this link:${resetLink}. link will expires in 20 minutes.,from SafeCap` 
+     }
+    
+     await transporter.sendMail(mailDetails)
+
+    req.session.sentLink="Link has been sent. Please check your email."
+    return res.redirect("/forgotPassword")
+    //  return res.status(400).json({  success:true});
+
+
+  } catch (error) {
+    console.log("error from forgor password",error.message)
+  }
+}
+
+
+
+
+const loadResetPassword = async (req, res) => {
+  const token = req.session.token;
+
+  // Check if token is available
+  if (!token) {
+    req.session.invalidToken = "No token provided. Please request a new password reset.";
+    return res.redirect("/forgotPassword");
+  }
+
+  try {
+    const errorMessage = req.session.noUser || req.session.tokenExpires || req.session.invalidToken || req.session.successMessage;
+
+    // Clear session messages
+    req.session.noUser = null;
+    req.session.tokenExpires = null;
+    req.session.invalidToken = null;
+    req.session.successMessage = null;
+
+    return res.render("resetPassword", { token, errorMessage });
+  } catch (error) {
+    console.error("Error from loadResetPassword:", error.message);
+    return res.status(500).send("Internal Server Error");
+  }
+};
+
+// For Reset Password
+const resetPassword = async (req, res) => {
+  const { token, confirmPassword } = req.body;
+  
+
+  try {
+    // Check if the token is provided
+    if (!token) {
+      console.log("erro-1")
+      req.session.invalidToken = "No token provided. Please request a new password reset.";
+      return res.redirect("/forgotPassword");
+    }
+
+    
+    const userData = await User.findOne({ email:req.session.email  });
+
+    // console.log("userdata",userData.firstName,userData.lastName);
+    
+    if (!userData) {
+      req.session.noUser = "User not found";
+      console.log("erro-2")
+
+      return res.redirect("/login");
+    }
+
+    // Check if the token has expired
+    // Check if the token has expired
+// if (userData.resetPasswordExpires < Date.now()) {  // Compare timestamps directly
+//   req.session.tokenExpires = "The token has expired. Try again.";
+//   console.log("erro-3");
+//   console.log("Current time:", Date.now());
+//   console.log("Token expiration time:", userData.resetPasswordExpires);
+  
+//   return res.redirect("/login");
+// }
+
+    // Validate token
+    // if (!bcrypt.compare(token,userData.resetPasswordToken)) {
+
+    //   console.log("erro-4")
+
+    //   req.session.invalidToken = "Invalid or expired token. Try again.";
+    //   return res.redirect("/login");
+    // }
+
+    // Hash new password
+    const hashedPassword = await bcrypt.hash(confirmPassword, 10);
+
+    console.log("hashe done",hashedPassword);
+    
+    // Update user data
+    userData.password = hashedPassword;
+    userData.resetPasswordExpires = undefined;
+    userData.resetPasswordToken = undefined;
+
+    const data = await userData.save();
+    // console.log("reste expirye after save",data.resetPasswordExpires);
+    // console.log("reste token after save",data.resetPasswordToken);
+   
+    // console.log("saved data",data);
+    
+    req.session.successMessage = 'Password has been reset successfully.';
+    console.log("success")
+    
+
+    return res.redirect("/login");
+  } catch (error) {
+    console.error("Error from resetPassword:", error.message);
+    return res.status(500).send("Internal Server Error");
+  }
+};
+
 
 
 
@@ -270,4 +482,10 @@ module.exports={
   otpResend,
   userLogin,
   userLogout,
+  loadForgotPassword,
+  forgotPassword,
+  loadResetPassword,
+  resetPassword
+  
+
 }

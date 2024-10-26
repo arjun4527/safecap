@@ -1,0 +1,366 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Evara Dashboard</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/adminAssets/imgs/theme/favicon.svg">
+    <!-- Template CSS -->
+    <link href="/adminAssets/css/main.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div class="screen-overlay"></div>
+    <aside class="navbar-aside" id="offcanvas_aside">
+        <div class="aside-top">
+            <a href="index.html" class="brand-wrap">
+                <img src="assets/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard">
+            </a>
+            <div>
+                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+            </div>
+        </div>
+        
+        <%- include('../layouts/adminLayouts/sideBar') %>
+
+
+    </aside>
+    <main class="main-wrap">
+        <header class="main-header navbar">
+            <div class="col-search">
+                <form class="searchform">
+                    <div class="input-group">
+                        <input list="search_terms" type="text" class="form-control" placeholder="Search term">
+                        <button class="btn btn-light bg" type="button"> <i class="material-icons md-search"></i></button>
+                    </div>
+                    <datalist id="search_terms">
+                        <option value="Products">
+                        <option value="New orders">
+                        <option value="Apple iphone">
+                        <option value="Ahmed Hassan">
+                    </datalist>
+                </form>
+            </div>
+            <div class="col-nav">
+                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i class="material-icons md-apps"></i> </button>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon" href="#">
+                            <i class="material-icons md-notifications animation-shake"></i>
+                            <span class="badge rounded-pill">3</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i class="material-icons md-public"></i></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+                            <a class="dropdown-item text-brand" href="#"><img src="assets/imgs/theme/flag-us.png" alt="English">English</a>
+                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-fr.png" alt="Français">Français</a>
+                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-jp.png" alt="Français">日本語</a>
+                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-cn.png" alt="Français">中国人</a>
+                        </div>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="assets/imgs/people/avatar2.jpg" alt="User"></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                            <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Order detail</h2>
+                    <p>Details for Order ID: <%= orderData._id %></p>
+                </div>
+            </div>
+            <div class="card">
+                <header class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
+                            <span>
+                                <i class="material-icons md-calendar_today"></i> <b>Wed, Aug 13, 2022, 4:34PM</b>
+                            </span> <br>
+                            <small class="text-muted">Order ID: 3453012</small>
+                        </div>
+                        <div class="col-lg-6 col-md-6 ms-auto text-md-end">
+                            <select class="form-select d-inline-block mb-lg-0 mb-15 mw-200">
+                                <option>Change status</option>
+                                <option>Awaiting payment</option>
+                                <option>Confirmed</option>
+                                <option>Shipped</option>
+                                <option>Delivered</option>
+                            </select>
+                            <a class="btn btn-primary" href="#">Save</a>
+                            <a class="btn btn-secondary print ms-2" href="#"><i class="icon material-icons md-print"></i></a>
+                        </div>
+                    </div>
+                </header> <!-- card-header end// -->
+                <div class="card-body">
+                    <div class="row mb-50 mt-20 order-info-wrap">
+                        <div class="col-md-4">
+                            <article class="icontext align-items-start">
+                                <span class="icon icon-sm rounded-circle bg-primary-light">
+                                    <i class="text-primary material-icons md-person"></i>
+                                </span>
+                                <div class="text">
+                                    <h6 class="mb-1">Customer</h6>
+                                    <p class="mb-1">
+                                      <%= orderData.shippingAddress.name %> <br> alex@example.com <br> <%= orderData.shippingAddress.phone %>
+                                    </p>
+                                    <a href="/profile">View profile</a>
+                                </div>
+                            </article>
+                        </div> <!-- col// -->
+                        <div class="col-md-4">
+                            <article class="icontext align-items-start">
+                                <span class="icon icon-sm rounded-circle bg-primary-light">
+                                    <i class="text-primary material-icons md-local_shipping"></i>
+                                </span>
+                                <div class="text">
+                                    <h6 class="mb-1">Order info</h6>
+                                    <p class="mb-1">
+                                        Shipping: Fargo express <br> Pay method: <%= orderData.paymentMethod %> <br> Status: <%= orderData.orderStatus %>
+                                    </p>
+                                    <a href="#">Download info</a>
+                                </div>
+                            </article>
+                        </div> <!-- col// -->
+                        <div class="col-md-4">
+                            <article class="icontext align-items-start">
+                                <span class="icon icon-sm rounded-circle bg-primary-light">
+                                    <i class="text-primary material-icons md-place"></i>
+                                </span>
+                                <div class="text">
+                                    <h6 class="mb-1">Deliver to</h6>
+                                    <p class="mb-1">
+                                        <br><%= orderData.shippingAddress.address %> <br> City: <%= orderData.shippingAddress.district %> <br> State: <%= orderData.shippingAddress.state %>,<br><%= orderData.shippingAddress.pincode %>
+                                    </p>
+                                    <a href="#">View profile</a>
+                                </div>
+                            </article>
+                        </div> <!-- col// -->
+                    </div> <!-- row // -->
+                    <di<div class="row">
+                        <div class="col-lg-7">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th width="40%">Product</th>
+                                            <th width="20%">Unit Price</th>
+                                            <th width="20%">Quantity</th>
+                                            <th width="20%" class="text-end">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% orderData.items.forEach(item => { %>
+                                            <tr>
+                                                <td>
+                                                    <a class="itemside" href="#">
+                                                        <div class="left">
+                                                            <img src="/productImages/<%= item.productImages[0] %>" width="40" height="40" class="img-xs" alt="Item">
+                                                        </div>
+                                                        <div class="info"> <%= item.productName %> </div>
+                                                    </a>
+                                                </td>
+                                                <td> <%= item.price %> </td>
+                                                <td> <%= item.quantity %> </td>
+                                                <td class="text-end"><%= item.price * item.quantity %></td> <!-- Total for the item -->
+                                            </tr>
+                                        <% }) %>
+                                        
+                                        <tr>
+                                            <td colspan="4">
+                                                <article class="float-end">
+                                                    <dl class="dlist">
+                                                        <dt>Subtotal:</dt>
+                                                        <dd><%= orderData.subTotal %></dd>
+                                                    </dl>
+                                                    <dl class="dlist">
+                                                        <dt>Shipping cost:</dt>
+                                                        <dd><%= orderData.shippingPrice %></dd>
+                                                    </dl>
+                                                    <dl class="dlist">
+                                                        <dt>Tax cost:</dt>
+                                                        <dd><%= orderData.taxPrice %></dd>
+                                                    </dl>
+                                                    <dl class="dlist">
+                                                        <dt>Grand total:</dt>
+                                                        <dd> <b class="h5"><%= orderData.grandTotal %>/-</b></dd>
+                                                    </dl>
+                                                    <dl class="dlist">
+                                                        <dt class="text-muted">Status:</dt>
+                                                        <dd>
+                                                            <span class="badge rounded-pill alert-success text-success"><%= orderData.orderStatus %></span>
+                                                            
+
+                                                        </dd>
+                                                    </dl>
+                                                </article>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div> <!-- table-responsive// -->
+                            <a class="btn btn-primary" href="page-orders-tracking.html">Cancel Order</a>
+                        </div> <!-- col// -->
+                    
+                        <div class="col-lg-5" > <!-- New column for order status -->
+                            <div class="orderStatus mr-5">
+                                <h6 class="mb-3">Order Status</h6>
+                                <% if(orderData.orderStatus==="pending"){ %>
+                                    <label style="display: block; color:black; font-size: 17px;">
+                                    <input type="radio" name="orderStatus" id="shipping" value="shipping" style="margin-right: 10px;"> Shipping
+                                    </label>
+                                    <label style="display: block; color:black; font-size: 17px;">
+                                        <input type="radio" name="orderStatus" id="delivered" value="delivered" style="margin-right: 10px;"> Delivered
+                                    </label>
+                                    <label style="display: block; color:black; font-size: 17px;">
+                                        <input type="radio" name="orderStatus" id="canceled" value="canceled" style="margin-right: 10px;"> Canceled
+                                    </label>
+                               <% } else if(orderData.orderStatus==="shipping"){ %>
+                                    <label style="display: block; color:black; font-size: 17px;">
+                                        <input type="radio" name="orderStatus" id="delivered" value="delivered" style="margin-right: 10px;"> Delivered
+                                    </label>
+                                    <label style="display: block; color:black; font-size: 17px;">
+                                        <input type="radio" name="orderStatus" id="canceled" value="canceled" style="margin-right: 10px;"> Canceled
+                                    </label>
+                              <% } else if(orderData.orderStatus==="delivered"){ %>
+                                   <label style="display: block; color:black; font-size: 17px;">
+                                        <input type="radio" name="orderStatus" id="canceled" value="canceled" style="margin-right: 10px;"> Canceled
+                                    </label>
+                             <% } else if(orderData.orderStatus==="canceled"){ %>
+                                <label style="display: block; color:black; font-size: 17px;">
+                                    <input type="radio" name="orderStatus" id="pending" value="pending" style="margin-right: 10px;"> Pending
+                                </label>
+                              <% } %>
+
+                               
+
+                                
+                                <button type="submit" id="updateStatus" data-order-id="<%= orderData._id %>"  class="btn btn-primary mt-3">Update Status</button>
+                                
+                            </div>
+                        </div> <!-- col-lg-5 for order status -->
+                    </div>
+                    
+                </div> <!-- card-body end// -->
+            </div> <!-- card end// -->
+        </section> <!-- content-main end// -->
+        <footer class="main-footer font-xs">
+            <div class="row pb-30 pt-15">
+                <div class="col-sm-6">
+                    <script>
+                    document.write(new Date().getFullYear())
+                    </script> ©, Evara - HTML Ecommerce Template .
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end">
+                        All rights reserved
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+    <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/vendors/select2.min.js"></script>
+    <script src="assets/js/vendors/perfect-scrollbar.js"></script>
+    <script src="assets/js/vendors/jquery.fullscreen.min.js"></script>
+    <!-- Main Script -->
+    <script src="assets/js/main.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="path/to/your/script.js"></script>
+
+</body>
+
+
+<script>
+
+   const pending=document.getElementById("pending")
+   const shipping=document.getElementById("shipping")
+   const delivered=document.getElementById("delivered")
+   const canceled=document.getElementById("canceled")
+   const updateStatusBtn = document.getElementById(`updateStatus`);
+   
+
+   
+   
+
+
+   updateStatusBtn.addEventListener("click",()=>{
+
+    const orderStatus=selectedOrderStatus()
+
+    console.log("orderstatus",orderStatus);
+    
+    const orderId = updateStatusBtn.getAttribute("data-order-id");
+    console.log("asassa",orderStatus,orderId)
+
+    fetch("/admin/updateOrderStatus", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ orderStatus: orderStatus, orderId: orderId })
+})
+
+    .then(() => {
+        window.location.reload();
+    });
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+  function selectedOrderStatus() {
+    if (pending && pending.checked) {
+        return pending.value;
+    } else if (shipping && shipping.checked) {
+        return shipping.value;
+    } else if (delivered && delivered.checked) {
+        return delivered.value;
+    } else if (canceled && canceled.checked) {
+        return canceled.value;
+    }
+    return null; 
+}
+
+
+
+
+
+
+   
+</script>
+
+</html>

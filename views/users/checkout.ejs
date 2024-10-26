@@ -162,75 +162,72 @@
                         
                         <hr />
 
-                        <div class="your-payment">
-                            <h2 class="payment-title mb-3">payment method</h2>
-                            <div class="payment-method">
-                                
-                                <div>
+                        <<div class="your-payment">
+                          <h2 class="payment-title mb-3">Payment Method</h2>
+                          <div class="payment-method">
+                              <div>
                                   <label style="display: block; color:black; font-size: 17px;">
-                                    <input type="radio" name="" id="razorPay" value="razorPay" style="margin-right: 10px; "> RazorPay
-                                </label>
-                                <label style="display: block; color:black; font-size: 17px;">
-                                    <input type="radio" name="size" id="cashOnDelivery" value="cashOnDelivery" style="margin-right: 10px; "> Cash on Delivery
-                                </label>
-                                <label style="display: block; color:black; font-size: 17px;">
-                                    <input type="radio" name="size"id=wallet value="wallet" style="margin-right: 10px; "> Wallet
-                                </label>
-                                </div><br>
-
-                                <hr />
-
-                                <div style="display:block">
+                                      <input type="radio" name="paymentMethod" id="razorPay" value="razorPay" style="margin-right: 10px;"> RazorPay
+                                  </label>
+                                  <label style="display: block; color:black; font-size: 17px;">
+                                      <input type="radio" name="paymentMethod" id="cashOnDelivery" value="cashOnDelivery" style="margin-right: 10px;"> Cash on Delivery
+                                  </label>
+                                  <label style="display: block; color:black; font-size: 17px;">
+                                      <input type="radio" name="paymentMethod" id="wallet" value="wallet" style="margin-right: 10px;"> Wallet
+                                  </label>
+                              </div>
+                              <br>
+                              <hr />
+                      
+                              <div style="display:block">
                                   <div style="display:flex">
-                                    <h2 class="payment-title mb-3">Select the Delivery Address</h2>
-                                    <div style="margin-left: auto;">
-                                      <a href="/addAddress" class="btn mb-3">+Add Address</a>
-                                    </div>
-
+                                      <h2 class="payment-title mb-3">Select the Delivery Address</h2>
+                                      <div style="margin-left: auto;">
+                                          <a href="/addAddress" class="btn mb-3">+Add Address</a>
+                                      </div>
                                   </div>
-                                 
-                                <% for(i=0;i<addressData.length;i++){ %>
-                                  <div style="display: flex; align-items: center; margin-bottom: 10px; border: 1px solid #ccc; padding: 10px;">
-                                    <div style="flex: 1;">
-                                        <label style="display: block; color: black; font-size: 17px;">
-                                            <input type="radio" name="size" data-address-id="<%= addressData[i]._id %>" value="" style="margin-right: 10px;">
-                                            <strong><%= addressData[i].name %></strong>
-                                        </label>
-                                        <label style="display: block; color: black; font-size: 17px;"><%= addressData[i].address %></label>
-                                        <label style="display: block; color: black; font-size: 17px;"><%= addressData[i].pincode %></label>
-                                        <label style="display: block; color: black; font-size: 17px;"><%= addressData[i].district %></label>
-                                        <label style="display: block; color: black; font-size: 17px;"><%= addressData[i].state %></label>
-                                        <label style="display: block; color: black; font-size: 17px;"><%= addressData[i].phone %></label>
-                                    </div>
+                      
+                                  <div>
+                                      <% for(i = 0; i < addressData.length; i++) { %>
+                                          <div style="display: flex; align-items: center; margin-bottom: 10px; border: 1px solid #ccc; padding: 10px;">
+                                              <div style="flex: 1;">
+                                                  <label style="display: block; color: black; font-size: 17px;">
+                                                      <input type="radio" name="addressSelection" data-address-id="<%= addressData[i]._id %>" value="" style="margin-right: 10px;">
+                                                      <strong><%= addressData[i].name %></strong>
+                                                  </label>
+                                                  <label style="display: block; color: black; font-size: 17px;"><%= addressData[i].address %></label>
+                                                  <label style="display: block; color: black; font-size: 17px;"><%= addressData[i].pincode %></label>
+                                                  <label style="display: block; color: black; font-size: 17px;"><%= addressData[i].district %></label>
+                                                  <label style="display: block; color: black; font-size: 17px;"><%= addressData[i].state %></label>
+                                                  <label style="display: block; color: black; font-size: 17px;"><%= addressData[i].phone %></label>
+                                              </div>
+                      
+                                              <div>
+                                                  <button 
+                                                      type="button" 
+                                                      class="btn btn-danger" 
+                                                      style="padding: 5px 8px; background-color: red; color: white; border: none; border-radius: 4px; margin-left: 200px; margin-bottom:150px"
+                                                      onclick="removeAddress('<%= addressData[i]._id %>')">
+                                                      X
+                                                  </button>
+                                                  <div style="margin-left: 170px;">
+                                                      <a href="/editAddress?id=<%= addressData[i]._id %>" class="btn mb-3">Edit</a>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      <% } %>
+                                  </div>
+                      
+                                  <div class="order-button-payment">
+                                   
+                                        <button class="btn"  id="placeOrder" value="Place order" type="submit">Place Order</button>
                                     
-                                    <div>
-                                        <button 
-                                            type="button" 
-                                            class="btn btn-danger" 
-                                            style="padding: 5px 8px; background-color: red; color: white; border: none; border-radius: 4px; margin-bottom: 150px; margin-left: 150px"
-                                            onclick="removeAddress('<%= addressData[i]._id %>')"> <!-- Assuming you have an ID for each address -->
-                                            X
-                                        </button>
-                                        <div style="margin-right:100px;">
-                                          <a href="/editAddress?id=<%= addressData[i]._id %>" class="btn mb-3">Edit</a>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                                
-                                  
-                                <% } %>
-                                  
-                                
-                                  
-                                </div>
-
-
-                                <div class="order-button-payment">
-                                    <button class="btn" value="Place order" type="submit">Place order</button>
-                                </div>
-                            </div>
-                        </div>
+                                      
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      
 
                         
 
@@ -365,6 +362,8 @@
      <script src="assets/js/popper.min.js"></script>
      <script src="assets/js/lazysizes.js"></script>
      <script src="assets/js/main.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </div>
 </body>
 
@@ -397,6 +396,134 @@ function removeAddress(id){
 .catch(error => {
   console.error("Error:", error);
 });
+}
+
+
+
+
+const razorPay=document.getElementById('razorPay')
+const cashOnDelivery=document.getElementById('cashOnDelivery')
+const wallet=document.getElementById('wallet')
+const placeOrderButton=document.getElementById('placeOrder')
+
+
+
+
+
+
+
+
+placeOrderButton.addEventListener("click",()=>{
+
+  const selectedPaymentMethod=getSelectedPaymentMethod()
+const selectedAddressId=getSelectedAddressId()
+
+
+if (!selectedPaymentMethod && !selectedAddressId) {
+
+Swal.fire({
+    icon: 'warning',
+    text: 'Please select a payment method and address.',
+    confirmButtonText: 'OK',
+    confirmButtonColor: '#000000', 
+});
+
+} else if (!selectedAddressId) {
+
+Swal.fire({
+    icon: 'warning',
+    text: 'Please select an address.',
+    confirmButtonText: 'OK',
+    confirmButtonColor: '#000000', 
+});
+
+} else if (!selectedPaymentMethod) {
+
+Swal.fire({
+    icon: 'warning',
+    text: 'Please select a payment method.',
+    confirmButtonText: 'OK',
+    confirmButtonColor: '#000000', 
+});
+
+}else{
+
+    fetch('/checkout', {
+    method: "POST",
+    headers: {
+        'Content-Type': "application/json"
+    },
+    body: JSON.stringify({ paymentMethod: selectedPaymentMethod, addressId: selectedAddressId })
+})
+.then(response => {
+    
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response.json();
+})
+.then(data => {
+    
+    if (data.success) {
+        
+        Swal.fire({
+    icon: 'success', 
+    text: data.message,
+    confirmButtonText: 'OK',
+    confirmButtonColor: '#000000', 
+    timer: 3000,
+    timerProgressBar: true, 
+})
+
+        // window.location.href = "/orderConfirmation";
+
+    } else {
+    
+        console.error(data.message || 'An error occurred');
+        alert(data.message || 'An unexpected error occurred');
+    }
+})
+.catch(error => {
+    // Handle fetch errors
+    console.error('Fetch error:', error);
+    alert('An error occurred while processing your request.');
+});
+
+}
+
+
+})
+
+
+
+
+
+
+
+function getSelectedPaymentMethod(){
+
+  if(cashOnDelivery.checked){
+    return cashOnDelivery.value
+  }else if(razorPay.checked){
+    return razorPay.value
+  }else if(wallet.checked){
+    return wallet.value
+  }
+  return null
+}
+
+
+
+function getSelectedAddressId(){
+
+  const addressRadios=document.getElementsByName("addressSelection")
+  let selectedAddressId=null
+  addressRadios.forEach(radio=>{
+    if(radio.checked){
+      selectedAddressId=radio.getAttribute('data-address-id')
+    }
+  })
+  return selectedAddressId
 }
 
 

@@ -3,6 +3,7 @@ const bcrypt=require("bcrypt")
 const Categories=require("../../models/category-model")
 const Brands=require("../../models/brand-model")
 const AddProducts = require("../../models/product-model")
+const Orders=require("../../models/order-model")
 const path=require('path')
 const { log } = require("console")
 const sharp = require('sharp');
@@ -69,7 +70,78 @@ const customerStatus=async(req,res)=>{
 
 
 
+//for order list
+const loadOrderList=async(req,res)=>{
+  try {
+  const orderData=await Orders.find({})
+    
+    return res.render("orderList",{orderData}) 
+  } catch (error) {
+    console.log("Errro from loadOrderList",errror.message)
+  }
+}
+
+
+
+
+//fpr load order details
+const loadOrderDetails=async(req,res)=>{
+  try {
+
+    const {id}=req.query
+    
+    const orderData = await Orders.findById(id)    
+
+    return res.render("orderDetails",{orderData})
+  } catch (error) {
+    console.log("Error from loadOrderDetails",error.message)
+  }
+}
+
+
+
+
+//for update order Status
+const updateOrderStatus=async(req,res)=>{
+  try {
+    const {orderStatus,orderId}=req.body
+    // console.log("ksdgvj",orderStatus,orderId)
+
+    const updatedOrder=await Orders.findByIdAndUpdate(
+      orderId,
+      {
+        $set:{
+        
+          orderStatus:orderStatus
+        }
+      },
+      {new:true}
+
+    )
+    updatedOrder.items.forEach(item=>{
+      item.orderStatus=orderStatus
+    })
+    await updatedOrder.save()
+
+    return res.status(200).json({success:true,message:"Order Status Updated"})
+    
+    
+
+  } catch (error) {
+    console.log("Error from updateOrderStatus ",error.message)
+  }
+}
+  
+
+ 
+
+
+
+
 module.exports={
   customerList,
   customerStatus,
+  loadOrderList,
+  loadOrderDetails,
+  updateOrderStatus
 }

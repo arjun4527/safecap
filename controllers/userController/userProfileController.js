@@ -1,6 +1,8 @@
 const User=require("../../models/user-model")
 const bcrypt=require("bcrypt")
 const Address=require("../../models/address-model")
+const Orders=require("../../models/order-model")
+
 
 
 
@@ -32,7 +34,7 @@ const loadProfile=async(req,res)=>{
     
 
 
-    console.log("user",userData)
+    // console.log("user",userData)
 
     return res.render("profile",{isLogged,userData,userAddress})
 
@@ -153,7 +155,10 @@ const loadAddress=async(req,res)=>{
   try {
     const isLogged = req.session.user || req?.session?.passport?.user
 
-    const addressData=await Address.find({})
+    const currentUser= req.session.user
+
+
+    const addressData=await Address.find({user:currentUser})
 
     return res.render("address",{isLogged,addressData})
   } catch (error) {
@@ -287,6 +292,116 @@ const editAddress=async(req,res)=>{
 
 
 
+// for load order list
+const loadOrderList=async(req,res)=>{
+  try {
+    const isLogged = req.session.user || req?.session?.passport?.user
+
+    const currentUser= req.session.user
+
+
+    const orderData=await Orders.find({user:currentUser})
+
+    return res.render("orderList",{isLogged,orderData})
+  } catch (error) {
+    console.log("Error from loadOrderList",error.message)
+  }
+}
+
+
+
+
+//for load order details
+const loadOrderDetails=async(req,res)=>{
+  try {
+    const isLogged = req.session.user || req?.session?.passport?.user
+
+    const {id}=req.query
+
+    const singleOrderData=await Orders.findById(id)
+    // console.log("uff",singleOrderData)
+
+
+
+    return res.render("orderDetails",{isLogged,singleOrderData})
+  } catch (error) {
+    console.log("Error from loadOrderDetails",error.message)
+  }
+}
+
+
+
+
+//for cancel product from order
+const cancelProduct=async(req,res)=>{
+  try {
+    const {id,orderId}=req.body
+    
+    console.log("order id",id,orderId);
+    
+    const orderData=await Orders.findById(orderId)
+    
+     orderData.items.forEach((i)=>{
+
+        if(i.product.toString()=== id.toString()) {
+
+          if(i.orderStatus=="canceled"){
+            return res.status(200).json({success:true,message:"its already canceled "})
+          }
+
+            i.orderStatus = "canceled"
+        }
+     })
+
+
+
+     await orderData.save()
+
+     return res.status(200).json({success:true,message:"Product Canceled Successfully"})
+    
+  } catch (error) {
+    console.log("error from cancelProduct",error.message)
+  }
+}
+
+
+
+
+// for cancel the complete order
+const orderCancel=async(req,res)=>{
+  try {
+   const {orderId} =req.body
+   
+   const orderData=await Orders.findByIdAndUpdate(
+    orderId,
+    {
+     $set:{
+      orderStatus:"canceled"
+     }
+    }, 
+    {new:true}
+  )
+
+  orderData.items.forEach(item=>{
+    item.orderStatus="canceled"
+  })
+  await orderData.save()
+
+
+  return res.status(200).json({success:true,message:"Order Cancel"})
+
+
+  } catch (error) {
+    console.log("Error from orderCancel",error.message)
+  }
+}
+
+
+
+
+
+
+
 
 
 
@@ -305,5 +420,9 @@ module.exports={
   addAddress,
   removeAddress,
   loadEditAddress,
-  editAddress
+  editAddress,
+  loadOrderList,
+  loadOrderDetails,
+  cancelProduct,
+  orderCancel
 }

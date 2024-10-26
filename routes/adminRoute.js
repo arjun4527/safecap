@@ -115,6 +115,19 @@ admin_route.post("/customerStatus",noCacheMiddleware,auth.isLogin,customerContro
 
 
 
+//orders
+admin_route.get("/orderList",noCacheMiddleware,auth.isLogin,customerController.loadOrderList)
+admin_route.get("/orderDetails",noCacheMiddleware,auth.isLogin,customerController.loadOrderDetails)
+admin_route.post("/updateOrderStatus",noCacheMiddleware,auth.isLogin,customerController.updateOrderStatus)
+
+  
+
+
+
+
+
+
+
 
 
 

@@ -29,6 +29,12 @@ const mongoose=require("mongoose")
   is_blocked:{
     type:Boolean,
     default:false
+  },
+  resetPasswordToken:{
+    type:String
+  },
+  resetPasswordExpires:{
+    type:Date
   }
 })
 

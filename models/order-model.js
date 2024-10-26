@@ -15,7 +15,7 @@ const orderItemSchema = new mongoose.Schema({
     ref: 'brand',
     required: true
   },
-  name: { 
+  brandName: { 
     type: String,
     required: true
   },
@@ -32,7 +32,7 @@ const orderItemSchema = new mongoose.Schema({
     type:String,
     required:true
   },
-  productImage:[
+  productImages:[
     {
       type:String
 
@@ -52,6 +52,9 @@ const orderItemSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  description:{
+    type:String
+  },
   orderStatus: {
     type: String,
     enum: ["pending", "shipped", "delivered", "canceled"],
@@ -65,11 +68,17 @@ const orderSchema = new mongoose.Schema({
     ref: "Users", //
     required: true,
   },
-  orderItems: [orderItemSchema], 
+  items: [orderItemSchema], 
   subTotal:{
     type : Number,
     required : true,
     default : 0
+  },
+  taxPrice:{
+    type:Number
+  },
+  shippingPrice:{
+    type:Number
   },
   grandTotal: {
     type: Number,
@@ -90,7 +99,7 @@ const orderSchema = new mongoose.Schema({
     pincode: { type: Number, required: true },
     address: { type: String, required: true },
     district: { type: String, required: true },
-    state: { type: String, required: true },
+    state: { type: String },
     landMark: { type: String },
     altPhone: { type: Number },
     

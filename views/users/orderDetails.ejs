@@ -5,136 +5,75 @@
 	<!--End Mobile Menu-->
     
     <!--Body Content-->
-    <div id="page-content">
-    	<!--Page Title-->
-    	<div class="page section-header text-center">
-			<div class="page-title">
-        		<div class="wrapper"><h1 class="page-width">Profile</h1></div>
-      		</div>
-		</div>
-        <!--End Page Title-->
-        
-        <!-- Code by chatgpt start-->
+<div id="page-content">
+  <!--Page Title-->
+  <div class="page section-header text-center">
+      <div class="page-title">
+          <div class="wrapper">
+              <h1 class="page-width">Your Order</h1>
+          </div>
+      </div>
+  </div>
+  <!--End Page Title-->
 
+  <!-- Button Container -->
+  <div style="display: flex; justify-content: space-between; margin: 20px;">
+      <a href="/orders" style="background-color: black; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+          Back
+      </a>
+      <form action="#" method="POST" style="margin: 0;">
+          
+          <button type="submit" onclick="orderCancel('<%= singleOrderData._id %>')" style="background-color: red; color: white; padding: 10px 20px; border: none; border-radius: 5px;">Cancel Order</button>
+      </form>
+  </div>
+ <% console.log("shibu",singleOrderData) %>
+   <!-- Code by chatgpt start  -->
+  <% singleOrderData.items.forEach(item => { %>
+      <div style="border: 1px solid #ccc; padding: 20px; margin: 20px; border-radius: 5px;">
+          <h2 style="margin-top: 0;">Product Details</h2>
 
-        <section style="padding-top: 150px; padding-bottom: 150px;">
-          <div style="max-width: 1200px; margin: 0 auto;">
-              <div style="display: flex;">
-                <div style="flex: 0 0 33.33%; padding: 15px;">
-                  <div style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px;">
-                      <ul style="list-style-type: none; padding: 0; margin: 0;">
-                          <li>
-                              <a style="display: block; padding: 20px; font-size: 18px; text-decoration: none; color: black; background-color: transparent; border: 1px solid #dee2e6; border-radius: 5px;" 
-                                 id="dashboard-tab" data-bs-toggle="tab" href="/profile" role="tab" aria-controls="dashboard" aria-selected="false" 
-                                 ><i class="fi-rs-settings-sliders" style="margin-right: 10px;"></i>Profile</a>
-                          </li>
-                          <li>
-                              <a style="display: block; padding: 20px; font-size: 18px; text-decoration: none; color: black; background-color: transparent; border: 1px solid #dee2e6; border-radius: 5px;" 
-                                 id="orders-tab" data-bs-toggle="tab" href="/orders" role="tab" aria-controls="orders" aria-selected="false" 
-                                 ><i class="fi-rs-shopping-bag" style="margin-right: 10px;"></i>Orders</a>
-                          </li>
-                          
-                          <li>
-                              <a style="display: block; padding: 20px; font-size: 18px; text-decoration: none; color: black; background-color: transparent; border: 1px solid #dee2e6; border-radius: 5px;" 
-                                 id="address-tab" data-bs-toggle="tab" href="/address" role="tab" aria-controls="address" aria-selected="true" 
-                                 ><i class="fi-rs-marker" style="margin-right: 10px;"></i>My Address</a>
-                          </li>
-                          <li>
-                              <a style="display: block; padding: 20px; font-size: 18px; text-decoration: none; color: black; background-color: transparent; border: 1px solid #dee2e6; border-radius: 5px;" 
-                                 id="account-detail-tab" data-bs-toggle="tab" href="/editProfile" role="tab" aria-controls="account-detail" aria-selected="true" 
-                                 ><i class="fi-rs-user" style="margin-right: 10px;"></i>Edit Profile</a>
-                          </li>
-                          <li>
-                              <a style="display: block; padding: 20px; font-size: 18px; text-decoration: none; color: black; background-color: transparent; border: 1px solid #dee2e6; border-radius: 5px;" 
-                                 href="/logout"><i class="fi-rs-sign-out" style="margin-right: 10px;"></i>Logout</a>
-                          </li>
-                      </ul>
-                  </div>
-              </div>
-
-              <div class="address" style="border: 2px light black; height: auto; width: 800px;">
-                <div style="background-color: #f8f9fa; padding: 15px; display: flex; ">
-                  <h1 style="margin: 0;">My Address</h1>
-                  <div style="margin-left: auto;">
-                    <a href="/addAddress" class="btn mb-3">+Add Address</a>
-                  </div>
-                </div>
-
-                <div id="sampleId">
-                    <% addressData.forEach(address=>{ %>
-                        <div id="address-container" style="border: 2px solid lightgray; height: auto; width: 600px;">
-                          <div class="col-12 col-sm-12 col-md-12 col-lg-12 ",style="width:25px">
-                            <div style="display: flex; ">
-                                <div>
-                                    <label for="FirstName" style="color: black; font-size:20px"><%= address.name %></label><br>
-                                    <label for="FirstName" style="color: black; font-size:20px"><%= address.address %>,</label>
-                                    <label for="FirstName" style="color: black; font-size:20px"><%= address.pincode %></label>
-        
-                                    
-                                    <label for="FirstName" style="color: black; font-size:20px"><%= address.district %>,</label>
-                                    <label for="FirstName" style="color: black; font-size:20px"><%= address.state %></label><br>
-                                    
-                                    
-                                    <label for="FirstName" style="color: black; font-size:20px"><%= address.phone %>,</label>
-                                    <label for="FirstName" style="color: black; font-size:20px"><%= address.altPhone %></label><br>
-                                    <label for="FirstName" style="color: black; font-size:20px"><%= address.landMark %></label>
-                                    
-                                    
-        
-                                </div> 
-                               
-                                
-                                  
-                            </div>
-                            <div style="margin-left: auto;">
-                              <a href="/editAddress?id=<%= address._id %>" class="btn mb-3">Edit</a>
-                            </div>
-                            
-                              <button 
-                            type="button" class="btn btn-danger" 
-                            style="position: absolute; top: 5px; right: 5px; padding: 5px 8px; background-color: red;" 
-                            onclick="removeAddress('<%= address._id %>')">
-                        
-                               X
-                            </button>
-                            
-                            
-                          
-                            
-                          </div>
-                          
-                        </div>
-                      <% }) %>
-                </div>
-               
-                
-                
-                
-            </div>
-            
+          <div style="display: flex; align-items: center; margin-bottom: 20px;">
+              <div style="margin-right: 20px;">
                   
-           
+                      <img src="/productImages/<%= item.productImages[0] %>" alt="<%= item.productName %>" style="width: 150px; height: auto; border: 1px solid #ccc; border-radius: 5px;">
+                      <img src="/productImages/<%= item.productImages[1] %>" alt="<%= item.productName %>" style="width: 150px; height: auto; border: 1px solid #ccc; border-radius: 5px;">
+                      <img src="/productImages/<%= item.productImages[2] %>" alt="<%= item.productName %>" style="width: 150px; height: auto; border: 1px solid #ccc; border-radius: 5px;">
+                      <img src="/productImages/<%= item.productImages[3] %>" alt="<%= item.productName %>" style="width: 150px; height: auto; border: 1px solid #ccc; border-radius: 5px;">
 
-        </div>
-      </div>  
-    </section>
+                     
 
+                  
+              </div>
+              <div>
+                  <p style="color: black; font-size: 18px;"><strong>Product Name:</strong> <%= item.productName %>/-</p><br>
+                  <p style="color: black; font-size: 18px;"><strong>Price:</strong> Rs<%= item.price %>/-</p><br>
+                  <p style="color: black; font-size: 18px;"><strong>Quantity:</strong> <%= item.quantity %></p><br>
+                  <p style="color: black; font-size: 18px;"><strong>Size:</strong> <%= item.size %></p><br>
+                  <p style="color: black; font-size: 18px;"><strong>Description:</strong> <%= item.description %></p><br>
+                  <p style="color: black; font-size: 18px;"><strong>Brand:</strong> <%= item.brandName %></p><br>
+                  <p style="color: black; font-size: 18px;"><strong>Category:</strong> <%= item.categoryName %></p><br>
+                  <p style="color: black; font-size: 18px;"><strong>Category Description:</strong> <%= item.categoryDescription %></p>
+              </div>
+          </div>
 
-    <!-- Modal start  -->
-      
+          <h4 style="margin: 20px 0 10px;"><strong>Shipping Information</strong></h4>
+          <p style="color: black; font-size: 18px;"><strong>Tax Amount:</strong> <%= singleOrderData.taxPrice %></p>
+          <p style="color: black; font-size: 18px;"><strong>Shipping Charge:</strong> <%= singleOrderData.shippingPrice %></p>
 
+          <div style="border-top: 1px solid #ccc; margin-top: 20px; padding-top: 10px;">
+              <p style="color: black; font-size: 18px;"><strong>Order Status:</strong> <%= item.orderStatus %></p>
+          </div>
 
+          <div  style="margin-top: 10px;">
+              <!-- <input type="hidden" name="orderId" value="">
+              <input type="hidden" name="itemId" value="<"> -->
+              <button id="productCancel" onclick="cancelProduct('<%= item.product %>','<%= singleOrderData._id %>')" style="background-color: red; color: white; padding: 10px; border: none; border-radius: 5px;">Cancel</button>
+          </div>
+      </div>
+  <% }) %>
+</div>
+<!--End Body Content-->
 
-       <!-- Modal end  -->
-    
-
-
-
-        <!-- Code by chatgpt end-->
-
-
-
-    <!--End Body Content-->
     
     <!--Footer-->
     <footer id="footer">
@@ -267,70 +206,75 @@
 
 <script>
 
-function removeAddress(id){
+function cancelProduct(productId, orderId) {
+  console.log("hello", productId, orderId);
   
-  fetch("/removeAddress", {
-  method: "DELETE",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({ id: id }),
-})
-.then(response => {
-  if (!response.ok) {
-    throw new Error(`Error: ${response.status} ${response.statusText}`);
-  }
-  return response.json(); // Assuming the server returns JSON
-})
-.then(data => {
-  console.log("Success:", data);
-//   setTimeout(function() {
-//     removeAddressMessage("Success", data.message, "success");
-// }, 1000);
-  window.location.reload(); 
-//   document.getElementById("address-container").textContent=null
-})
-.catch(error => {
-  console.error("Error:", error);
-});
+  $.ajax({
+    url: "/orderDetails",
+    method: "POST",
+    data: JSON.stringify({ id: productId, orderId: orderId }),
+    contentType: "application/json",
+    success: function(response) {
+      if (response.success) {
+        
+        Swal.fire({
+          title: 'Success',
+          text: response.message,
+          icon: 'success',
+          timer: 2000, 
+          showConfirmButton: false
+        }).then(() => {
+          
+          window.location.reload();
+        });
+      }
+    }
+  });
+}
+
+
+
+function orderCancel( orderId) {
+  console.log("hello",  orderId);
+  
+  $.ajax({
+    url: "/orderCancel",
+    method: "POST",
+    data: JSON.stringify({  orderId: orderId }),
+    contentType: "application/json",
+    success: function(response) {
+      if (response.success) {
+        
+        Swal.fire({
+          title: 'Success',
+          text: response.message,
+          icon: 'success',
+          timer: 2000, 
+          showConfirmButton: false
+        }).then(() => {
+          
+          window.location.reload();
+        });
+      }
+    }
+  });
 }
 
 
 
 
 
-//for id pass for edit address
-// function editAddress(id){
-//   console.log("babu",id)
-//   fetch("/editAddress", {
-//   method: "POST",
-//   headers: {
-//     "Content-Type": "application/json",
-//   },
-//   body: JSON.stringify({ id: id }),
-// })
-// }
 
 
-function removeAddressMessage(heading,message,sign){
-    
-    Swal.fire({
-                       title: heading,
-                       text: message,
-                       icon: sign, 
-                       confirmButtonText: "OK",
-                       toast: true,  
-                       position: 'top-end',
-                       timer: 3000,  
-                       timerProgressBar: true,
-                       background: '',
-                       
-                       });
-    
-}
+
+
+
+
 
 
 </script>
+
+
 
 
 </html>

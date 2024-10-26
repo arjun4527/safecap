@@ -132,7 +132,7 @@ const totalAmount = async (req, res) => {
       return res.status(404).json({ message: 'Product not found in cart' });
     }
     const newCart = await cart.save();
-    console.log("shokam",newCart)
+
     
     const itemsWithPrices = await calculateProductPrices(newCart,itemIndex);
 
