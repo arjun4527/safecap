@@ -6,6 +6,8 @@ const AddProducts = require("../../models/product-model")
 const path=require('path')
 const { log } = require("console")
 const sharp = require('sharp');
+const StatusCodes=require("../../config/statusCode")
+
 
 
 
@@ -110,7 +112,7 @@ const editBrand=async(req,res)=>{
    
   } catch (error) {
     console.error("Error updating brand:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Internal Server Error" });
   }
 }
 
@@ -184,7 +186,7 @@ const brandStatus=async(req,res)=>{
   console.log("appu",brand)
 
   
-    return res.status(200).json({
+    return res.status(StatusCodes.OK).json({
        success:true,
        messsage:"Brand status updated successfully",
        brand:brand
@@ -192,7 +194,7 @@ const brandStatus=async(req,res)=>{
 
 
   } catch (error) {
-     return res.status(500).json({ success: false, message: 'Internal Server Error' });
+     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ success: false, message: 'Internal Server Error' });
   }
 }
 

@@ -60,7 +60,7 @@
                                                        </div>
                                                    </td>
                                                    <td class="cart__price-wrapper cart-flex-item text-dark">
-                                                       <span class="money">$<%= item.price %></span>
+                                                       <span class="money">Rs<%= item.price %></span>
                                                    </td>
                                                    <td class="cart__update-wrapper cart-flex-item text-right">
                                                        <div class="cart__qty text-center">
@@ -419,7 +419,7 @@ function removeProduct(id, size) {
 
 
 function clearCart(){
-    console.log("Be happy")
+
     $.ajax({
         url: "/clearCart",
         method: "POST",

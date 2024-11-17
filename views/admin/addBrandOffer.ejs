@@ -1,0 +1,329 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Evara Dashboard</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/adminAssets/imgs/theme/favicon.svg">
+    <!-- Template CSS -->
+    <link href="/adminAssets/css/main.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+</head>
+
+<body>
+    <div class="screen-overlay"></div>
+    <aside class="navbar-aside" id="offcanvas_aside">
+        <div class="aside-top">
+            <a href="index.html" class="brand-wrap">
+                <img src="assets/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard">
+            </a>
+            <div>
+                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+            </div>
+        </div>
+        
+        <%- include('../layouts/adminLayouts/sideBar') %>
+
+
+    </aside>
+    <main class="main-wrap">
+        <header class="main-header navbar">
+            <div class="col-search">
+                <form class="searchform">
+                    <div class="input-group">
+                        <input list="search_terms" type="text" class="form-control" placeholder="Search term">
+                        <button class="btn btn-light bg" type="button"> <i class="material-icons md-search"></i></button>
+                    </div>
+                    <datalist id="search_terms">
+                        <option value="Products">
+                        <option value="New orders">
+                        <option value="Apple iphone">
+                        <option value="Ahmed Hassan">
+                    </datalist>
+                </form>
+            </div>
+            <div class="col-nav">
+                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i class="material-icons md-apps"></i> </button>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon" href="#">
+                            <i class="material-icons md-notifications animation-shake"></i>
+                            <span class="badge rounded-pill">3</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i class="material-icons md-public"></i></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+                            <a class="dropdown-item text-brand" href="#"><img src="assets/imgs/theme/flag-us.png" alt="English">English</a>
+                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-fr.png" alt="Français">Français</a>
+                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-jp.png" alt="Français">日本語</a>
+                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-cn.png" alt="Français">中国人</a>
+                        </div>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="assets/imgs/people/avatar2.jpg" alt="User"></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                            <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <section class="content-main">
+           
+                <h2 class="content-title">Add New Offer</h2>
+                <form method="post" action="/admin/addBrandOffer" id="addBrandOfferForm" >
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <!-- General Info Section -->
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <h6></h6>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="mb-4">  
+                                            <label class="form-label">Offer Name</label>
+                                            <input type="text" placeholder="Type here" id="name" class="form-control" name="offerName" >
+                                            <span class="error" style="color:red" id="nameError"></span>
+                                           
+                                        </div>
+
+                                        <div class="mb-4">
+                                          <label class="form-label">Product</label>
+                                          <select class="form-select" name="brandId" >
+
+
+                                            <% brandData.forEach(function(brand) { %>
+                                                <option value="<%= brand._id %>"><%= brand.name %></option>
+                                            <% }); %>
+
+
+                                          </select>
+                                      </div>
+                                        
+                                        <div class="mb-4">
+                                            <label class="form-label"> Offer Discount </label>
+                                            <input type="text" placeholder="In percentage" id="discount" class="form-control" name="offerDiscount" >
+                                            <span class="error" style="color:red" id="discountError"></span>
+
+                                        </div>
+                                        
+                                    </div> <!-- col.// -->
+                                </div> <!-- row.// -->
+            
+            
+                                <!-- <hr class="mb-4 mt-0"> -->
+            
+
+                            </div> <!-- card-body end// -->
+                        </div> <!-- card end// -->
+                    </div> <!-- col-lg-6 end// -->
+                </div> <!-- row end// -->
+                <div class="row"></div>
+                    <div class="col-6">
+                        <div class="content-header">
+                           
+                            <div>
+                                <!-- <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button> -->
+                                <button class="btn btn-md rounded font-sm hover-up" type="submit" onclick ="validateForm()">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            
+        </section> <!-- content-main end// -->
+        <footer class="main-footer font-xs">
+            <div class="row pb-30 pt-15">
+                <div class="col-sm-6">
+                    <script>
+                    document.write(new Date().getFullYear())
+                    </script> ©, Evara - HTML Ecommerce Template .
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end">
+                        All rights reserved
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+    <script src="adminAssets/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="adminAssets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="adminAssets/js/vendors/select2.min.js"></script>
+    <script src="adminAssets/js/vendors/perfect-scrollbar.js"></script>
+    <script src="adminAssets/js/vendors/jquery.fullscreen.min.js"></script>
+    <!-- Main Script -->
+    <script src="adminAssets/js/main.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    
+
+
+
+    
+    
+    <script>
+    
+      // for form validation
+      function validateForm() {
+    
+
+    let valid = true;
+
+    
+
+    // Clear previous error messages
+    document.querySelectorAll(".error").forEach(function(error) {
+        error.textContent = '';
+    });
+
+    const offerName = document.getElementById("name").value.trim();
+    
+    const offerDiscount = document.getElementById('discount').value.trim();
+
+    const startDate = document.getElementById('startDate').value.trim();
+    const expiryDate = document.getElementById('expiryDate').value.trim();
+
+    
+
+    // Regex for price (accepts up to 4 decimals)
+    // const pricePattern = /^\d{1,8}(\.\d{1,4})?$/;
+
+    // Regex for percentage
+    // const percentagePattern = /^(100|[1-9]?[0-9](\.\d+)?)%$/
+
+    const currentDate = new Date();
+    
+    const discountPattern=/^(?:[1-9]|[1-9][0-9])$/
+
+
+    // Product Name Validation
+    if (offerName === '') {
+        document.getElementById('nameError').textContent = "Offer name is Required";
+        valid = false;
+    }
+
+
+    // coupo discount Validation
+    if (offerDiscount===''  ) {
+        document.getElementById('discountError').textContent = "Offer Discount is Required";
+        valid = false;
+    }else if(!discountPattern.test(offerDiscount)){
+        document.getElementById('discountError').textContent = "Offer Discount is not valid";
+        valid = false;
+
+    }
+
+
+    // start date Validation
+    // if (startDate === '') {
+    //     document.getElementById('startDateError').textContent = "Start date is required";
+    //     valid = false;
+    // } else if (new Date(startDate) < currentDate) {
+    //     document.getElementById('startDateError').textContent = "Start date cannot be in the past";
+    //     valid = false;
+    // }
+
+
+     // expiry date  Validation
+    //  if (expiryDate === '') {
+    //     document.getElementById('expiryDateError').textContent = "Expiry date is required";
+    //     valid = false;
+    // } else if (new Date(expiryDate) < currentDate) {
+    //     document.getElementById('expiryDateError').textContent = "Expiry date cannot be in the past";
+    //     valid = false;
+    // } else if (startDate && new Date(expiryDate) < new Date(startDate)) {
+    //     document.getElementById('expiryDateError').textContent = "Expiry date cannot be before the start date";
+    //     valid = false;
+    // }
+
+
+
+    // Return the final validation status
+    return valid;
+}
+
+// Event listener for form submission
+document.getElementById("addBrandOfferForm").addEventListener("submit", event => {
+    if (!validateForm()) {
+        event.preventDefault(); // Prevent form submission if validation fails
+    }
+});
+
+
+
+
+
+   
+
+
+
+  //for sweet alert
+
+ let offerNameExist = "<%= typeof offerNameExist !== 'undefined' ? offerNameExist : '' %>";
+
+if (offerNameExist) {
+  Swal.fire({
+    title: 'Warning!',
+    text: offerNameExist,
+    icon: 'warning',
+    confirmButtonText: 'Try again ',
+    toast: true,  
+    position: 'top-end',
+    timer: 5000,  
+    timerProgressBar: true,
+    background: '#f0f9ff',
+  });
+}
+
+
+
+let brandOfferExist = "<%= typeof brandOfferExist !== 'undefined' ? brandOfferExist : '' %>";
+
+if (brandOfferExist) {
+  Swal.fire({
+    title: 'Warning!',
+    text: brandOfferExist,
+    icon: 'warning',
+    confirmButtonText: 'Try again ',
+    toast: true,  
+    position: 'top-end',
+    timer: 3000,  
+    timerProgressBar: true,
+    background: '#f0f9ff',
+  });
+}
+      
+    </script>
+    
+</body>
+
+</html>

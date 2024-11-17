@@ -6,6 +6,7 @@ const AddProducts = require("../../models/product-model")
 const path=require('path')
 const { log } = require("console")
 const sharp = require('sharp');
+const StatusCodes=require("../../config/statusCode")
 
 
 
@@ -37,7 +38,7 @@ const verifyLogin=async(req,res)=>{
 
     if(!adminData){
       req.session.notExists="Check your emailID"
-      return res.status(400).redirect('/admin')
+      return res.status(StatusCodes.BAD_REQUEST).redirect('/admin')
       
     }
 
@@ -50,17 +51,17 @@ const verifyLogin=async(req,res)=>{
         res.redirect("/admin/dashboard")
       }else{
         req.session.notAdmin="your are not admin"
-        return res.status(400).redirect('/admin')
+        return res.status(StatusCodes.BAD_REQUEST).redirect('/admin')
       }
         
     }else{
        req.session.wrongPassword="Incorrect password"
-      return res.status(400).redirect('/admin')
+      return res.status(StatusCodes.BAD_REQUEST).redirect('/admin')
       
     }
   } catch (error) {
     req.session.serverError="Server Error"
-    return res.status(500).redirect('/admin')
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).redirect('/admin')
     
   }
 }

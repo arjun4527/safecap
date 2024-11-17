@@ -139,13 +139,23 @@
                                         <div class="mb-4">
                                             <label class="form-label">Category</label>
                                             <select class="form-select" id="category" name="categoryId">
+                                                <% console.log("leyland",productData) %>
+                                                <% console.log("ashok",categoryData) %>
+
+                                                
                                                 <% categoryData.forEach(function(category) { %>
-                                                    <option value="<%= category._id %>" <%= productData.categoryId === category._id ? 'selected' : '' %>><%= category.name %></option>
+                                                    <% console.log('Category ID:', category._id, 'Product Category ID:', productData.category); %>
+
+
+                                                    <option value="<%= category._id %>" <%= productData.category === category._id ? 'selected' : '' %>> <%= category.name %> </option>
+
+
                                                 <% }); %>
                                             </select>
                                             <span class="error" style="color:red" id="categoryError"></span>
                                         </div>
-                                    </div> <!-- col.// -->
+                                    </div>
+                                    <!-- col.// -->
                                 </div> <!-- row.// -->
             
                                 <hr class="mb-4 mt-0">
@@ -155,27 +165,93 @@
                                     <div class="col-md-3">
                                         <h6>5. Size</h6>
                                     </div>
-                                    <div class="col-md-9">
-                                        <div class="row">
-                                            <% productData.variants.forEach(function(variant) { %>
-                                                <div class="col-lg-4 mb-3">
-                                                    <label for="size<%= variant.size %>"><%= variant.size %></label>
-                                                    <div id="variant<%= variant.size %>" class="row gx-2 mt-2">
-                                                        <!-- Increased the size by changing col-lg-6 to col-lg-12 -->
-                                                        <div class="col-lg-12 mb-3">
-                                                            <label class="form-label">Price</label>
-                                                            <input id="price<%= variant.size %>" name="variants[<%= variant.size %>][price]" placeholder="₹" type="number" class="form-control form-control-lg" value="<%= variant.price %>">
-                                                        </div>
-                                                        <div class="col-lg-12">
-                                                            <label class="form-label">Stock</label>
-                                                            <input id="stock<%= variant.size %>" name="variants[<%= variant.size %>][stock]" placeholder="Stock" type="number" class="form-control form-control-lg" value="<%= variant.stock %>">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            <% }); %>
-                                            <!-- <span class="error" style="color:red" id="variantError"></span> -->
+                                
+                                    <div class="col-lg-9 mb-1">
+                                        <label for="smallSize">Small</label>
+                                        <div id="smallSize" class="row gx-2 mt-2" style="display: flex;">
+                                            <!-- Price Inputs Row -->
+                                            <div class="col-lg-4">
+                                                <label class="form-label">Small Price</label>
+                                                <input 
+                                                    id="smallPrice" 
+                                                    name="smallPrice" 
+                                                    placeholder="₹" 
+                                                    value="<%= productData.variants.some(variant => variant.size === 'small') ? productData.variants.find(variant => variant.size === 'small').price : '' %>" 
+                                                    class="form-control"  
+                                                    style="width: 100%;"
+                                                >
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <label class="form-label">Medium Price</label>
+                                                <input 
+                                                    id="mediumPrice" 
+                                                    name="mediumPrice" 
+                                                    placeholder="₹" 
+                                                    value="<%= productData.variants.some(variant => variant.size === 'medium') ? productData.variants.find(variant => variant.size === 'medium').price : '' %>" 
+                                                    class="form-control"  
+                                                    style="width: 100%;"
+                                                >
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <label class="form-label">Large Price</label>
+                                                <input 
+                                                    id="largePrice" 
+                                                    name="largePrice" 
+                                                    placeholder="₹" 
+                                                    value="<%= productData.variants.some(variant => variant.size === 'large') ? productData.variants.find(variant => variant.size === 'large').price : '' %>" 
+                                                    class="form-control"  
+                                                    style="width: 100%;"
+                                                >
+                                            </div>
                                         </div>
+                                
+                                        <!-- Stock Inputs Row -->
+                                        <div id="stockSize" class="row gx-2 mt-2" style="display: flex;">
+                                            <div class="col-lg-4">
+                                                <label class="form-label">Small Stock</label>
+                                                <input 
+                                                    id="smallStock" 
+                                                    name="smallStock" 
+                                                    placeholder="Stock" 
+                                                    value="<%= productData.variants.some(variant => variant.size === 'small') ? productData.variants.find(variant => variant.size === 'small').stock : '' %>" 
+                                                    class="form-control"  
+                                                    style="width: 100%;"
+                                                >
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <label class="form-label">Medium Stock</label>
+                                                <input 
+                                                    id="mediumStock" 
+                                                    name="mediumStock" 
+                                                    placeholder="Stock" 
+                                                    value="<%= productData.variants.some(variant => variant.size === 'medium') ? productData.variants.find(variant => variant.size === 'medium').stock : '' %>" 
+                                                    class="form-control"
+                                                    style="width: 100%;"
+                                                >
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <label class="form-label">Large Stock</label>
+                                                <input 
+                                                    id="largeStock" 
+                                                    name="largeStock" 
+                                                    placeholder="Stock" 
+                                                    value="<%= productData.variants.some(variant => variant.size === 'large') ? productData.variants.find(variant => variant.size === 'large').stock : '' %>" 
+                                                    class="form-control"  
+                                                    style="width: 100%;"
+                                                >
+                                            </div>
+                                        </div>
+                                
+                                        <span class="error" style="color:red" id="variantError"></span>
                                     </div>
+                                </div>
+                                
+                                    
+
+
+
+
+
                                 </div>
                                 
                                 <!-- Media Section -->
@@ -258,7 +334,7 @@
                                         <div class="content-header">
                                             <div>
                                                 <!-- <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button> -->
-                                                <button class="btn btn-md rounded font-sm hover-up" id="edit"  type="submit">Edit</button>
+                                                <button class="btn btn-md rounded font-sm hover-up" id="edit" onclick="validateForm()" type="submit">Edit</button>
                                             </div>
                                         </div>
                                     </div>
@@ -377,39 +453,101 @@
 
 
      // for form validation
-     function validateForm(){
-        let valid=true
-        
+     function validateForm() {
+    let valid = true;
 
-        document.querySelectorAll(".error").forEach(function(error){
-            error.textContent=""
-        })
+    // Clear previous error messages
+    document.querySelectorAll(".error").forEach(function(error) {
+        error.textContent = '';
+    });
 
-        const productName=document.getElementById('name').value.trim()
-        const productDescription=document.getElementById('description').value.trim()
-    
+    const productName = document.getElementById("name").value.trim();
+    const productDescription = document.getElementById("description").value.trim();
+    // const productImage = document.getElementById('input1').value.trim();
 
+    const smallPrice = document.getElementById('smallPrice').value.trim();
+    const smallStock = document.getElementById('smallStock').value.trim();
 
+    const mediumPrice = document.getElementById('mediumPrice').value.trim();
+    const mediumStock = document.getElementById('mediumStock').value.trim();
 
-        if(productName===""){
-            document.getElementById('nameError').textContent="Product name is Required"
-            valid=false
-        }
+    const largePrice = document.getElementById('largePrice').value.trim();
+    const largeStock = document.getElementById('largeStock').value.trim();
 
-        if(productDescription.length<45){
-            document.getElementById('descriptionError').textContent="Description must contain 45 letters"
-            valid=false
-        }
-        return valid
+    // Regex for price (accepts up to 4 decimals)
+    const pricePattern = /^\d{1,8}(\.\d{1,4})?$/;
+
+    // Regex for stock (whole numbers only)
+    const stockPattern = /^\d+$/;
+
+    // Product Name Validation
+    if (productName === '') {
+        document.getElementById('nameError').textContent = "Product name is Required";
+        valid = false;
     }
-    document.getElementById("editProductForm").addEventListener("submit",event =>{
-            
-            if(!validateForm()){
-                event.preventDefault()
-            }
-            
-        
-    })
+
+    // Product Description Validation
+    if (productDescription.length < 45) {
+        document.getElementById('descriptionError').textContent = "Description must contain at least 45 characters";
+        valid = false;
+    }
+
+    // Product Image Validation
+    // if (productImage === "") {
+    //     document.getElementById('imageError').textContent = "Image is Required";
+    //     valid = false;
+    // }
+
+    // Price Validation: Ensure at least one price is filled and valid
+    if (smallPrice === "" && mediumPrice === "" && largePrice === "") {
+        document.getElementById('variantError').textContent = "At least one Price is Required";
+        valid = false;
+    } else {
+        // Validate individual price fields if they are filled
+        if (smallPrice !== "" && !pricePattern.test(smallPrice)) {
+            document.getElementById('variantError').textContent = "Small Price must be a valid number";
+            valid = false;
+        }
+        if (mediumPrice !== "" && !pricePattern.test(mediumPrice)) {
+            document.getElementById('variantError').textContent = "Medium Price must be a valid number";
+            valid = false;
+        }
+        if (largePrice !== "" && !pricePattern.test(largePrice)) {
+            document.getElementById('variantError').textContent = "Large Price must be a valid number";
+            valid = false;
+        }
+    }
+
+    // Stock Validation: Ensure at least one stock is filled and valid
+    if (smallStock === "" && mediumStock === "" && largeStock === "") {
+        document.getElementById('variantError').textContent = "At least one Stock is Required";
+        valid = false;
+    } else {
+        // Validate individual stock fields if they are filled
+        if (smallStock !== "" && !stockPattern.test(smallStock)) {
+            document.getElementById('variantError').textContent = "Small Stock must be a whole number";
+            valid = false;
+        }
+        if (mediumStock !== "" && !stockPattern.test(mediumStock)) {
+            document.getElementById('variantError').textContent = "Medium Stock must be a whole number";
+            valid = false;
+        }
+        if (largeStock !== "" && !stockPattern.test(largeStock)) {
+            document.getElementById('variantError').textContent = "Large Stock must be a whole number";
+            valid = false;
+        }
+    }
+
+    // Return the final validation status
+    return valid;
+}
+
+// Event listener for form submission
+document.getElementById("editProductForm").addEventListener("submit", event => {
+    if (!validateForm()) {
+        event.preventDefault(); // Prevent form submission if validation fails
+    }
+});
 
 
 

@@ -1,0 +1,606 @@
+<%- include('../layouts/userLayouts/header') %>
+<%- include('../layouts/userLayouts/navbar') %>
+	<!--End Mobile Menu-->
+    
+    <!--Body Content-->
+    <div id="page-content">
+    	<!--Collection Banner-->
+    	<div class="collection-header">
+        <div class="collection-hero">
+            <div class="collection-hero__image" style="height: 500px;">
+                <img class="blur-up lazyload" 
+                     data-src="/productImages/shopPageBanner.jpg" 
+                     src="/productImages/shopPageBanner.jpg" 
+                     alt="Women" 
+                     title="Women" 
+                     style="height: 100%; width: 100%;" /> 
+            </div>
+            <div class="collection-hero__title-wrapper">
+                <!-- <h1 class="collection-hero__title page-width">Shop Fullwidth</h1> -->
+            </div>
+        </div>
+    </div>
+    
+        <!--End Collection Banner-->
+        
+        <div class="container-fluid">
+        	<div class="row">
+            	<!--Sidebar-->
+            	<div class="col-12 col-sm-12 col-md-3 col-lg-2 sidebar filterbar">
+                	<div class="closeFilter d-block d-md-none d-lg-none"><i class="icon icon anm anm-times-l"></i></div>
+                	<div class="sidebar_tags">
+                    	<!--Categories-->
+                    	<div class="sidebar_widget filterBox filter-widget">
+                            <div class="widget-title" style="font-size: 25px; color: black;">Categories</div>
+                            <ul>
+                                <% categoryData.forEach((category, index) => { %>
+                                    <li>
+                                        <input type="radio" name="category" value="<%= category._id %>" id="option<%= index %>">
+                                        <label for="check<%= index %>" style="color: black; font-size: 20px;">
+                                            <span><span></span></span><%= category.name %>
+                                        </label>
+                                    </li>
+                                <% }) %>
+                            </ul>
+                        </div>
+                        <!--Categories-->
+                        <!--Price Filter-->
+                        <div class="sidebar_widget filterBox filter-widget">
+                            <!-- <div class="widget-title">
+                            	<h2>Price</h2>
+                            </div> -->
+                          
+                                <!-- <div id="slider-range" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
+                                	<div class="ui-slider-range ui-widget-header ui-corner-all"></div>
+                                    <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
+                                    <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
+                                </div> -->
+                                <div class="row">
+                                    <!-- <div class="col-6">
+                                        <p class="no-margin"><input id="amount" type="text"></p>
+                                    </div> -->
+                                    <div class="col-6 text-right margin-25px-top">
+                                        <button  id = "filterbutton"class="btn btn-secondary btn--small">filter</button>
+                                    </div>
+                                </div>
+                            
+                        </div><br><br>
+                        <!--End Price Filter-->
+                        <!--Size Swatches-->
+                        <!-- <div class="sidebar_widget filterBox filter-widget size-swacthes">
+                            <div class="widget-title"><h2>Size</h2></div>
+                            <div class="filter-color swacth-list">
+                            	<ul>
+                                    <li><span class="swacth-btn checked">S</span></li>
+                                    <li><span class="swacth-btn">M</span></li>
+                                    <li><span class="swacth-btn">L</span></li>
+                                    
+                                </ul>
+                            </div>
+                        </div><br><br> -->
+                        <!--End Size Swatches-->
+                        
+                        <!--Brand-->
+                        <div class="sidebar_widget filterBox filter-widget">
+                            <div class="widget-title" style="font-size: 25px; color: black;">Brands</div>
+                            <ul>
+                                <% brandData.forEach((brand, index) => { %>
+                                    <li>
+                                        <input type="radio" name="brand" value="<%= brand._id %>" id="check<%= index %>">
+                                        <label for="check<%= index %>" style="color: black; font-size: 20px;">
+                                            <span><span></span></span><%= brand.name %>
+                                        </label>
+                                    </li>
+                                <% }) %>
+                            </ul>
+                        </div><br><br>
+
+
+                        <h1>Sort</h1>
+                        <div>
+                            <label style="display: block; color:black; font-size: 17px;">
+                                <input type="radio" name="A-Z" id="A-Z" value="A-Z" style="margin-right: 10px;">Alphabetically, A-Z
+                            </label>
+                            <label style="display: block; color:black; font-size: 17px;">
+                                <input type="radio" name="Z-A" id="Z-A" value="Z-A" style="margin-right: 10px;"> Alphabetically, Z-A
+                            </label>
+                            <label style="display: block; color:black; font-size: 17px;">
+                                <input type="radio" name="lowToHigh" id="lowToHigh" value="low to high" style="margin-right: 10px;">Price, low to high
+                            </label>
+                            <label style="display: block; color:black; font-size: 17px;">
+                                <input type="radio" name="highToLow" id="highToLow" value="high to low" style="margin-right: 10px;">Price, high to low
+                            </label>
+                        </div>
+                        <button id="sortBtn" style="background-color: black; color: white; height: 40px; width: 100px; border: none; border-radius: 5px; cursor: pointer;">
+                            Sort
+                          </button>
+                          
+
+                        
+                        <!--End Brand-->
+                        <!--Popular Products-->
+						
+                        <!--end Product Tags-->
+                    </div>
+                </div>
+                <!--End Sidebar-->
+                <!--Main Content-->
+                <div class="col-12 col-sm-12 col-md-9 col-lg-10 main-col">
+                	<div class="productList">
+                    	<!--Toolbar-->
+                        <button type="button" class="btn btn-filter d-block d-md-none d-lg-none"> Product Filters</button>
+                    	<div class="toolbar">
+                        	<div class="filters-toolbar-wrapper">
+                            	<div class="row">
+                                	<div class="col-4 col-md-4 col-lg-4 filters-toolbar__item collection-view-as d-flex justify-content-start align-items-center">
+                                    	<a href="shop-left-sidebar.html" title="Grid View" class="change-view change-view--active">
+                                        	<img src="assets/images/grid.jpg" alt="Grid" />
+                                        </a>
+                                        <a href="shop-listview.html" title="List View" class="change-view">
+                                        	<img src="assets/images/list.jpg" alt="List" />
+                                        </a>
+                                    </div>
+                                    <div class="col-4 col-md-4 col-lg-4 text-center filters-toolbar__item filters-toolbar__item--count d-flex justify-content-center align-items-center">
+                                    	<span class="filters-toolbar__product-count">Showing: 22</span>
+                                    </div>
+                                    <div class="col-4 col-md-4 col-lg-4 text-right">
+                                    	<div class="filters-toolbar__item">
+                                        <h2>Sort</h2>
+                                      		<!-- <label for="SortBy" class="hidden" style="color: red;">Sort</label> -->
+                                      		<!-- <select name="SortBy" id="SortBy" class="filters-toolbar__input filters-toolbar__input--sort">
+                                                <option value="title-ascending" selected="selected" style="color: black;">Sort</option>
+                                                <option style="color: black;">Best Selling</option>
+                                                <option style="color: black;">Alphabetically, A-Z</option>
+                                                <option style="color: black;">Alphabetically,Z-A</option>
+                                                <option style="color: black;">Price, low to high</option>
+                                                <option style="color: black;">Price, high to low</option>
+                                                 <button style="background-color: black;">Sort</button>
+                                                <!-<option style="color: black;">Date, old to new</option> -->
+                                      		<!-- </select>  -->
+                                      		<input class="collection-header__default-sort" type="hidden" value="manual">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--End Toolbar-->
+                        <div class="grid-products grid--view-items">
+                            <div class="row">
+                              <% productData.forEach(product=>{ %>
+                                 
+                                <div class="col-6 col-sm-6 col-md-4 col-lg-3 grid-view-item style2 item">
+                                	<div class="grid-view_image">
+                                        <!-- start product image -->
+                                        <a href="/productDetails?id=<%= product._id %>" class="grid-view-item__link">
+                                            <!-- image -->
+                                            <img class="grid-view-item__image primary blur-up lazyload" data-src="/productImages/<%= product.productImage[0] %>" src="/productImages/<%= product.productImage[0] %>" alt="image" title="product">
+                                            <!-- End image -->
+                                            <!-- Hover image -->
+                                            <img class="grid-view-item__image hover blur-up lazyload" data-src="/productImages/<%= product.productImage[1] %>" src="/productImages/<%= product.productImage[1] %>" alt="image" title="product">
+                                            <!-- End hover image -->
+                                            <!-- product label -->
+                                            <!-- <div class="product-labels rectangular"><span class="lbl on-sale">-16%</span> <span class="lbl pr-label1">new</span></div> -->
+                                            <!-- End product label -->
+                                        </a>
+                                        <!-- end product image -->
+                                        
+                                        <!--start product details -->
+                                        <div class="product-details hoverDetails text-center mobile">
+                                            <!-- product name -->
+                                            <div class="product-name">
+                                                <a href="#"><%= product.productName %></a>
+                                            </div>
+                                            <!-- End product name -->
+                                            <!-- product price -->
+                                            <div class="product-price">
+                                                
+                                            </div>
+                                            <!-- End product price -->
+                                            <div class="product-review">
+                                                <i class="font-13 fa fa-star"></i>
+                                                <i class="font-13 fa fa-star"></i>
+                                                <i class="font-13 fa fa-star"></i>
+                                                <i class="font-13 fa fa-star-o"></i>
+                                                <i class="font-13 fa fa-star-o"></i>
+                                            </div>
+                                           
+                                        </div>
+                                        <!-- End product details -->
+                                    </div>
+                                </div><br><br><br><br>
+
+
+                             <% }) %>
+                                
+
+
+
+
+
+
+
+                                
+                        </div>
+                    </div>
+                </div>
+                <!--End Main Content-->
+            </div>
+        </div>
+    </div>
+    <!--End Body Content-->
+    
+    <!--Footer-->
+    <footer id="footer">
+        <div class="newsletter-section">
+            <div class="container">
+                <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-7 w-100 d-flex justify-content-start align-items-center">
+                            <div class="display-table">
+                                <div class="display-table-cell footer-newsletter">
+                                    <div class="section-header text-center">
+                                        <label class="h2"><span>sign up for </span>newsletter</label>
+                                    </div>
+                                    <form >
+                                        <div class="input-group">
+                                            <input type="email" class="input-group__field newsletter__input" name="EMAIL" value="" placeholder="Email address" required="">
+                                            <span class="input-group__btn">
+                                                <button type="submit" class="btn newsletter__submit" name="commit" id="Subscribe"><span class="newsletter__submit-text--large">Subscribe</span></button>
+                                            </span>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-5 d-flex justify-content-end align-items-center">
+                            <div class="footer-social">
+                                <ul class="list--inline site-footer__social-icons social-icons">
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on Facebook"><i class="icon icon-facebook"></i></a></li>
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on Twitter"><i class="icon icon-twitter"></i> <span class="icon__fallback-text">Twitter</span></a></li>
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on Pinterest"><i class="icon icon-pinterest"></i> <span class="icon__fallback-text">Pinterest</span></a></li>
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on Instagram"><i class="icon icon-instagram"></i> <span class="icon__fallback-text">Instagram</span></a></li>
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on Tumblr"><i class="icon icon-tumblr-alt"></i> <span class="icon__fallback-text">Tumblr</span></a></li>
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on YouTube"><i class="icon icon-youtube"></i> <span class="icon__fallback-text">YouTube</span></a></li>
+                                    <li><a class="social-icons__link" href="#" target="_blank" title="Belle Multipurpose Bootstrap 4 Template on Vimeo"><i class="icon icon-vimeo-alt"></i> <span class="icon__fallback-text">Vimeo</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+            </div>    
+        </div>
+        <div class="site-footer">
+        	<div class="container">
+     			<!--Footer Links-->
+            	<div class="footer-top">
+                	<div class="row">
+                    	<div class="col-12 col-sm-12 col-md-3 col-lg-3 footer-links">
+                        	<h4 class="h4">Quick Shop</h4>
+                            <ul>
+                            	<li><a href="#">Women</a></li>
+                                <li><a href="#">Men</a></li>
+                                <li><a href="#">Kids</a></li>
+                                <li><a href="#">Sportswear</a></li>
+                                <li><a href="#">Sale</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 footer-links">
+                        	<h4 class="h4">Informations</h4>
+                            <ul>
+                            	<li><a href="#">About us</a></li>
+                                <li><a href="#">Careers</a></li>
+                                <li><a href="#">Privacy policy</a></li>
+                                <li><a href="#">Terms &amp; condition</a></li>
+                                <li><a href="#">My Account</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 footer-links">
+                        	<h4 class="h4">Customer Services</h4>
+                            <ul>
+                            	<li><a href="#">Request Personal Data</a></li>
+                                <li><a href="#">FAQ's</a></li>
+                                <li><a href="#">Contact Us</a></li>
+                                <li><a href="#">Orders and Returns</a></li>
+                                <li><a href="#">Support Center</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 contact-box">
+                        	<h4 class="h4">Contact Us</h4>
+                            <ul class="addressFooter">
+                            	<li><i class="icon anm anm-map-marker-al"></i><p>55 Gallaxy Enque,<br>2568 steet, 23568 NY</p></li>
+                                <li class="phone"><i class="icon anm anm-phone-s"></i><p>(440) 000 000 0000</p></li>
+                                <li class="email"><i class="icon anm anm-envelope-l"></i><p>sales@yousite.com</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--End Footer Links-->
+                <hr>
+                <div class="footer-bottom">
+                	<div class="row">
+                    	<!--Footer Copyright-->
+	                	<div class="col-12 col-sm-12 col-md-6 col-lg-6 order-1 order-md-0 order-lg-0 order-sm-1 copyright text-sm-center text-md-left text-lg-left"><span></span> <a href="templateshub.net">Templates Hub</a></div>
+                        <!--End Footer Copyright-->
+                        <!--Footer Payment Icon-->
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 order-0 order-md-1 order-lg-1 order-sm-0 payment-icons text-right text-md-center">
+                        	<ul class="payment-icons list--inline">
+                        		<li><i class="icon fa fa-cc-visa" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-cc-mastercard" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-cc-discover" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-cc-paypal" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-cc-amex" aria-hidden="true"></i></li>
+                                <li><i class="icon fa fa-credit-card" aria-hidden="true"></i></li>
+                            </ul>
+                        </div>
+                        <!--End Footer Payment Icon-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--End Footer-->
+    
+    <!--Scoll Top-->
+    <span id="site-scroll"><i class="icon anm anm-angle-up-r"></i></span>
+    <!--End Scoll Top-->
+    
+    <!--Quick View popup-->
+    <div class="modal fade quick-view-popup" id="content_quickview">
+    	<div class="modal-dialog">
+        	<div class="modal-content">
+            	<div class="modal-body">
+                    <div id="ProductSection-product-template" class="product-template__container prstyle1">
+                <div class="product-single">
+                <!-- Start model close -->
+                <a href="javascript:void()" data-dismiss="modal" class="model-close-btn pull-right" title="close"><span class="icon icon anm anm-times-l"></span></a>
+                <!-- End model close -->
+                <%  productData.forEach(product=>{ %>
+                  <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="product-details-img">
+                            <div class="pl-20">
+                                <img src="/productImages/<%= product.productImage[0] %>" alt="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="product-single__meta">
+                                <h2 class="product-single__title"><%= product.productName %></h2>
+                                
+                                
+                                <div class="product-single__description rte">
+                                    <%= product.description %>
+                                </div>
+                                
+                            
+                            
+                        </div>
+                </div>
+            </div>
+               <% }) %>
+                
+                <!--End-product-single-->
+                </div>
+            </div>
+        		</div>
+        	</div>
+        </div>
+    </div>
+    <!--End Quick View popup-->
+    
+     <!-- Including Jquery -->
+     <script src="assets/js/vendor/jquery-3.3.1.min.js"></script>
+     <script src="assets/js/vendor/jquery.cookie.js"></script>
+     <script src="assets/js/vendor/modernizr-3.6.0.min.js"></script>
+     <script src="assets/js/vendor/wow.min.js"></script>
+     <!-- Including Javascript -->
+     <script src="assets/js/bootstrap.min.js"></script>
+     <script src="/adminAssets/js/vendors/bootstrap.bundle.min.js"></script>
+     <script src="assets/js/bootstrap.min.js"></script>
+     <script src="assets/js/plugins.js"></script>
+     <script src="assets/js/popper.min.js"></script>
+     <script src="assets/js/lazysizes.js"></script>
+     <script src="assets/js/main.js"></script>
+</div>
+</div>
+</body>
+
+<!-- belle/shop-fullwidth.html   11 Nov 2019 12:39:06 GMT -->
+
+<script>
+    const brandItems = document.querySelectorAll('[name="brand"]');
+    const categoryItems = document.querySelectorAll('[name="category"]');
+    const filterButton = document.getElementById('filterbutton');
+    let valueArr = [];
+
+    // Function to update valueArr based on checked items
+    function updateValueArray() {
+        valueArr = []; // Clear the array
+        brandItems.forEach(item => {
+            if (item.checked) {
+                valueArr.push(item.value);
+            }
+        });
+        categoryItems.forEach(item => {
+            if (item.checked) {
+                valueArr.push(item.value);
+            }
+        });
+        console.log("Selected Values:", valueArr);
+    }
+
+
+    brandItems.forEach(item => {
+        item.addEventListener('change', updateValueArray);
+    });
+
+    
+    categoryItems.forEach(item => {
+        item.addEventListener('change', updateValueArray);
+    });
+
+    filterButton.addEventListener("click", () => {
+        filter(valueArr);
+    })
+
+    
+//    let sortBy = ["a-z","z-b"]
+    
+    function filter(selectedValueArr) {
+        $.ajax({
+            url: "/filter",
+            method: "POST",
+            data: JSON.stringify({ selectedValueArr }),
+            contentType: "application/json",
+           
+            success: function(response) {
+                if (response.success) {
+                    $('.grid-products .row').empty();
+
+                    if (response.productData.length > 0) {
+                        response.productData.forEach(product => {
+                            const productHTML = `
+                                <div class="col-6 col-sm-6 col-md-4 col-lg-3 grid-view-item style2 item">
+                                    <div class="grid-view_image">
+                                        <a href="/productDetails?id=${product._id}" class="grid-view-item__link">
+                                            <img class="grid-view-item__image primary blur-up lazyload" 
+                                                 src="/productImages/${product.productImage[0]}" 
+                                                 alt="${product.productName}" title="${product.productName}">
+                                            <img class="grid-view-item__image hover blur-up lazyload" 
+                                                 src="/productImages/${product.productImage[1]}" 
+                                                 alt="${product.productName}" title="${product.productName}">
+                                        </a>
+                                        <div class="product-details hoverDetails text-center mobile">
+                                            <div class="product-name">
+                                                <a href="#">${product.productName}</a>
+                                            </div>
+                                            <div class="product-price">
+                                                <!-- Add product price here if available -->
+                                            </div>
+                                            <div class="product-review">
+                                                <i class="font-13 fa fa-star"></i>
+                                                <i class="font-13 fa fa-star"></i>
+                                                <i class="font-13 fa fa-star"></i>
+                                                <i class="font-13 fa fa-star-o"></i>
+                                                <i class="font-13 fa fa-star-o"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                            $('.grid-products .row').append(productHTML);
+                        });
+                    } else {
+                        $('.grid-products .row').append('<p>No products found.</p>');
+                    }
+                }
+            },
+            error: function() {
+                console.error('Error fetching product data.');
+                $('.grid-products .row').empty().append('<p>Error fetching products. Please try again.</p>');
+            }
+        });
+    }
+
+
+
+       const sortBtn=document.getElementById("sortBtn")
+       const AtoZ=document.getElementById("A-Z")
+       const ZtoA=document.getElementById("Z-A")
+       const lowToHigh=document.getElementById("lowToHigh")
+       const highToLow=document.getElementById("highToLow")
+
+       sortBtn.addEventListener("click",function(){
+          
+    
+
+      const sortBy=selectedSort()
+    //   console.log("appu",sortBy)
+
+
+
+      $.ajax({
+        
+        url:"/sort",
+        method:"POST",
+        data:JSON.stringify({sortBy:sortBy}),
+        contentType:"application/json",
+
+        success: function(response) {
+                if (response.success) {
+                    $('.grid-products .row').empty();
+
+                    if (response.sortedProducts.length > 0) {
+                        response.sortedProducts.forEach(product => {
+                            const productHTML = `
+                                <div class="col-6 col-sm-6 col-md-4 col-lg-3 grid-view-item style2 item">
+                                    <div class="grid-view_image">
+                                        <a href="/productDetails?id=${product._id}" class="grid-view-item__link">
+                                            <img class="grid-view-item__image primary blur-up lazyload" 
+                                                 src="/productImages/${product.productImage[0]}" 
+                                                 alt="${product.productName}" title="${product.productName}">
+                                            <img class="grid-view-item__image hover blur-up lazyload" 
+                                                 src="/productImages/${product.productImage[1]}" 
+                                                 alt="${product.productName}" title="${product.productName}">
+                                        </a>
+                                        <div class="product-details hoverDetails text-center mobile">
+                                            <div class="product-name">
+                                                <a href="#">${product.productName}</a>
+                                            </div>
+                                            <div class="product-price">
+                                                <!-- Add product price here if available -->
+                                            </div>
+                                            <div class="product-review">
+                                                <i class="font-13 fa fa-star"></i>
+                                                <i class="font-13 fa fa-star"></i>
+                                                <i class="font-13 fa fa-star"></i>
+                                                <i class="font-13 fa fa-star-o"></i>
+                                                <i class="font-13 fa fa-star-o"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                            $('.grid-products .row').append(productHTML);
+                        });
+                    } else {
+                        $('.grid-products .row').append('<p>No products found.</p>');
+                    }
+                }
+            }
+        
+        
+      })
+})
+
+       
+
+
+
+
+
+
+
+
+
+       function selectedSort(){
+        // console.log("hlo")
+
+        if(AtoZ.checked){
+            return AtoZ.value
+        }else if(ZtoA.checked){
+            return ZtoA.value
+        }else if(lowToHigh.checked){
+            return lowToHigh.value
+        }else if(highToLow.checked){
+            return highToLow.value
+        }
+        return  null
+       }
+
+
+
+
+
+</script>
+
+</html>

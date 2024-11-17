@@ -21,6 +21,9 @@ const authenticationController = require("../controllers/userController/authenti
 const cartController = require("../controllers/userController/cartController")
 const userProfileController = require("../controllers/userController/userProfileController")
 const checkoutController=require("../controllers/userController/checkoutController")
+const shopPageController=require("../controllers/userController/shopPageController.js")
+const wishListController=require("../controllers/userController/wishListController.js")
+
 
 
 
@@ -91,10 +94,7 @@ user_route.get("/orders", noCacheMiddleware, auth.isLogin, userProfileController
 user_route.get("/orderDetails", noCacheMiddleware, auth.isLogin, userProfileController.loadOrderDetails)
 user_route.post("/orderDetails", noCacheMiddleware, auth.isLogin, userProfileController.cancelProduct)
 user_route.post("/orderCancel", noCacheMiddleware, auth.isLogin, userProfileController.orderCancel)
-
-
-
-
+user_route.get("/orderList",noCacheMiddleware,auth.isLogin,userProfileController.orderList)
 
 
 
@@ -103,6 +103,10 @@ user_route.post("/orderCancel", noCacheMiddleware, auth.isLogin, userProfileCont
 user_route.get("/checkout", noCacheMiddleware, auth.isLogin, checkoutController.loadCheckout)
 user_route.post("/checkout", noCacheMiddleware, auth.isLogin, checkoutController.placeOrder)
 user_route.get("/orderConfirmation", noCacheMiddleware, auth.isLogin, checkoutController.loadOrderConfirmation)
+user_route.post("/applyCoupon", noCacheMiddleware, auth.isLogin, checkoutController.applyCoupon)
+user_route.delete("/removeCoupon", noCacheMiddleware, auth.isLogin, checkoutController.removeCoupon)
+
+
 
 
 
@@ -111,6 +115,36 @@ user_route.get("/forgotPassword", noCacheMiddleware, auth.isLogout, authenticati
 user_route.post("/forgotPassword", noCacheMiddleware, auth.isLogout, authenticationController.forgotPassword)
 user_route.get("/resetPassword/:token", noCacheMiddleware, auth.isLogout, authenticationController.loadResetPassword)
 user_route.post("/resetPassword", noCacheMiddleware, auth.isLogout, authenticationController.resetPassword)
+
+
+
+
+//shop page
+user_route.get("/shopPage", noCacheMiddleware, auth.isLogin, shopPageController.loadShopPage)
+user_route.get("/quickView", noCacheMiddleware, auth.isLogin, shopPageController.loadQuickView)
+// user_route.get("/cartDataGlobal", noCacheMiddleware, auth.isLogin, shopPageController.loadCartData)
+user_route.post("/filter", noCacheMiddleware, auth.isLogin, shopPageController.filter)
+user_route.post("/sort", noCacheMiddleware, auth.isLogin, shopPageController.sort)
+
+
+
+
+//wish List
+user_route.get("/wishList", noCacheMiddleware, auth.isLogin, wishListController.loadWishList)
+user_route.post("/wishList", noCacheMiddleware, auth.isLogin, wishListController.addWishList)
+user_route.post("/removeProductWishList", noCacheMiddleware, auth.isLogin, wishListController.deleteProduct)
+user_route.get("/clearWishList", noCacheMiddleware, auth.isLogin, wishListController.clearWishList)
+
+
+
+
+
+
+
+
+
+
+
 
 
 

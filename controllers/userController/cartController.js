@@ -1,5 +1,7 @@
 const Cart = require("../../models/cart-model")
 const AddProducts = require("../../models/product-model")
+const StatusCodes=require("../../config/statusCode")
+
 
 
 
@@ -41,12 +43,19 @@ const loadCart = async (req, res) => {
 const addCart = async (req, res) => {
   try {
     const { productId, size, price, quantity } = req.body;
-    const currentUser = req.session.user;
+    const currentUser = req.session.user; 
+
+
+    const response={
+      success:false,
+      message:""
+    }
 
 
     const currentProduct = await AddProducts.findById(productId);
     if (!currentProduct) {
-      return res.status(404).json({ success: false, message: "Product not found" });
+      response.message="Product not found"
+      return res.status(StatusCodes.NOT_FOUND).json(response);
     }
 
     
@@ -57,7 +66,8 @@ const addCart = async (req, res) => {
       let itemIndex = cart.items.findIndex(p => p.product.toString() === productId.toString() && p.size === size);
 
       if (itemIndex > -1) {
-        return res.status(200).json({success:false,message:"product already exist in your cart"})
+        response.message="Product already exist in your cart"
+        return res.status(StatusCodes.OK).json(response)
       } else {
     
         cart.items.push({
@@ -70,7 +80,9 @@ const addCart = async (req, res) => {
 
       // Save the updated cart
       await cart.save();
-      return res.status(200).json({success:true, message: "Cart updated successfully" });
+      response.success=true
+      response.message= "Cart updated successfully"
+      return res.status(StatusCodes.OK).json(response);
     } else {
       
       const newCart = await Cart.create({
@@ -84,12 +96,14 @@ const addCart = async (req, res) => {
       });
 
       await newCart.save();
-      return res.status(201).json({ message: "Product added to cart successfully" });
+      response.success=true
+      response.message= "Product added to cart successfully"
+      return res.status(StatusCodes.CREATED).json(response);
     }
 
   } catch (error) {
     console.log("addCart error:", error.message);
-    res.status(500).json({ message: "Something went wrong" });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Something went wrong" });
   }
 }
 
@@ -113,9 +127,21 @@ const totalAmount = async (req, res) => {
   try {
 
     const { currentQty, id,size } = req.body
+
+
+    const productData=await AddProducts.findOne(
+      {_id:id,},
+    {variants:{$elemMatch:{size:size}}})
+
+    const variant=productData.variants[0]
+    const stock=variant.stock
+    
+    if(currentQty>stock){
+      return res.status(StatusCodes.OK).json({success:false,message:"Quantity exceeds available stock."})
+    }
     
     if(currentQty>5){
-      return res.status(200).json({success:false,message:"Maximum limit is 5"})
+      return res.status(StatusCodes.OK).json({success:false,message:"Maximum limit is 5"})
     }
    
     const currentUser = req.session.user
@@ -123,20 +149,19 @@ const totalAmount = async (req, res) => {
     let cart = await Cart.findOne({ user: currentUser })
 
     const itemIndex = await cart.items.findIndex(p => p.product.toString() == id && p.size === size)
-    // console.log("index",itemIndex)
-    // console.log("indexcheck",cart.items[itemIndex])
+    
 
     if (itemIndex > -1) {
       cart.items[itemIndex].quantity = currentQty;
     } else {
-      return res.status(404).json({ message: 'Product not found in cart' });
+      return res.status().json({ message: 'Product not found in cart' });
     }
     const newCart = await cart.save();
 
     
     const itemsWithPrices = await calculateProductPrices(newCart,itemIndex);
 
-    return res.status(200).json({success:true,itemsWithPrices:itemsWithPrices})
+    return res.status(StatusCodes.OK).json({success:true,itemsWithPrices:itemsWithPrices})
     
   } catch (error) {
     console.log("errror in totalAmount", error);
@@ -154,7 +179,7 @@ const deleteProduct=async(req,res)=>{
 
   const deleteProduct = await Cart.updateOne({user:currentUser},{$pull: {items :{product:id,size:size}}})
 
-  return res.status(200).json({success:true,message:"Removed successfully"})
+  return res.status(StatusCodes.OK).json({success:true,message:"Removed successfully"})
   } catch (error) {
     console.log('deleteProduct',error.message)
   }
@@ -173,7 +198,7 @@ const clearCart=async(req,res)=>{
 
     const deleteProducts = await Cart.updateOne({user:currentUser},{$set: {items :[]}})
 
-    return res.status(200).json({success:true,message:"Your cart is empty"})
+    return res.status(StatusCodes.OK).json({success:true,message:"Your cart is empty"})
     
   } catch (error) {
     console.log('Error from clearCart ',error.message)

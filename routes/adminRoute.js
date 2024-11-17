@@ -23,6 +23,10 @@ const brandController=require("../controllers/adminController/brandController")
 const categoryController=require("../controllers/adminController/categoryController")
 const customerController=require("../controllers/adminController/customerController")
 const productController=require("../controllers/adminController/productController")
+const couponManagementController=require("../controllers/adminController/couponManagementController")
+const offerController=require("../controllers/adminController/offerController")
+
+
 
 
 
@@ -114,36 +118,56 @@ admin_route.post("/customerStatus",noCacheMiddleware,auth.isLogin,customerContro
 
 
 
-
 //orders
 admin_route.get("/orderList",noCacheMiddleware,auth.isLogin,customerController.loadOrderList)
 admin_route.get("/orderDetails",noCacheMiddleware,auth.isLogin,customerController.loadOrderDetails)
 admin_route.post("/updateOrderStatus",noCacheMiddleware,auth.isLogin,customerController.updateOrderStatus)
 
+
+
+
+//coupon
+admin_route.get("/coupon",noCacheMiddleware,auth.isLogin,couponManagementController.loadCouponList)
+admin_route.get("/addCoupon",noCacheMiddleware,auth.isLogin,couponManagementController.loadAddCoupon)
+admin_route.post("/addCoupon",noCacheMiddleware,auth.isLogin,couponManagementController.addCoupon)
+admin_route.post("/couponStatus",noCacheMiddleware,auth.isLogin,couponManagementController.couponStatus)
+
+
+
+
+//offer
+admin_route.get("/productOffer",noCacheMiddleware,auth.isLogin,offerController.loadProductOffer)
+admin_route.get("/addOffer",noCacheMiddleware,auth.isLogin,offerController.loadAddProductOffer)
+admin_route.post("/addOffer",noCacheMiddleware,auth.isLogin,offerController.addProductOffer)
+admin_route.delete("/deleteOffer",noCacheMiddleware,auth.isLogin,offerController.deleteOffer)
+admin_route.get("/updateOffer",noCacheMiddleware,auth.isLogin,offerController.loadUpdateOffer)
+admin_route.post("/editProductOffer",noCacheMiddleware,auth.isLogin,offerController.editProductOffer)
+admin_route.get("/brandOffer",noCacheMiddleware,auth.isLogin,offerController.loadBrandOffer)
+admin_route.get("/addBrandOffer",noCacheMiddleware,auth.isLogin,offerController.loadAddBrandOffer)
+admin_route.post("/addBrandOffer",noCacheMiddleware,auth.isLogin,offerController.addBrandOffer)
+admin_route.delete("/deleteBrandOffer",noCacheMiddleware,auth.isLogin,offerController.deleteBrandOffer)
+admin_route.get("/updateBrandOffer",noCacheMiddleware,auth.isLogin,offerController.loadUpdateBrandOffer)
+admin_route.post("/editBrandOffer",noCacheMiddleware,auth.isLogin,offerController.editBrandOffer)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

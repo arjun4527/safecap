@@ -152,7 +152,7 @@
                                         <td style="color:black"><%= shipping %></td>
                                     </tr>
                                         <tr>
-                                            <td colspan="4" class="text-right" style="color:black; font-weight: bold;"> Grand Total</td>
+                                            <td colspan="4" class="text-right" style="color:black; font-weight: bold;">  Grand Total</td>
                                             <td style="color:black; font-weight: bold;"><%= grandTotal %>/-</td>
                                         </tr>
                                     </tfoot>
@@ -160,9 +160,149 @@
                             </div>
                         </div>
                         
+                       <!-- Button to Trigger Coupon Modal -->
+                       <div style="display: flex;">
+                           <button id="applyCouponBtn" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#couponModal" style="width: 200px; height: auto;">
+                               Apply Coupon
+                           </button>
+                       </div>
+
+                        <div>     
+                            <table style="margin-left: 30px;">
+                                <tr>
+                                    <td colspan="4" class="text-right" style="color: black; font-weight: bold; font-size: 20px; padding-right: 20px;">
+                                        Grand Total
+                                    </td>
+                                    
+                                    <!-- Empty cell for spacing -->
+                                    <td style="width: 20px;"></td>
+                                    
+                                    <td style="color: black; font-weight: bold; font-size: 20px;">
+                                        <%= grandTotal %> 
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="4" class="text-right" style="color: black; font-weight: bold; font-size: 20px; padding-right: 20px;">
+                                        Coupon Discount
+                                    </td>
+                                    
+                                    <!-- Empty cell for spacing -->
+                                    <td style="width: 20px;"></td>
+                                    
+                                    <td id="couponDiscount"  style="color: black; font-weight: bold; font-size: 20px;">
+                                         0
+                                    </td>
+                                </tr>
+                                
+                            </table>
+                            <hr style="border: none; border-top: 2px solid grey; width: 55%; margin-left: 240px ;">
+
+                            <table style=" width: 100%;">
+                                <tr style="display: flex; align-items: center;">
+                                    <!-- Cell for Remove Coupon Button -->
+                                    <td style="padding-right: 10px;">
+                                        <button id="removeCouponBtn" class="btn btn-dark" onclick="removeCoupon()" style="width: 200px; height: auto; display:none;">
+                                            Remove Coupon
+                                        </button>
+                                    </td>
+                            
+                                    <!-- Empty cell for spacing -->
+                                    <td style="flex: 3;"></td>
+                            
+                                    <!-- Total Amount Label -->
+                                    <td style="text-align: right; color: black; font-weight: bold; font-size: 25px; padding-right: 10px;">
+                                        Total Amount
+                                    </td>
+                            
+                                    <!-- Total Amount Value -->
+                                    <td id="totalAmount" style="color: black; font-weight: bold; font-size: 25px;">
+                                        <%= grandTotal %> /-
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                        </div>
+
+
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="couponModal" tabindex="-1" aria-labelledby="couponModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" style="max-width: 500px; margin: 1.75rem auto;"> 
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="couponModalLabel">Coupon Details</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Coupon Details Container -->
+                                         <% couponData.forEach(coupon=>{ %>
+                                            <div class="p-4" style="border: 1px solid #ddd; border-radius: 10px; background-color: #f9f9f9;">
+                                                <!-- Coupon Name -->
+                                                <h4 style="font-weight: bold; color: #333; font-size: 15px;"><%= coupon.couponName %></h4><br>
+                                                <p id="couponName" style="margin-top: -10px;"></p>
+                                                
+                                                <!-- Coupon Description -->
+                                                <h6 style="color: #555;">Description</h6>
+                                                <p id="couponDescription" style="color: #666; margin-top: -10px;">
+                                                    <%= coupon.couponDescription %>
+                                                </p><br>
+                            
+                                                <!-- Coupon Code -->
+                                                <div class="mb-3">
+                                                    <h6 style="color: #555;">Coupon Code</h6>
+                                                    <p id="couponCode" style="font-weight: bold; color: #222; background-color: #f1f1f1; display: inline-block; padding: 8px 12px; border-radius: 5px;">
+                                                        <%= coupon.couponCode %>
+                                                    </p>
+                                                </div>
+                            
+                                                <!-- Discount, Minimum Purchase, and Max Discount in Flexbox Layout -->
+                                                <div style="display: flex; gap: 20px;">
+                                                    <!-- Discount Percentage -->
+                                                    <div>
+                                                        <h6 style="color: #555;">Discount Percentage</h6>
+                                                        <p id="couponDiscount" style="font-weight: bold; color: #333;"><%= coupon.couponDiscount %></p>
+                                                    </div>
+                            
+                                                    <!-- Minimum Purchase Amount -->
+                                                    <div>
+                                                        <h6 style="color: #555;">Minimum Purchase Amount</h6>
+                                                        <p id="minPurchaseAmount" style="font-weight: bold; color: #333;">Rs<%= coupon.minAmount %></p>
+                                                    </div>
+                            
+                                                    <!-- Maximum Discount Amount -->
+                                                    <div>
+                                                        <h6 style="color: #555;">Maximum Discount</h6>
+                                                        <p id="maxDiscountAmount" style="font-weight: bold; color: #333;">Rs<%= coupon.maxAmount %></p>
+                                                    </div>
+                                                </div>
+                            
+                                                <!-- Apply Coupon Button -->
+                                                <a href="" data-bs-dismiss="modal" class="btn btn-dark w-100 mt-3" onclick="applyCoupon('<%= coupon._id %>')" style="font-weight: bold;">
+                                                    Apply Coupon
+                                                </a>
+                                                
+                                            </div>
+                                            <br>
+                                        <% }) %>
+                                       
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+  
+                      <!-- model end  -->
+
+                        
+
+                        
                         <hr />
 
-                        <<div class="your-payment">
+                        <div class="your-payment">
                           <h2 class="payment-title mb-3">Payment Method</h2>
                           <div class="payment-method">
                               <div>
@@ -221,12 +361,17 @@
                                   <div class="order-button-payment">
                                    
                                         <button class="btn"  id="placeOrder" value="Place order" type="submit">Place Order</button>
+
                                     
                                       
                                   </div>
                               </div>
                           </div>
                       </div>
+                      <a href="/">
+                        <button class="btn"  value="Place order" type="submit">Continue Shopping</button>
+
+                      </a>
                       
 
                         
@@ -363,12 +508,77 @@
      <script src="assets/js/lazysizes.js"></script>
      <script src="assets/js/main.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+     <script src="assets/js/bootstrap.min.js"></script>
+     <script src="/adminAssets/js/vendors/bootstrap.bundle.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </div>
 </body>
 
 
 <script>
+
+function applyCoupon(couponId){
+  
+    $.ajax({
+        url:"/applyCoupon",
+        method:"POST",
+        data:JSON.stringify({couponId:couponId}),
+        contentType: "application/json",
+        success: function(response) {
+          if(response.success){
+            
+            document.getElementById('couponDiscount').textContent = `${response.couponDiscount}`;
+
+            document.getElementById('totalAmount').textContent = `${response.finalAmount}/-`;
+
+            document.getElementById('removeCouponBtn').style.display = 'flex'; 
+
+            document.getElementById('applyCouponBtn').style.display = 'none'; 
+
+
+
+          }else{
+            Swal.fire({
+            icon: 'Error',
+            text: response.message,
+            confirmButtonText: 'Try Again',
+            confirmButtonColor: '#000000', 
+});
+          }
+        }
+    })
+}
+
+
+
+function removeCoupon(){
+    $.ajax({
+        url:"/removeCoupon",
+        method:"DELETE",
+        data:JSON.stringify({}),
+        contentType: "application/json",
+        success: function(response) {
+            if(response.success){
+                document.getElementById('couponDiscount').textContent = 0;
+
+                document.getElementById('totalAmount').textContent = `${response.grandTotal}/-`;
+
+                document.getElementById('applyCouponBtn').style.display = 'flex'; 
+
+                document.getElementById('removeCouponBtn').style.display = 'none'; 
+
+
+
+            }
+        }
+
+    })        
+}
+
+
+
+
 
 function removeAddress(id){
   
@@ -478,15 +688,32 @@ Swal.fire({
         // window.location.href = "/orderConfirmation";
 
     } else {
+
+        Swal.fire({
+    icon: 'error', 
+    text: data.message,
+    confirmButtonText: 'OK',
+    confirmButtonColor: '#000000', 
+    timer: 3000,
+    timerProgressBar: true, 
+})
     
-        console.error(data.message || 'An error occurred');
-        alert(data.message || 'An unexpected error occurred');
+        // console.error(data.message || 'An error occurred');
+        // alert(data.message || 'An unexpected error occurred');
     }
 })
 .catch(error => {
     // Handle fetch errors
     console.error('Fetch error:', error);
-    alert('An error occurred while processing your request.');
+    Swal.fire({
+    icon: 'error', 
+    text: 'An error occurred while processing your request.',
+    confirmButtonText: 'Try Again',
+    confirmButtonColor: '#000000', 
+    timer: 3000,
+    timerProgressBar: true, 
+})
+    
 });
 
 }

@@ -6,6 +6,8 @@ const  Brands=require("../../models/brand-model")
 const Products = require("../../models/product-model")
 // const { addProduct } = require("./adminController")
 const  Category=require("../../models/category-model")
+const StatusCodes=require("../../config/statusCode")
+
 
 
 
@@ -129,16 +131,16 @@ const verifyOtp = async (req,res) =>{
     req.session.customerData=null
 
     
-    return res.status(200).json({message:"verification successfull"})
+    return res.status(StatusCodes.OK).json({message:"verification successfull"})
 
 
     }else{
-      return res.status(400).json({message:"Invalid Otp"})
+      return res.status(StatusCodes.BAD_REQUEST).json({message:"Invalid Otp"})
     }
     
   } catch (error) {
     
-    return res.status(500).json({message:"An error occured"})
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({message:"An error occured"})
   }
 
 
@@ -171,11 +173,11 @@ const otpResend=async(req,res)=>{
     
      await transporter.sendMail(mailDetails)
 
-    return res.status(200).json({message:"OTP Resent Successfully",otp:newOtp})
+    return res.status(StatusCodes.OK).json({message:"OTP Resent Successfully",otp:newOtp})
 
   }catch(error){
     console.error("Error resending Otp:",error.message)
-   return res.status(500).json({message:"Error Resending OTP"})
+   return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({message:"Error Resending OTP"})
   }
 }
 
@@ -235,10 +237,10 @@ const userLogin=async(req,res)=>{
       return res.redirect("/")
     }else{
       req.session.errorMessage="Incorrect Password"
-      return res.status(400).redirect('/login')
+      return res.status(StatusCodes.BAD_REQUEST).redirect('/login')
     }
   } catch (error) {
-    res.status(500).send('server error')
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('server error')
   }
 }
 
@@ -267,7 +269,7 @@ const userLogout = async (req,res) =>{
 
               console.log(`failed to destroy session`,err.message);
 
-              return res.status(500).send('failed to logout')
+              return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('failed to logout')
           }
 
           return res.redirect("/login")
@@ -393,7 +395,7 @@ const loadResetPassword = async (req, res) => {
     return res.render("resetPassword", { token, errorMessage });
   } catch (error) {
     console.error("Error from loadResetPassword:", error.message);
-    return res.status(500).send("Internal Server Error");
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Internal Server Error");
   }
 };
 
@@ -419,35 +421,35 @@ const resetPassword = async (req, res) => {
       req.session.noUser = "User not found";
       console.log("erro-2")
 
-      return res.redirect("/login");
+      return res.redirect("/resetPassword");
     }
 
     // Check if the token has expired
     // Check if the token has expired
-// if (userData.resetPasswordExpires < Date.now()) {  // Compare timestamps directly
-//   req.session.tokenExpires = "The token has expired. Try again.";
-//   console.log("erro-3");
-//   console.log("Current time:", Date.now());
-//   console.log("Token expiration time:", userData.resetPasswordExpires);
+if (userData.resetPasswordExpires < Date.now()) {  // Compare timestamps directly
+  req.session.tokenExpires = "The token has expired. Try again.";
+  // console.log("erro-3");
+  // console.log("Current time:", Date.now());
+  // console.log("Token expiration time:", userData.resetPasswordExpires);
   
-//   return res.redirect("/login");
-// }
+  return res.redirect("/resetPassword");
+}
 
-    // Validate token
-    // if (!bcrypt.compare(token,userData.resetPasswordToken)) {
+    //Validate token
+    if (!bcrypt.compare(token,userData.resetPasswordToken)) {
 
-    //   console.log("erro-4")
+      // console.log("erro-4")
 
-    //   req.session.invalidToken = "Invalid or expired token. Try again.";
-    //   return res.redirect("/login");
-    // }
+      req.session.invalidToken = "Invalid or expired token. Try again.";
+      return res.redirect("/resetPassword");
+    }
 
-    // Hash new password
+    
     const hashedPassword = await bcrypt.hash(confirmPassword, 10);
 
-    console.log("hashe done",hashedPassword);
+    // console.log("hashe done",hashedPassword);
     
-    // Update user data
+    
     userData.password = hashedPassword;
     userData.resetPasswordExpires = undefined;
     userData.resetPasswordToken = undefined;
@@ -465,7 +467,7 @@ const resetPassword = async (req, res) => {
     return res.redirect("/login");
   } catch (error) {
     console.error("Error from resetPassword:", error.message);
-    return res.status(500).send("Internal Server Error");
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Internal Server Error");
   }
 };
 

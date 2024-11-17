@@ -2,6 +2,10 @@ const User=require("../../models/user-model")
 const bcrypt=require("bcrypt")
 const Address=require("../../models/address-model")
 const Orders=require("../../models/order-model")
+const AddProducts = require("../../models/product-model")
+const StatusCodes=require("../../config/statusCode")
+
+
 
 
 
@@ -71,7 +75,7 @@ const editProfile=async(req,res)=>{
   try {
     const currentUser= req.session.user
 
-    const {firstName,lastName}=req.body
+    const {firstName,lastName,email}=req.body
 
     console.log("check",firstName,lastName)
 
@@ -81,13 +85,14 @@ const editProfile=async(req,res)=>{
         {
           $set:{
             firstName,
-            lastName
+            lastName,
+            email
           }
         },
         {new:true}
       )
       console.log("update",updatedProfile)
-      return res.status(200).json({success:true,message:"Updation Successfully Completed"})
+      return res.status(StatusCodes.OK).json({success:true,message:"Updation Successfully Completed"})
       
     }
   } catch (error) {
@@ -126,7 +131,7 @@ const changePassword=async(req,res)=>{
   const isCurrentPasswordMatch=await bcrypt.compare(currentPassword,userData.password)
 
   if(!isCurrentPasswordMatch){
-    return res.status(200).json({success:false,message:"Current Password is incorrect,Try again"})
+    return res.status(StatusCodes.OK).json({success:false,message:"Current Password is incorrect,Try again"})
   }else{
     const spassword=await securePassword(confirmPassword)
 
@@ -139,7 +144,7 @@ const changePassword=async(req,res)=>{
       },
       {new:true}
     )
-    return res.status(200).json({success:true,message:"Updation Successfully Completed"})
+    return res.status(StatusCodes.OK).json({success:true,message:"Updation Successfully Completed"})
   }
 
  } catch (error) {
@@ -205,7 +210,7 @@ const addAddress=async(req,res)=>{
 
     await newAddress.save()
 
-     res.status(200).json({success:true,message:"Address Added Successfully"})
+     res.status(StatusCodes.OK).json({success:true,message:"Address Added Successfully"})
     //  return res.redirect('/addAddress')
 
 
@@ -225,11 +230,20 @@ const removeAddress=async(req,res)=>{
     
     const deleteAddress=await Address.deleteOne({_id:id})
 
-    if (deleteAddress.deletedCount === 0) {
-      return res.status(404).json({ success: false, message: "Address not found" });
+    const response={
+      success:false,
+      message:"",
     }
 
-    return res.status(200).json({ success: true, message: "Address deleted successfully" });
+    if (deleteAddress.deletedCount === 0) {
+      response.message="Address not found"
+      return res.status(StatusCodes.NOT_FOUND).json(response);
+    }
+
+    response.success=true
+    response.message="Address deleted successfully"
+
+    return res.status(StatusCodes.OK).json(response);
 
 
   } catch (error) {
@@ -281,7 +295,7 @@ const editAddress=async(req,res)=>{
       },
       {new:true}
     )
-    return res.status(200).json({success:true,message:"Updation Successfully Completed"})
+    return res.status(StatusCodes.OK).json({success:true,message:"Updation Successfully Completed"})
     
 
   } catch (error) {
@@ -295,14 +309,31 @@ const editAddress=async(req,res)=>{
 // for load order list
 const loadOrderList=async(req,res)=>{
   try {
-    const isLogged = req.session.user || req?.session?.passport?.user
 
+    const page=parseInt(req.query.page) || 1
+    const limit=4
+    const skip=(page-1)* limit
+
+
+    // const orders=await Orders.find().skip(skip).limit(limit)
     const currentUser= req.session.user
 
+    const orderData=await Orders.find({user:currentUser}).skip(skip).limit(limit)
 
-    const orderData=await Orders.find({user:currentUser})
 
-    return res.render("orderList",{isLogged,orderData})
+
+    const totalOrders=await Orders.countDocuments()
+
+    const totalPages=Math.ceil(totalOrders/limit)
+
+    const isLogged = req.session.user || req?.session?.passport?.user
+
+    
+
+
+
+
+    return res.render("orderList",{isLogged,orderData,currentPage:page,totalPages})
   } catch (error) {
     console.log("Error from loadOrderList",error.message)
   }
@@ -337,7 +368,7 @@ const cancelProduct=async(req,res)=>{
   try {
     const {id,orderId}=req.body
     
-    console.log("order id",id,orderId);
+    // console.log("order id",id,orderId);
     
     const orderData=await Orders.findById(orderId)
     
@@ -345,19 +376,29 @@ const cancelProduct=async(req,res)=>{
 
         if(i.product.toString()=== id.toString()) {
 
-          if(i.orderStatus=="canceled"){
-            return res.status(200).json({success:true,message:"its already canceled "})
-          }
-
             i.orderStatus = "canceled"
         }
      })
-
-
-
      await orderData.save()
 
-     return res.status(200).json({success:true,message:"Product Canceled Successfully"})
+     
+     for(let item of orderData.items){
+      await AddProducts.updateOne(
+        {_id:item.product,"variants.size":item.size},
+        {$inc:{"variants.$.stock":+item.quantity}}
+      )
+    }
+
+    if(orderData.items.every(item=> item.orderStatus==='canceled')){
+
+      orderData.orderStatus="canceled"
+    }
+    await orderData.save()
+
+
+
+0
+     return res.status(StatusCodes.OK).json({success:true,message:"Product Canceled Successfully"})
     
   } catch (error) {
     console.log("error from cancelProduct",error.message)
@@ -388,11 +429,40 @@ const orderCancel=async(req,res)=>{
   await orderData.save()
 
 
-  return res.status(200).json({success:true,message:"Order Cancel"})
+  return res.status(StatusCodes.OK).json({success:true,message:"Order Cancel"})
 
 
   } catch (error) {
     console.log("Error from orderCancel",error.message)
+  }
+}
+
+
+
+
+// for orderList
+const orderList=async(req,res)=>{
+  try {
+
+    const page=parseInt(req.query.page) || 1
+    const limit=5
+    const skip=(page-1)* limit
+
+    const orderData=await Orders.find().skip(skip).limit(limit)
+
+    const totalOrders=await Orders.countDocuments()
+
+    const totalPages=Math.ceil(totalOrders/limit)
+    
+
+    return res.render('orderList',{
+      orderData,
+      
+      currentPage:page,
+      totalPages
+    })
+  } catch (error) {
+    console.log("Error  from orderList ",error.message)
   }
 }
 
@@ -424,5 +494,6 @@ module.exports={
   loadOrderList,
   loadOrderDetails,
   cancelProduct,
-  orderCancel
+  orderCancel,
+  orderList
 }

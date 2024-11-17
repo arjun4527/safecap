@@ -1134,7 +1134,7 @@ table { margin-bottom:15px; width:100%; border-collapse:collapse; border-spacing
   24. Cart Pages
 ========================================================================*/
 .cart__row { position:relative; }
-.cart th { font-weight:400; padding:10px 0 8px; background:#f2f2f2; text-transform:uppercase; padding-left:15px; padding-right:15px; letter-spacing:1px; }
+.cart th { font-weight:400; padding:10px 0 8px; background:#f2f2f2; text-transform:uppercase; padding-left:200px; padding-right:15px; letter-spacing:1px; }
 .cart td { padding:10px; }
 .cart .cart__meta { padding-right:15px; }
 .cart th.cart__meta, .cart td.cart__meta { text-align:left; }

@@ -6,6 +6,10 @@ const AddProducts = require("../../models/product-model")
 const path=require('path')
 const { log } = require("console")
 const sharp = require('sharp');
+const StatusCodes=require("../../config/statusCode")
+const WishList = require("../../models/wishList-model")
+
+
 
 
 
@@ -35,12 +39,12 @@ const addProduct = async (req, res) => {
     const productExists = await AddProducts.findOne({ productName: productName });
     if (productExists) {
       req.session.productExists="Product name already exists, please try with another name"
-      return res.status(400).redirect('/admin/addProduct')
+      return res.status(StatusCodes.BAD_REQUEST).redirect('/admin/addProduct')
     }
 
     
     if (!req.files || req.files.length === 0) {
-      return res.status(400).json("Please upload at least one product image");
+      return res.status(StatusCodes.BAD_REQUEST).json("Please upload at least one product image");
     }
 
     const images = [];
@@ -93,7 +97,7 @@ const addProduct = async (req, res) => {
 
   } catch (error) {
     console.error(error.message);
-    return res.status(500).send('Error adding product');
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('Error adding product');
   }
 };
 
@@ -106,8 +110,18 @@ const addProduct = async (req, res) => {
 //for render productList
 const  loadProductList=async(req,res)=>{
   try {
+
+
+    const page=parseInt(req.query.page) || 1
+    const limit=4
+    const skip=(page-1)* limit
+
+    const products=await AddProducts.find().skip(skip).limit(limit).populate('category').populate('brand')
+
+    const totalproducts=await AddProducts.countDocuments()
+
+    const totalPages=Math.ceil(totalproducts/limit)
     
-    const productData=await AddProducts.find().populate('category').populate('brand')
 
     const productAdded= req.session.productAdded
     const updateProduct= req.session.updateProduct
@@ -115,7 +129,8 @@ const  loadProductList=async(req,res)=>{
     req.session.productAdded=null
     req.session.updateProduct=null
 
-    return res.render("productList",{productData:productData,productAdded,updateProduct})
+    return res.render("productList",{productAdded,updateProduct, currentPage:page,productData:products,totalPages
+    })
   } catch (error) {
     console.log(error.message)
   }
@@ -125,10 +140,10 @@ const  loadProductList=async(req,res)=>{
 
 
 
+
 //for render productDetails
 const loadProductDetails=async(req,res)=>{
 const productId=req.query.id
-
 
 
 const productData=await AddProducts.findOne({_id: productId}).populate('category').populate('brand')
@@ -198,7 +213,24 @@ const productData=await AddProducts.findOne({_id: productId})
   //for Edit product
   const editProduct = async (req, res) => {
     try {
-        const { productName, productId, description, brandId, categoryId, variants } = req.body;
+        const { productName, productId, description, brandId, categoryId, smallPrice, smallStock, mediumPrice, mediumStock, largePrice, largeStock } = req.body;
+        
+
+
+
+
+        const variants = [];
+    if (smallPrice && smallStock) {
+      variants.push({ size: 'small', price: smallPrice, stock: smallStock });
+    }
+    if (mediumPrice && mediumStock) {
+      variants.push({ size: 'medium', price: mediumPrice, stock: mediumStock });
+    }
+    if (largePrice && largeStock) {
+      variants.push({ size: 'large', price: largePrice, stock: largeStock });
+    }
+
+      console.log("var",variants)
 
         const images = req.files || [];
 
@@ -208,7 +240,7 @@ const productData=await AddProducts.findOne({_id: productId})
         });
         
         
-        // console.log("kjsdfkjdsffd",isProductNameExist);
+  
         
         const brandsData = await Brands.find({})
         const categoryData = await Categories.find({})
@@ -230,15 +262,17 @@ const productData=await AddProducts.findOne({_id: productId})
 
         
 
-        const imageFilenames = images.map(img => img.filename); // Extract image filenames
+        const imageFilenames = images.map(img => img.filename); // Extract image filename
 
-        // Transform variants into array (if needed)
-        const parsedVariants = typeof variants === 'string' ? JSON.parse(variants) : variants;
-        const variantsArray = Object.keys(parsedVariants).map(sizeKey => ({
-            size: sizeKey,
-            price: parsedVariants[sizeKey].price,
-            stock: parsedVariants[sizeKey].stock,
-        }));
+        
+
+        const variantsArray=variants.map(variant=>({
+          size:variant.size,
+          price:variant.price,
+          stock:variant.stock
+        }))
+
+        console.log("vavava",variantsArray)
 
         const updatedProduct = await AddProducts.findByIdAndUpdate(
             productId,
@@ -266,7 +300,7 @@ const productData=await AddProducts.findOne({_id: productId})
         return res.redirect("/admin/productList"); // Redirect after successful update
     } catch (error) {
         console.error("Error updating product:", error);
-        return res.status(500).json({ message: "Internal Server Error" });
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Internal Server Error" });
     }
 };
 
@@ -295,7 +329,7 @@ const productData=await AddProducts.findOne({_id: productId})
       {new:true}
         
     )
-      return res.status(200).json({
+      return res.status(StatusCodes.OK).json({
          success:true,
          messsage:"Product status updated successfully",
          product:product

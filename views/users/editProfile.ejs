@@ -76,6 +76,13 @@
                                                     <span class="error" style="color:red" id="lastNameError"></span>
                                                 </div>
                                               </div>
+                                              <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="LastName" style="color: black">Email</label>
+                                                    <input type="text" value="<%= userData.email %>" name="email" placeholder="" id="email">
+                                                    <span class="error" style="color:red" id="emailError"></span>
+                                                </div>
+                                              </div>
                                              
                                               <div class="col-12 d-flex justify-content-between">
                                                 <div class="text-left">
@@ -255,6 +262,8 @@
       // Get form fields
       const firstName = document.getElementById('firstName').value.trim();
       const lastName = document.getElementById('lastName').value.trim();
+      const email = document.getElementById('email').value.trim();
+
 
 
       if (firstName === "") {
@@ -267,30 +276,40 @@
             document.getElementById('lastNameError').textContent = "Last Name is required.";
             valid = false;
         }
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+        if (email === '') {
+            document.getElementById("emailError").textContent = "Email is Required"
+            valid = false
+        } else if (!emailPattern.test(email)) {
+            document.getElementById("emailError").textContent = 'Please enter a valid email address'
+            valid = false
+        }
 
         if (valid) {
             document.getElementById('editProfileForm').submit();
         }
 
-         editProfile(firstName,lastName)      
+         editProfile(firstName,lastName,email)      
   
   }   
   document.querySelector('input[type="submit"]').addEventListener('click', validateForm);
 
 
 
-function editProfile(firstName,lastName){
+function editProfile(firstName,lastName,email){
 
     $.ajax({
     url:"/editProfile",
     method:"POST",
-    data:JSON.stringify({firstName:firstName,lastName:lastName}),
+    data:JSON.stringify({firstName:firstName,lastName:lastName,email:email}),
     contentType:"application/json",
     success:function(response){
         
           if(response.success){
             
             profileUpdatedMessage("Success",response.message,"sccess")
+
+            window.locatio.redirect("/pofile")
           }
     }
   })

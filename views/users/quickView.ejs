@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Display</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <style>
+        /* Basic styles for layout */
+        .product-container {
+            display: flex; /* Use flexbox for layout */
+            border: 1px solid #ddd; /* Add a border for visual separation */
+            padding: 15px; /* Add padding */
+            margin: 20px; /* Add margin around the product */
+            max-width: 600px; /* Set a max width for the container */
+            border-radius: 5px; /* Rounded corners */
+        }
+
+        .product-image {
+            flex: 1; /* Take up 1 part of the space */
+            max-width: 200px; /* Limit the width of the image */
+            margin-right: 20px; /* Space between image and text */
+        }
+
+        .product-image img {
+            width: 100%; /* Make image responsive */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 5px; /* Rounded corners for the image */
+        }
+
+        .product-details {
+            flex: 2; /* Take up 2 parts of the space */
+        }
+
+        .product-name {
+            font-size: 24px; /* Larger font for product name */
+            font-weight: bold; /* Bold font */
+            margin: 0; /* Remove default margin */
+        }
+
+        .product-price {
+            font-size: 20px; /* Medium font for price */
+            color: green; /* Color for price */
+            margin: 5px 0; /* Margin for spacing */
+        }
+
+        .product-description {
+            font-size: 16px; /* Regular font for description */
+            color: #555; /* Darker color for text */
+        }
+    </style>
+</head>
+<body>
+
+<div class="product-container">
+    <div class="product-image">
+        <img src="/productImages/<%= productData.productImage[0] %>" alt="Product Image" /> <!-- Replace with your image path -->
+    </div>
+    <div class="product-details">
+        <h2 class="product-name"><%= productData.productName %></h2>
+      
+        <p class="product-description"><%= productData.description %></p>
+    </div>
+</div>
+
+</body>
+</html>

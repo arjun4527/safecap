@@ -169,15 +169,15 @@
                           
                           <!-- Image without borders and full width -->
                           <% if (product.productImage && product.productImage.length > 0) { %>
-                            <img class="img-default" 
-                                 style="height: 400px; object-fit:fill;width: 100%;" 
-                                 src="/productImages/<%= product.productImage[0] %>" alt="<%= product.productName %>">
-                                 
+                            <a href="/productDetails?id=<%= product._id %>">
+                                <img class="img-default" 
+                                style="height: 400px; object-fit:fill;width: 100%;" 
+                                src="/productImages/<%= product.productImage[0] %>" alt="<%= product.productName %>">
+                                
 
-                                 <img class="img-hover" 
-                                 style="height: 400px; object-fit: fill; width: 100%; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 0.3s ease-in-out;" 
-                                 src="/productImages/<%= product.productImage[1] %>" 
-                                 alt="<%= product.productName %>">     
+                            </a>
+                            
+                                     
                           <% } else { %>
                             <!-- No image placeholder logic if needed -->
                           <% } %>
@@ -192,7 +192,7 @@
                               <!-- Optional description or product details can go here -->
                             </p>
                             
-                            <a href="/productDetails?id=<%= product._id %>" class="btn btn-success">View Details</a>
+                            
                             
                             <% if(product.is_blocked || product.category?.is_blocked || product.brand?.is_blocked ){ %>
                                <span style="color: red; font-weight:700;">Currently Unavailable</span> 
@@ -201,7 +201,7 @@
 
                           
                             
-                          </div>
+                          </div><br><br><br>
                         </div>
                       </div>
                     <% }) %>

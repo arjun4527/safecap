@@ -7,6 +7,8 @@ const Orders=require("../../models/order-model")
 const path=require('path')
 const { log } = require("console")
 const sharp = require('sharp');
+const StatusCodes=require("../../config/statusCode")
+
 
 
 
@@ -27,12 +29,11 @@ const customerList=async(req,res)=>{
 
     return res.render('customerList',{
       userData,
-      
       currentPage:page,
       totalPages
     })
   } catch (error) {
-    console.lod(error.message)
+    console.log(error.message)
   }
 }
 
@@ -54,7 +55,7 @@ const customerStatus=async(req,res)=>{
     
   )
   
-    return res.status(200).json({
+    return res.status(StatusCodes.OK).json({
        success:true,
        messsage:"Customer status updated successfully",
        user:user
@@ -62,7 +63,7 @@ const customerStatus=async(req,res)=>{
 
 
   } catch (error) {
-     return res.status(500).json({ success: false, message: 'Internal Server Error' });
+     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ success: false, message: 'Internal Server Error' });
   }
 }
 
@@ -73,11 +74,28 @@ const customerStatus=async(req,res)=>{
 //for order list
 const loadOrderList=async(req,res)=>{
   try {
-  const orderData=await Orders.find({})
+
+
+    const page=parseInt(req.query.page) || 1
+    const limit=4
+    const skip=(page-1)* limit
+
+    const currentUser=req.session.user
+    // const orders=await Orders.find().skip(skip).limit(limit)
+
+    const orderData=await Orders.find().skip(skip).limit(limit)
+
+
+
+    const totalOrders=await Orders.countDocuments()
+
+    const totalPages=Math.ceil(totalOrders/limit)
+
+  // const orderData=await Orders.find({})
     
-    return res.render("orderList",{orderData}) 
+    return res.render("orderList",{orderData,totalPages,currentPage:page,}) 
   } catch (error) {
-    console.log("Errro from loadOrderList",errror.message)
+    console.log("Errro from loadOrderList",error.message)
   }
 }
 
@@ -123,7 +141,7 @@ const updateOrderStatus=async(req,res)=>{
     })
     await updatedOrder.save()
 
-    return res.status(200).json({success:true,message:"Order Status Updated"})
+    return res.status(StatusCodes.OK).json({success:true,message:"Order Status Updated"})
     
     
 

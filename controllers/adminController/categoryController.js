@@ -1,6 +1,8 @@
 // const User=require("../../models/user-model")
 // const bcrypt=require("bcrypt")
 const Categories=require("../../models/category-model")
+const StatusCodes=require("../../config/statusCode")
+
 // const Brands=require("../../models/brand-model")
 // const AddProducts = require("../../models/product-model")
 // const path=require('path')
@@ -91,7 +93,7 @@ const addCategories=async(req,res)=>{
       category:category
     })
   } catch (error) {
-    return res.status(500).json({ success: false, message: 'Internal Server Error' });
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ success: false, message: 'Internal Server Error' });
   }
  
 }
@@ -164,7 +166,7 @@ const editCategory=async(req,res)=>{
 
   } catch (error) {
     console.error("Error updating category:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Internal Server Error" });
   }
 }
 

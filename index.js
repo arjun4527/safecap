@@ -29,6 +29,13 @@ app.use(passport.session())
 
 
 
+// app.use((req, res, next) => {
+//   res.locals.cartData = req.session.cart || []; // Make cart data available globally
+//   next();
+// })
+
+
+
 
 //connecting port
 const PORT=process.env.PORT

@@ -1,202 +1,153 @@
 <%- include('../layouts/userLayouts/header') %>
 <%- include('../layouts/userLayouts/navbar') %>
 
+<!--End Mobile Menu-->
 
-	<!--End Mobile Menu-->
-    
-    <!--Body Content-->
-    <div id="page-content">
-    	<!--Page Title-->
-    	<div class="page section-header text-center">
-			<div class="page-title">
-        		<div class="wrapper"><h1 class="page-width">Profile</h1></div>
-      		</div>
-		</div>
-        <!--End Page Title-->
-        
-        <!-- Code by chatgpt start-->
-
-
-        <section style="padding-top: 150px; padding-bottom: 150px;">
-          <div style="max-width: 1800px; margin: 0 auto;">
-              <div style="display: flex;">
-                <div style="flex: 0 0 33.33%; padding: 15px; max-width: 350px;">
-                  <div style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px;">
-                      <ul style="list-style-type: none; padding: 0; margin: 0;">
-                        <li>
-                          <a style="display: block; padding: 20px; font-size: 18px; text-decoration: none; color: black; background-color: transparent; border: 1px solid #dee2e6; border-radius: 5px;" 
-                             id="profile-tab" href="/profile" role="tab" aria-controls="dashboard" aria-selected="false">
-                              <i class="fi-rs-settings-sliders" style="margin-right: 10px;"></i>Profile
-                          </a>
-                      </li>
-                      <li>
-                          <a style="display: block; padding: 20px; font-size: 18px; text-decoration: none; color: black; background-color: transparent; border: 1px solid #dee2e6; border-radius: 5px;" 
-                             id="orders-tab" href="/orders" role="tab" >
-                              <i class="fi-rs-shopping-bag" style="margin-right: 10px;"></i>Orders
-                          </a>
-                      </li>
-                      <li>
-                          <a style="display: block; padding: 20px; font-size: 18px; text-decoration: none; color: black; background-color: transparent; border: 1px solid #dee2e6; border-radius: 5px;" 
-                             id="address-tab" href="/address" role="tab" aria-controls="address" aria-selected="true">
-                              <i class="fi-rs-marker" style="margin-right: 10px;"></i>My Address
-                          </a>
-                      </li>
-                      <li>
-                          <a style="display: block; padding: 20px; font-size: 18px; text-decoration: none; color: black; background-color: transparent; border: 1px solid #dee2e6; border-radius: 5px;" 
-                             id="edit-profile-tab" href="/editProfile" role="tab" aria-controls="account-detail" aria-selected="true">
-                              <i class="fi-rs-user" style="margin-right: 10px;"></i>Edit Profile
-                          </a>
-                      </li>
-                      <li>
-                          <a style="display: block; padding: 20px; font-size: 18px; text-decoration: none; color: black; background-color: transparent; border: 1px solid #dee2e6; border-radius: 5px;" 
-                             href="/logout" >
-                              <i class="fi-rs-sign-out" style="margin-right: 10px;"></i>Logout
-                          </a>
-                      </li>
-                      
-                      </ul>
-                  </div>
-              </div>
-
-
-
-             <!-- order list start  -->
-
-
-             <div class="card-body" style="color: black;">
-              <article class="itemlist">
-                  <table style="width: 100%; border-collapse: collapse; color: black;">
-                      <thead>
-                          <tr>
-                              <th style="width: 5%; border: 1px solid #ccc; padding: 8px; text-align: center;"><strong>Index</strong></th>
-                              <th style="width: 15%; border: 1px solid #ccc; padding: 8px; text-align: center;"><strong>OrderId</strong></th>
-                              <th style="width: 20%; border: 1px solid #ccc; padding: 8px; text-align: center;"><strong>Status</strong></th>
-                              <th style="width: 15%; border: 1px solid #ccc; padding: 8px; text-align: center;"><strong>Order Date</strong></th>
-                              <th style="width: 25%; border: 1px solid #ccc; padding: 8px; text-align: center;"><strong>Shipping Address</strong></th>
-                              <th style="width: 10%; border: 1px solid #ccc; padding: 8px; text-align: center;"><strong>Payment Method</strong></th>
-                              <th style="width: 10%; border: 1px solid #ccc; padding: 8px; text-align: center;"><strong>Total Amount</strong></th>
-                              <th style="width: 10%; border: 1px solid #ccc; padding: 8px; text-align: center;"><strong>View Order</strong></th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                        <% orderData.forEach((order,index) =>{ %>
-                         
-                          <tr class="align-items-center mb-3">
-                            <td style="border: 1px solid #ccc; text-align: center; color: black;">
-                                <div class="form-check">
-                                    <input class="form-check-input" value="" type="checkbox">
-                                </div>
-                                <span style="color: black;"> <%= index + 1 %></span>
-                            </td>
-                            <td style="border: 1px solid #ccc; text-align: center;">
-                              <span><%= order._id %></span>
-                            </td>
-                            <td style="border: 1px solid #ccc; text-align: center;">
-                                <h6 class="mb-0"><%= order.orderStatus %></h6>
-                            </td>
-                            <td style="border: 1px solid #ccc; text-align: center;">
-                                <span><%= order.orderDate %></span>
-                            </td>
-                            <td style="border: 1px solid #ccc; text-align: center;">
-                                <span><%= order.shippingAddress.address %></span>,
-                                <span><%= order.shippingAddress.district %></span>,
-                                <span><%= order.shippingAddress.state %></span>,
-                                <span><%= order.shippingAddress.pincode %></span>,
-                                <span><%= order.shippingAddress.landMark %></span>,
-                                <span><%= order.shippingAddress.phone %></span>
-                            </td>
-                            <td style="border: 1px solid #ccc; text-align: center;">
-                                <span><%= order.paymentMethod %></span>
-                            </td>
-                            <td style="border: 1px solid #ccc; text-align: center;">
-                                <span><%= order.grandTotal %></span>
-                            </td>
-                            <td style="border: 1px solid #ccc; text-align: center;">
-                                <a href="/orderDetails?id=<%= order._id %>"  class="btn btn-xs font-xs rounded btn-brand me-1 px-2 py-1">
-                                    <i class="material-icons md-description"></i> Order Details
-                                </a>
-                            </td>
-                        </tr>
-
-
-                        <!-- Modal -->
-                         <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                           <div class="modal-dialog custom-modal-size custom-modal-position"> Custom classes for size and position
-                             <div class="modal-content">
-                               <div class="modal-header">
-                                 <h1 class="modal-title fs-5" id="exampleModalLabel">Your Order </h1>
-                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                               </div>
-                               <div class="modal-body">
-                                 <img src="" alt="Helmet Sizing Chart" class="img-fluid"> Added img-fluid for responsive image
-
-                                <div class="carouselStart">
-
-                                  <div id="carouselExample" class="carousel slide">
-                                    <div class="carousel-inner">
-                                      
-                                        <div class="carousel-item active">
- 
-                                          <div>
-                                          
-                                            <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; display: flex; align-items: center;">
-                                              <div class="cart__image-wrapper" style="margin-right: 15px;">
-                                                  <a href="#">
-                                                      <img class="cart__image" src="/productImages/" alt="" style="width: 100px; height: auto;">
-                                                  </a>
-                                              </div>
-                                              <div>
-                                                  <h2 style="margin: 0;"></h2>
-                                                  <p style="color:black; font-size: 20px;">Price: </p>
-                                                  <p style="color:black; font-size: 20px;">Quantity:</p>
-                                                  <p style="color:black; font-size: 20px;">Size:</p>
-                                          
-                                              </div>
-                                              
-                                          </div>
-                                          
-                                          </div>
-                                        </div>
-                                      
-                                       
-                                       
-                                    </div>
-                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                      <span class="visually-hidden">Previous</span>
-                                    </button>
-                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                      <span class="visually-hidden">Next</span>
-                                    </button>
-                                  </div>
-
-                                </div>
-
-                               </div>
-                               <div class="modal-footer">
-                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                               </div>
-                             </div>
-                           </div>
-                         </div> -->
-  
-                        <!-- model end  -->
-                       <% }) %>
-                          
-                      </tbody>
-                  </table>
-              </article>
-          </div>
-          v>
-
-
-             <!-- order list end  -->
-
-
-                  
+<!--Body Content-->
+<div id="page-content">
+    <!--Page Title-->
+    <div class="page section-header text-center">
+        <div class="page-title">
+            <div class="wrapper">
+                <h1 class="page-width" style="color: black;">Profile</h1>
+            </div>
         </div>
-      </div>  
+    </div>
+    <!--End Page Title-->
+
+    <section style="padding-top: 150px; padding-bottom: 150px; background-color: #f4f4f9;">
+        <div style="max-width: 1800px; margin: 0 auto;">
+            <div style="display: flex;">
+                <div style="flex: 0 0 33.33%; padding: 15px; max-width: 350px;">
+                    <div style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px;">
+                        <ul style="list-style-type: none; padding: 0; margin: 0;">
+                            <li>
+                                <a style="display: block; padding: 20px; font-size: 18px; text-decoration: none; color: black; background-color: grey; border: 1px solid #dee2e6; border-radius: 5px;" 
+                                   id="profile-tab" href="/profile">
+                                    <i class="fi-rs-settings-sliders" style="margin-right: 10px;"></i>Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a style="display: block; padding: 20px; font-size: 18px; text-decoration: none; color: black; background-color:grey; border: 1px solid #dee2e6; border-radius: 5px;" 
+                                   id="orders-tab" href="/orders">
+                                    <i class="fi-rs-shopping-bag" style="margin-right: 10px;"></i>Orders
+                                </a>
+                            </li>
+                            <li>
+                                <a style="display: block; padding: 20px; font-size: 18px; text-decoration: none; color: black; background-color:grey; border: 1px solid #dee2e6; border-radius: 5px;" 
+                                   id="address-tab" href="/address">
+                                    <i class="fi-rs-marker" style="margin-right: 10px;"></i>My Address
+                                </a>
+                            </li>
+                            <li>
+                                <a style="display: block; padding: 20px; font-size: 18px; text-decoration: none; color: black; background-color:grey; border: 1px solid #dee2e6; border-radius: 5px;" 
+                                   id="edit-profile-tab" href="/editProfile">
+                                    <i class="fi-rs-user" style="margin-right: 10px;"></i>Edit Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a style="display: block; padding: 20px; font-size: 18px; text-decoration: none; color: black; background-color: grey; border: 1px solid #dee2e6; border-radius: 5px;" 
+                                   href="/logout">
+                                    <i class="fi-rs-sign-out" style="margin-right: 10px;"></i>Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- order list start -->
+                <div class="card-body" style="color: black; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+                    <article class="itemlist">
+                        <table style="width: 100%; border-collapse: collapse; color: black;">
+                            <thead>
+                                <tr>
+                                    <th style="width: 5%; border: 1px solid #ccc; padding: 8px; text-align: center; background-color: black; color: white;">Index</th>
+                                    <th style="width: 15%; border: 1px solid #ccc; padding: 8px; text-align: center; background-color: black; color: white;">OrderId</th>
+                                    <th style="width: 20%; border: 1px solid #ccc; padding: 8px; text-align: center; background-color: black; color: white;">Status</th>
+                                    <th style="width: 15%; border: 1px solid #ccc; padding: 8px; text-align: center; background-color: black; color: white;">Order Date</th>
+                                    <th style="width: 25%; border: 1px solid #ccc; padding: 8px; text-align: center; background-color: black; color: white;">Shipping Address</th>
+                                    <th style="width: 10%; border: 1px solid #ccc; padding: 8px; text-align: center; background-color: black; color: white;">Payment Method</th>
+                                    <th style="width: 10%; border: 1px solid #ccc; padding: 8px; text-align: center; background-color: black; color: white;">Total Amount</th>
+                                    <th style="width: 10%; border: 1px solid #ccc; padding: 8px; text-align: center; background-color: black; color: white;">View Order</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% orderData.forEach((order, index) => { %>
+                                    <tr class="align-items-center mb-3" style="transition: background-color 0.3s;">
+                                        <td style="border: 1px solid #ccc; text-align: center;">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox">
+                                            </div>
+                                            <span><%= index + 1 %></span>
+                                        </td>
+                                        <td style="border: 1px solid #ccc; text-align: center;">
+                                            <span><%= order._id %></span>
+                                        </td>
+                                        <td style="border: 1px solid #ccc; text-align: center;">
+                                            <h6 class="mb-0"><%= order.orderStatus %></h6>
+                                        </td>
+                                        <td style="border: 1px solid #ccc; text-align: center;">
+                                            <span><%= order.orderDate %></span>
+                                        </td>
+                                        <td style="border: 1px solid #ccc; text-align: center;">
+                                            <span><%= order.shippingAddress.address %></span>,
+                                            <span><%= order.shippingAddress.district %></span>,
+                                            <span><%= order.shippingAddress.state %></span>,
+                                            <span><%= order.shippingAddress.pincode %></span>,
+                                            <span><%= order.shippingAddress.landMark %></span>,
+                                            <span><%= order.shippingAddress.phone %></span>
+                                        </td>
+                                        <td style="border: 1px solid #ccc; text-align: center;">
+                                            <span><%= order.paymentMethod %></span>
+                                        </td>
+                                        <td style="border: 1px solid #ccc; text-align: center;">
+                                            <span><%= order.grandTotal %></span>
+                                        </td>
+                                       <td style="border: 1px solid #ccc; text-align: center;">
+    <a href="/orderDetails?id=<%= order._id %>" style="display: inline-block; background-color: black; color: white; padding: 8px 12px; border-radius: 5px; text-decoration: none;">Order Details</a>
+</td>
+
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </article>
+
+                    <!-- Pagination area -->
+                    <div class="pagination-area mt-30" style="margin-top: 20px; text-align: left;">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination" style="list-style-type: none; padding: 0; display: flex; align-items: center; justify-content: flex-start;">
+                                <% if (currentPage > 1) { %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=<%= currentPage - 1 %>" style="padding: 12px 16px; border: 1px solid black; border-radius: 5px; color: black; font-size: 18px; display: flex; align-items: center; justify-content: center; width: 40px; background-color: white;">&lt;</a>
+                                    </li>
+                                <% } %>
+                                <% for (let i = 1; i <= totalPages; i++) { %>
+                                    <li class="page-item" style="margin-right: 5px;">
+                                        <a class="page-link" href="?page=<%= i %>" style="padding: 12px 16px; border: 1px solid black; border-radius: 5px; color: <%= currentPage === i ? 'white' : 'black' %>; background-color: <%= currentPage === i ? 'black' : 'white' %>; font-size: 18px; display: flex; align-items: center; justify-content: center; width: 40px; text-align: center;"><%= i %></a>
+                                    </li>
+                                <% } %>
+                                <% if (currentPage < totalPages) { %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=<%= currentPage + 1 %>" style="padding: 12px 16px; border: 1px solid black; border-radius: 5px; color: black; font-size: 18px; display: flex; align-items: center; justify-content: center; width: 40px; background-color: white;">&gt;</a>
+                                    </li>
+                                <% } %>
+                            </ul>
+                        </nav>
+                    </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                </div>
+    
+
+
+
+
+
     </section>
       
     
