@@ -57,7 +57,7 @@ const orderItemSchema = new mongoose.Schema({
   },
   orderStatus: {
     type: String,
-    enum: ["pending", "shipping", "delivered", "canceled"],
+    enum: ["pending", "shipping", "delivered", "canceled","return requested","return approved","return rejected"],
     default: "pending",
   },
 });
@@ -92,6 +92,11 @@ const orderSchema = new mongoose.Schema({
   paymentMethod: {
     type: String,
     required: true
+  },
+  paymentStatus: {
+    type: String,
+    enum: ['pending', 'paid', 'failed'],
+    default: 'pending'
   },
   shippingAddress: {
     name: { type: String, required: true },

@@ -5,8 +5,14 @@ const Orders=require("../../models/order-model")
 const AddProducts = require("../../models/product-model")
 const StatusCodes=require("../../config/statusCode")
 const Coupon=require("../../models/coupon-model")
+const Razorpay=require('razorpay')
+const Crypto = require('crypto');
+const Wallet = require("../../models/wallet-model")
+
+require("dotenv").config()
 
 
+const razorPayKeyId= process.env.RAZORPAY_KEY_ID
 
 
 
@@ -133,22 +139,13 @@ const placeOrder=async(req,res)=>{
       finalAmount = grandTotal
     }
 
-    // const finalAmount = req.session.finalAmount !== null ? req.session.finalAmount : grandTotal;
-
-    console.log("session amt", req.session.finalAmount ,grandTotal)
-
-    console.log("type of",typeof req.session.finalAmount ,typeof grandTotal);
     
-    
-    console.log(finalAmount,"amt");
-    
-
 
     // if(grandTotal>1000 && paymentMethod === "cashOnDelivery"){
     //   return res.status(400).json({success:false,message:'Cash on delivery only available for upto 1000Rs purchase'})
     // }
 
-    const productImages = await cartData.items.map((item) =>{
+    const productImages =  cartData.items.map((item) =>{
            
       
        return item.product.productImage
@@ -208,6 +205,65 @@ const placeOrder=async(req,res)=>{
 
     const orderData=await order.save()
 
+    const orderId=orderData._id
+
+    if(paymentMethod === "wallet"){
+       
+      const hasWalletData=await Wallet.findOne({user:currentUser})
+
+      if(hasWalletData){
+        if(hasWalletData.balance>finalAmount){
+          let newBalance=(hasWalletData.balance-finalAmount)
+          const newWalletData = await Wallet.findOneAndUpdate(
+            { user: currentUser }, // Filter
+            { $set: { balance: newBalance } }, // Update operation
+            { new: true } // Option to return the updated document
+          );
+          
+        }
+      }
+    }
+
+
+
+
+    if (paymentMethod === "razorPay") {
+      try {
+          const razorPay = new Razorpay({
+              key_id: razorPayKeyId,
+              key_secret: process.env.RAZORPAY_KEY_SECRET, // Correct typo
+          });
+  
+          const options = {
+              amount: finalAmount * 100, // Amount in smallest currency unit
+              currency: 'INR',
+              receipt: `receipt_${Math.random()}`, // Template literal for receipt
+          };
+  
+          const order = await razorPay.orders.create(options);
+  
+      
+          const deleteProducts = await Cart.updateOne({user:currentUser},{$set: {items :[]}})
+
+          for(let item of cartData.items){
+            await AddProducts.updateOne(
+              {_id:item.product,"variants.size":item.size},
+              {$inc:{"variants.$.stock":-item.quantity}}
+            )
+          }
+
+          // Send response
+          return res.json({ success: true, order, razorPayKeyId,orderId});
+      } catch (error) {
+          console.error("Error creating Razorpay order: ", error);
+  
+          // Send error response
+          return res.status(500).json({ success: false, message: "Failed to create Razorpay order" });
+      }
+  }
+  
+
+
     for(let item of cartData.items){
       await AddProducts.updateOne(
         {_id:item.product,"variants.size":item.size},
@@ -215,22 +271,16 @@ const placeOrder=async(req,res)=>{
       )
     }
 
-    
     const deleteProducts = await Cart.updateOne({user:currentUser},{$set: {items :[]}})
 
 
     const couponId=req.session.couponId
     
-
-
     const currentCoupon=await Coupon.findByIdAndUpdate(
       couponId,
       { $push: { user: currentUser } },
       { new: true }  
   );
-
-  
-
 
     req.session.finalAmount = null
 

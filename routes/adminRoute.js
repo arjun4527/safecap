@@ -122,6 +122,13 @@ admin_route.post("/customerStatus",noCacheMiddleware,auth.isLogin,customerContro
 admin_route.get("/orderList",noCacheMiddleware,auth.isLogin,customerController.loadOrderList)
 admin_route.get("/orderDetails",noCacheMiddleware,auth.isLogin,customerController.loadOrderDetails)
 admin_route.post("/updateOrderStatus",noCacheMiddleware,auth.isLogin,customerController.updateOrderStatus)
+admin_route.get("/returnOrderList",noCacheMiddleware,auth.isLogin,customerController.loadReturnOrderList)
+admin_route.post("/returnAccept",noCacheMiddleware,auth.isLogin,customerController.returnAccept)
+admin_route.post("/returnReject",noCacheMiddleware,auth.isLogin,customerController.returnReject)
+
+
+
+
 
 
 

@@ -23,6 +23,10 @@ const userProfileController = require("../controllers/userController/userProfile
 const checkoutController=require("../controllers/userController/checkoutController")
 const shopPageController=require("../controllers/userController/shopPageController.js")
 const wishListController=require("../controllers/userController/wishListController.js")
+const razorpayController=require("../controllers/userController/razorpayController.js")
+const returnController=require("../controllers/userController/returnController.js")
+
+
 
 
 
@@ -95,6 +99,8 @@ user_route.get("/orderDetails", noCacheMiddleware, auth.isLogin, userProfileCont
 user_route.post("/orderDetails", noCacheMiddleware, auth.isLogin, userProfileController.cancelProduct)
 user_route.post("/orderCancel", noCacheMiddleware, auth.isLogin, userProfileController.orderCancel)
 user_route.get("/orderList",noCacheMiddleware,auth.isLogin,userProfileController.orderList)
+user_route.get("/wallet",noCacheMiddleware,auth.isLogin,userProfileController.loadWallet)
+
 
 
 
@@ -134,6 +140,23 @@ user_route.get("/wishList", noCacheMiddleware, auth.isLogin, wishListController.
 user_route.post("/wishList", noCacheMiddleware, auth.isLogin, wishListController.addWishList)
 user_route.post("/removeProductWishList", noCacheMiddleware, auth.isLogin, wishListController.deleteProduct)
 user_route.get("/clearWishList", noCacheMiddleware, auth.isLogin, wishListController.clearWishList)
+
+
+
+
+//razorPay
+user_route.post("/verifyPayment", noCacheMiddleware, auth.isLogin, razorpayController.verifyPayment)
+user_route.post("/paymentFailure", noCacheMiddleware, auth.isLogin, razorpayController.paymentFailure)
+
+
+
+
+//return product
+user_route.post("/returnProduct", noCacheMiddleware, auth.isLogin, returnController.returnProduct)
+
+
+
+
 
 
 

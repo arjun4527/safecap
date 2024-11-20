@@ -673,6 +673,104 @@ Swal.fire({
     return response.json();
 })
 .then(data => {
+
+    if (data.success && selectedPaymentMethod === "razorPay") {
+    const order = data.order;
+    const razorPayKeyId = data.razorPayKeyId;
+    const orderId=data.orderId
+
+    const options = {
+        key: razorPayKeyId, // Razorpay key dynamically fetched from server
+        amount: order.amount, // Amount in smallest currency unit
+        currency: order.currency, // Currency (e.g., INR)
+        name: "SafeCap", // Business name
+        description: "Order payment", // Payment description
+        order_id: order.id, // Razorpay order ID
+        handler: async function (response) {
+            try {
+                const verifyResponse = await fetch('/verifyPayment', {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        razorpay_order_id: response.razorpay_order_id,
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_signature: response.razorpay_signature,
+                        orderId:orderId
+                    }),
+                });
+
+                const verifyResult = await verifyResponse.json();
+
+                if (verifyResult.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Payment Successful',
+                        text: 'Your payment has been verified successfully.',
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Verification Failed',
+                        text: verifyResult.message || 'Payment verification failed.',
+                    });
+                }
+            } catch (error) {
+                console.error('Error verifying payment:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred during payment verification. Please try again.',
+                });
+            }
+        },
+        prefill: {
+            name: "Customer Name", 
+            email: "customer@example.com", 
+            contact: "9999999999", 
+        },
+        theme: { color: "#3399cc" }, 
+    };
+
+    // Initialize and open Razorpay payment gateway
+    const rzp = new Razorpay(options);
+    rzp.open();
+
+    // Handle payment failure
+    rzp.on('payment.failed', function (response) {
+
+        
+        fetch('/paymentFailure', {
+         method: "POST",
+         headers: {
+             'Content-Type': "application/json"
+         },
+         body: JSON.stringify({orderId:orderId })
+        })
+
+        .then(response => {
+    
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response.json();
+})
+.then(data => {
+    if(data.success){
+        Swal.fire({
+            icon: 'error',
+            title: 'Payment Failed',
+            text: 'The payment was unsuccessful. Please try again.',
+        });
+    }
+})
+    
+
+
+
+   
+    });
+}
+
     
     if (data.success) {
         
@@ -685,7 +783,9 @@ Swal.fire({
     timerProgressBar: true, 
 })
 
-        // window.location.href = "/orderConfirmation";
+setTimeout(function() {
+  window.location.href = "/";
+}, 3000); // 3000 milliseconds = 3 seconds
 
     } else {
 

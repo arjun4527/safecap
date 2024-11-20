@@ -8,6 +8,11 @@ const path=require('path')
 const { log } = require("console")
 const sharp = require('sharp');
 const StatusCodes=require("../../config/statusCode")
+const Return=require("../../models/return-model")
+const Wallet=require("../../models/wallet-model")
+const mongoose=require('mongoose')
+const { ObjectId } = mongoose.Types;
+
 
 
 
@@ -149,6 +154,143 @@ const updateOrderStatus=async(req,res)=>{
     console.log("Error from updateOrderStatus ",error.message)
   }
 }
+
+
+
+
+//for load return order list
+const loadReturnOrderList=async(req,res)=>{
+  try {
+
+    const returnData = await Return.find({}).populate('user').populate({
+      path: 'orderId',
+      populate: {
+        path: 'items', 
+        select: 'size' 
+      }
+    });  
+    console.log("aaa",returnData)
+         
+      
+  
+    return res.render("returnOrderList",{returnData})
+  } catch (error) {
+    console.log("Error from loadReturnOrderList",error.message)
+  }
+}
+
+
+
+
+//for return accept
+const returnAccept=async(req,res)=>{
+  try {
+
+    
+    const {orderId,userId,productId,size}=req.body
+    
+    let refundAmoun
+    
+    const orderData = await Orders.findById(orderId)
+
+     orderData.items.forEach((i)=>{
+
+        if(i.product.toString()=== productId.toString()&& i.size===size) {
+
+            i.orderStatus = "return approved"
+            refundAmount=i.price*i.quantity
+            
+        }
+     })
+     await orderData.save()
+
+     console.log("1")
+
+
+     const walletData=await Wallet.findOne({user:userId})
+
+     if (walletData) {
+      walletData.balance += refundAmount;
+      walletData.transactions.push({
+        orderId,
+        amount: refundAmount,
+        type: "credit",
+        transactionStatus: "refunded",
+      });
+      await walletData.save();
+    } else {
+    
+      const newWallet = await Wallet.create({
+        user: userId,
+        balance: refundAmount,
+        transactions: [
+          {
+            orderId,
+            amount: refundAmount,
+            type: "credit",
+            transactionStatus: "refunded",
+          },
+        ],
+      });
+      await newWallet.save();
+    }
+   console.log("2")
+
+
+    const returnData=await Return.findOne({orderId:orderId})
+
+    returnData.returnStatus="return approved"
+
+    await returnData.save()
+
+    console.log("3")
+
+
+    return res.status(StatusCodes.OK).json({success:true,message:"Return Approved SuccessFully"})
+
+
+    
+    
+  } catch (error) {
+    console.log("Error from returnAccept",error.message)
+  }
+}
+
+
+
+
+//for return reject
+const returnReject=async(req,res)=>{
+  try {
+    const {orderId,productId,size}=req.body
+    
+    const orderData = await Orders.findById(orderId)
+
+     orderData.items.forEach((i)=>{
+
+        if(i.product.toString()=== productId.toString()&& i.size===size) {
+
+            i.orderStatus = "return rejected"
+            
+            
+        }
+     })
+     await orderData.save()
+
+     const returnData=await Return.findOne({orderId:orderId})
+
+    returnData.returnStatus="return rejected"
+
+    await returnData.save()
+    console.log("swathy")
+
+    return res.status(StatusCodes.OK).json({success:true,message:"Return Rejected SuccessFully"})
+
+
+  } catch (error) {
+    console.log("Error from returnReject",error.message)
+  }
+}
   
 
  
@@ -161,5 +303,8 @@ module.exports={
   customerStatus,
   loadOrderList,
   loadOrderDetails,
-  updateOrderStatus
+  updateOrderStatus,
+  loadReturnOrderList,
+  returnAccept,
+  returnReject
 }

@@ -712,11 +712,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 offerPriceElement.innerText = `₹${offerPrice}.00`;
                 priceElement.innerText = `₹${newPrice}.00`;
                 priceElement.style.textDecoration = "line-through";
-                
+                console.log("1",offerPriceElement)
+                console.log("2",priceElement)
+
+
+
                 
             } else {
                 priceElement.innerText = `₹${newPrice}.00`;
-                offerPriceElement.innerText = ''; 
+                // offerPriceElement.innerText = ''; 
                 priceElement.style.textDecoration = "none"; 
                 
             sizeDisplay.innerText = selectedSize;
@@ -725,6 +729,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             sizeDisplay.innerText = selectedSize;
             stockDisplay.innerHTML = leftStock;
+            console.log("3",sizeDisplay)
+            console.log("4",stockDisplay)
+
+
+            
+
+            
             console.log("check the stock",stockDisplay.innerHTML)
 
 

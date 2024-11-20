@@ -4,6 +4,8 @@ const Address=require("../../models/address-model")
 const Orders=require("../../models/order-model")
 const AddProducts = require("../../models/product-model")
 const StatusCodes=require("../../config/statusCode")
+const Wallet = require("../../models/wallet-model")
+
 
 
 
@@ -350,9 +352,7 @@ const loadOrderDetails=async(req,res)=>{
     const {id}=req.query
 
     const singleOrderData=await Orders.findById(id)
-    // console.log("uff",singleOrderData)
-
-
+    
 
     return res.render("orderDetails",{isLogged,singleOrderData})
   } catch (error) {
@@ -366,7 +366,11 @@ const loadOrderDetails=async(req,res)=>{
 //for cancel product from order
 const cancelProduct=async(req,res)=>{
   try {
+    const currentUser = req.session.user; 
+
     const {id,orderId}=req.body
+
+    let refunded
     
     // console.log("order id",id,orderId);
     
@@ -377,6 +381,7 @@ const cancelProduct=async(req,res)=>{
         if(i.product.toString()=== id.toString()) {
 
             i.orderStatus = "canceled"
+            refundAmount=i.price*i.quantity
         }
      })
      await orderData.save()
@@ -388,6 +393,37 @@ const cancelProduct=async(req,res)=>{
         {$inc:{"variants.$.stock":+item.quantity}}
       )
     }
+    
+    //for wallet 
+    const walletData = await Wallet.findOne({ user: currentUser });
+    if (walletData) {
+      walletData.balance += refundAmount;
+      walletData.transactions.push({
+        orderId,
+        amount: refundAmount,
+        type: "credit",
+        transactionStatus: "refunded",
+      });
+      await walletData.save();
+    } else {
+    
+      const newWallet = await Wallet.create({
+        user: currentUser,
+        balance: refundAmount,
+        transactions: [
+          {
+            orderId,
+            amount: refundAmount,
+            type: "credit",
+            transactionStatus: "refunded",
+          },
+        ],
+      });
+      await newWallet.save();
+    }
+
+    
+    
 
     if(orderData.items.every(item=> item.orderStatus==='canceled')){
 
@@ -411,6 +447,8 @@ const cancelProduct=async(req,res)=>{
 // for cancel the complete order
 const orderCancel=async(req,res)=>{
   try {
+    const currentUser = req.session.user; 
+
    const {orderId} =req.body
    
    const orderData=await Orders.findByIdAndUpdate(
@@ -428,6 +466,35 @@ const orderCancel=async(req,res)=>{
   })
   await orderData.save()
 
+const refundAmount=orderData.grandTotal
+
+  //for wallet 
+  const walletData = await Wallet.findOne({ user: currentUser });
+  if (walletData) {
+    walletData.balance += refundAmount;
+    walletData.transactions.push({
+      orderId,
+      amount: refundAmount,
+      type: "credit",
+      transactionStatus: "refunded",
+    });
+    await walletData.save();
+  } else {
+  
+    const newWallet = await Wallet.create({
+      user: currentUser,
+      balance: refundAmount,
+      transactions: [
+        {
+          orderId,
+          amount: refundAmount,
+          type: "credit",
+          transactionStatus: "refunded",
+        },
+      ],
+    });
+    await newWallet.save();
+  }
 
   return res.status(StatusCodes.OK).json({success:true,message:"Order Cancel"})
 
@@ -469,6 +536,25 @@ const orderList=async(req,res)=>{
 
 
 
+//for load wallet 
+const loadWallet=async(req,res)=>{
+  try {
+    const isLogged = req.session.user || req?.session?.passport?.user
+
+    const currentUser=req.session.user
+
+    const walletData=await Wallet.findOne({user:currentUser})
+
+    return res.render("wallet",{isLogged,walletData})
+  } catch (error) {
+    console.log("Error  from loadWallet ",error.message)
+
+  }
+}
+
+
+
+
 
 
 
@@ -495,5 +581,6 @@ module.exports={
   loadOrderDetails,
   cancelProduct,
   orderCancel,
-  orderList
+  orderList,
+  loadWallet
 }

@@ -1,0 +1,98 @@
+<%- include('../layouts/userLayouts/header') %>
+<%- include('../layouts/userLayouts/navbar') %>
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f8f9fa; color: #333;">
+
+  <div style="display: flex; min-height: 100vh;">
+    <!-- Sidebar -->
+    <div style="width: 250px; background-color: #f8f9fa; border-right: 1px solid #dee2e6; padding: 15px;">
+      <ul style="list-style-type: none; padding: 0; margin: 0;">
+        <li>
+          <a style="display: block; padding: 15px; font-size: 16px; text-decoration: none; color: black; border: 1px solid #dee2e6; border-radius: 5px;" 
+             id="dashboard-tab" href="/profile" role="tab" aria-controls="dashboard" aria-selected="false">
+            <i class="fi-rs-settings-sliders" style="margin-right: 10px;"></i>Profile
+          </a>
+        </li>
+        <li>
+          <a style="display: block; padding: 15px; font-size: 16px; text-decoration: none; color: black; border: 1px solid #dee2e6; border-radius: 5px;" 
+             id="orders-tab" href="/orders" role="tab" aria-controls="orders" aria-selected="false">
+            <i class="fi-rs-shopping-bag" style="margin-right: 10px;"></i>Orders
+          </a>
+        </li>
+        <li>
+          <a style="display: block; padding: 15px; font-size: 16px; text-decoration: none; color: black; border: 1px solid #dee2e6; border-radius: 5px;" 
+             id="address-tab" href="/address" role="tab" aria-controls="address" aria-selected="true">
+            <i class="fi-rs-marker" style="margin-right: 10px;"></i>My Address
+          </a>
+        </li>
+        <li>
+          <a style="display: block; padding: 15px; font-size: 16px; text-decoration: none; color: black; border: 1px solid #dee2e6; border-radius: 5px;" 
+             id="account-detail-tab" href="/editProfile" role="tab" aria-controls="account-detail" aria-selected="true">
+            <i class="fi-rs-user" style="margin-right: 10px;"></i>Edit Profile
+          </a>
+        </li>
+        <li>
+          <a style="display: block; padding: 20px; font-size: 18px; text-decoration: none; color: black; background-color: transparent; border: 1px solid #dee2e6; border-radius: 5px;" 
+             id="account-detail-tab" href="/wallet" role="tab" aria-controls="account-detail" aria-selected="true" 
+             ><i class="fi-rs-user" style="margin-right: 10px;"></i>Wallet</a>
+      </li>
+        <li>
+          <a style="display: block; padding: 15px; font-size: 16px; text-decoration: none; color: black; border: 1px solid #dee2e6; border-radius: 5px;" 
+             href="/logout">
+            <i class="fi-rs-sign-out" style="margin-right: 10px;"></i>Logout
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Main Content Area -->
+    <div style="flex: 1; padding: 20px;">
+      <!-- Header Section -->
+      <div style="background-color: white; color: black; padding: 20px; height:150px; font-size: 30px; text-align: center; border-radius: 8px;">
+        <h1 style="margin: 0; font-size: 50px; display: block;">My Wallet</h1>
+        <p style="font-size: 50px; margin: 5px 0; color: black;">Balance: <strong>₹<%= walletData.balance %></strong></p>
+      </div>
+      <% console.log("balaance",walletData.balance) %>
+      <% console.log("data",walletData.balance) %>
+
+
+      <!-- Main Content Section -->
+      <div style="padding: 20px; max-width: 800px; margin: 20px auto; background-color: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <!-- Transaction History Section -->
+        <div style="margin-bottom: 20px;">
+          <h2 style="font-size: 1.5rem; margin-bottom: 10px;">Transaction History</h2>
+          <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+            <thead>
+              <tr style="background-color: black">
+                <th style="padding: 10px; border: 1px solid black; text-align: left;">Date</th>
+                <th style="padding: 10px; border: 1px solid black; text-align: left;">Type</th>
+                <th style="padding: 10px; border: 1px solid black; text-align: left;">Amount</th>
+                <th style="padding: 10px; border: 1px solid black; text-align: left;">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr  style="background-color: black">
+                <td style="padding: 10px; border: 1px solid black;">2</td>
+                <td style="padding: 10px; border: 1px solid black;">Added</td>
+                <td style="padding: 10px; border: 1px solid black;">$20.00</td>
+                <td style="padding: 10px; border: 1px solid black;">Completed</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Promotions or Rewards -->
+        <!-- <div>
+          <h2 style="font-size: 1.5rem; margin-bottom: 10px;">Promotions</h2>
+          <p style="margin: 0;">Get 5% extra credit on top-ups of $100 or more!</p>
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div style="background-color: #343a40; color: #fff; padding: 10px; text-align: center;">
+    <p style="margin: 0;">FAQs | Contact Support</p>
+  </div>
+
+</body>
+</html>
