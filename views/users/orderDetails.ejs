@@ -23,7 +23,7 @@
       </a>
       <form action="#" method="POST" style="margin: 0;">
         <% console.log("hello",singleOrderData) %>
-        <% if(singleOrderData.orderStatus === "shipping" || singleOrderData.orderStatus === "pending") { %>
+        <% if(singleOrderData.orderStatus === "shipping" || singleOrderData.orderStatus === "pending" && singleOrderData.paymentStatus==="paid") { %>
 
           <button type="submit" onclick="orderCancel('<%= singleOrderData._id %>')" style="background-color: red; color: white; padding: 10px 20px; border: none; border-radius: 5px;">Cancel Order</button>
           <% } %>
@@ -70,8 +70,8 @@
           <div  style="margin-top: 10px;">
               <!-- <input type="hidden" name="orderId" value="">
               <input type="hidden" name="itemId" value="<"> -->
-              <% if(item.orderStatus === "shipping" || item.orderStatus === "pending") { %>
-                <button id="productCancel" onclick="cancelProduct('<%= item.product %>', '<%= singleOrderData._id %>')" style="background-color: red; color: white; padding: 10px; border: none; border-radius: 5px;">Cancel</button>
+              <% if(item.orderStatus === "shipping" || item.orderStatus === "pending" && singleOrderData.paymentStatus==="paid") { %>
+                <button id="productCancel" onclick="cancelProduct('<%= item.product %>', '<%= singleOrderData._id %>','<%= item.size %>')" style="background-color: red; color: white; padding: 10px; border: none; border-radius: 5px;">Cancel</button>
               <% } %>
               
               <% if(item.orderStatus === "delivered") { %>
@@ -215,11 +215,11 @@
 
 
 <script>
-function cancelProduct(productId,orderId){
+function cancelProduct(productId,orderId,size){
     $.ajax({
   url: "/orderDetails",
   method: "POST",
-  data: JSON.stringify({ id: productId, orderId: orderId }),
+  data: JSON.stringify({ id: productId, orderId: orderId ,size:size}),
   contentType: "application/json",
   success: function(response) {
     console.log(response);

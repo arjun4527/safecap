@@ -142,6 +142,7 @@ const updateOrderStatus=async(req,res)=>{
 
     )
     updatedOrder.items.forEach(item=>{
+      if(item.orderStatus!=="canceled")
       item.orderStatus=orderStatus
     })
     await updatedOrder.save()
@@ -189,9 +190,10 @@ const returnAccept=async(req,res)=>{
     
     const {orderId,userId,productId,size}=req.body
     
-    let refundAmoun
+    let refundAmount
     
     const orderData = await Orders.findById(orderId)
+    const totalAmount=orderData.grandTotal
 
      orderData.items.forEach((i)=>{
 
@@ -199,6 +201,7 @@ const returnAccept=async(req,res)=>{
 
             i.orderStatus = "return approved"
             refundAmount=i.price*i.quantity
+            orderData.grandTotal=totalAmount-refundAmount
             
         }
      })
@@ -234,16 +237,25 @@ const returnAccept=async(req,res)=>{
       });
       await newWallet.save();
     }
-   console.log("2")
+  
 
 
     const returnData=await Return.findOne({orderId:orderId})
+    console.log("returnData",returnData)
 
     returnData.returnStatus="return approved"
+    console.log("return")
 
     await returnData.save()
 
-    console.log("3")
+
+
+    if(orderData.items.every(item=> item.orderStatus==='return approved'||item.orderStatus==='canceled')){
+
+      orderData.orderStatus="return"
+    }
+    await orderData.save()
+    console.log("return")
 
 
     return res.status(StatusCodes.OK).json({success:true,message:"Return Approved SuccessFully"})

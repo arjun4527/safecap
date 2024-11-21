@@ -117,7 +117,7 @@ async function calculateProductPrices(cart,index) {
     item.calculatedPrice = item.price * item.quantity;
     return item; 
   });
-  console.log("happy",itemsWithCalculatedPrices)
+  // console.log("happy",itemsWithCalculatedPrices)
   return itemsWithCalculatedPrices
 }
 

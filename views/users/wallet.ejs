@@ -51,8 +51,7 @@
         <h1 style="margin: 0; font-size: 50px; display: block;">My Wallet</h1>
         <p style="font-size: 50px; margin: 5px 0; color: black;">Balance: <strong>₹<%= walletData.balance %></strong></p>
       </div>
-      <% console.log("balaance",walletData.balance) %>
-      <% console.log("data",walletData.balance) %>
+     
 
 
       <!-- Main Content Section -->
@@ -62,6 +61,7 @@
           <h2 style="font-size: 1.5rem; margin-bottom: 10px;">Transaction History</h2>
           <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
             <thead>
+
               <tr style="background-color: black">
                 <th style="padding: 10px; border: 1px solid black; text-align: left;">Date</th>
                 <th style="padding: 10px; border: 1px solid black; text-align: left;">Type</th>
@@ -70,12 +70,17 @@
               </tr>
             </thead>
             <tbody>
-              <tr  style="background-color: black">
-                <td style="padding: 10px; border: 1px solid black;">2</td>
-                <td style="padding: 10px; border: 1px solid black;">Added</td>
-                <td style="padding: 10px; border: 1px solid black;">$20.00</td>
-                <td style="padding: 10px; border: 1px solid black;">Completed</td>
-              </tr>
+              <% walletData.transactions.forEach(transaction=>{ %>
+                <tr  style="background-color: black">
+                  <td style="padding: 10px; border: 1px solid black;"><%= transaction.date %></td>
+                  <td style="padding: 10px; border: 1px solid black;"><%= transaction.type %></td>
+                  <td style="padding: 10px; border: 1px solid black;"><%= transaction.amount %></td>
+                  <td style="padding: 10px; border: 1px solid black;"><%= transaction.
+                    transactionStatus
+                     %></td>
+                </tr>
+             <% }) %>
+              
             </tbody>
           </table>
         </div>

@@ -25,6 +25,8 @@ const customerController=require("../controllers/adminController/customerControl
 const productController=require("../controllers/adminController/productController")
 const couponManagementController=require("../controllers/adminController/couponManagementController")
 const offerController=require("../controllers/adminController/offerController")
+const dashboardController=require("../controllers/adminController/dashboardController")
+
 
 
 
@@ -77,7 +79,7 @@ const auth=require("../middleWare/adminAuth")
 admin_route.get("/",noCacheMiddleware,auth.isLogout,authenticationController.loadLogin)
 admin_route.post("/",noCacheMiddleware,auth.isLogout,authenticationController.verifyLogin)
 admin_route.get("/logout",noCacheMiddleware,authenticationController.adminLogout)
-admin_route.get("/dashboard",noCacheMiddleware,auth.isLogin,authenticationController.loadDashboard)
+// admin_route.get("/dashboard",noCacheMiddleware,auth.isLogin,authenticationController.loadDashboard)
 
 
 
@@ -155,6 +157,18 @@ admin_route.post("/addBrandOffer",noCacheMiddleware,auth.isLogin,offerController
 admin_route.delete("/deleteBrandOffer",noCacheMiddleware,auth.isLogin,offerController.deleteBrandOffer)
 admin_route.get("/updateBrandOffer",noCacheMiddleware,auth.isLogin,offerController.loadUpdateBrandOffer)
 admin_route.post("/editBrandOffer",noCacheMiddleware,auth.isLogin,offerController.editBrandOffer)
+
+
+
+
+//sashboard
+admin_route.get("/todayReport",noCacheMiddleware,auth.isLogin,dashboardController.todayReport)
+admin_route.get("/dashboard",noCacheMiddleware,auth.isLogin,dashboardController.loadDashboard)
+admin_route.get("/weekReport",noCacheMiddleware,auth.isLogin,dashboardController.weekReport)
+
+
+
+
 
 
 

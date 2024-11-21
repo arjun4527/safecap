@@ -102,6 +102,14 @@ const placeOrder=async(req,res)=>{
     // console.log("hlo",paymentMethod)
     // console.log("hi",addressId)
 
+
+    // const now = new Date();
+    //   const currentDate=new Date(now).toLocaleDateString('en-US', {
+    //     year: 'numeric',
+    //     month: 'long',
+    //     day: 'numeric'
+    //   });
+
     if(!addressId){
       return res.status(StatusCodes.BAD_REQUEST).json({success:false,message:'Address Id is required'})
     }
@@ -199,7 +207,8 @@ const placeOrder=async(req,res)=>{
       taxPrice:tax,
       shippingPrice:shipping,
       grandTotal:finalAmount,
-      paymentMethod:paymentMethod
+      paymentMethod:paymentMethod,
+      // orderDate:currentDate
 
     })
 
@@ -272,6 +281,12 @@ const placeOrder=async(req,res)=>{
     }
 
     const deleteProducts = await Cart.updateOne({user:currentUser},{$set: {items :[]}})
+
+    const orderDatas=await Orders.findByIdAndUpdate(
+      orderId,
+      { $set: { paymentStatus: "paid" } },  
+      { new: true }
+    )
 
 
     const couponId=req.session.couponId

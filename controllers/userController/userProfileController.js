@@ -368,20 +368,24 @@ const cancelProduct=async(req,res)=>{
   try {
     const currentUser = req.session.user; 
 
-    const {id,orderId}=req.body
+    const {id,orderId,size}=req.body
 
-    let refunded
-    
-    // console.log("order id",id,orderId);
-    
+    let refundAmount
+
     const orderData=await Orders.findById(orderId)
+    const totalAmount=orderData.grandTotal
+    let paymentMethod=orderData.paymentMethod
+    console.log("method",paymentMethod)
+
     
      orderData.items.forEach((i)=>{
 
-        if(i.product.toString()=== id.toString()) {
+        if(i.product.toString()=== id.toString() && i.size===size) {
 
             i.orderStatus = "canceled"
             refundAmount=i.price*i.quantity
+            orderData.grandTotal=totalAmount-refundAmount
+
         }
      })
      await orderData.save()
@@ -395,32 +399,35 @@ const cancelProduct=async(req,res)=>{
     }
     
     //for wallet 
-    const walletData = await Wallet.findOne({ user: currentUser });
-    if (walletData) {
-      walletData.balance += refundAmount;
-      walletData.transactions.push({
-        orderId,
-        amount: refundAmount,
-        type: "credit",
-        transactionStatus: "refunded",
-      });
-      await walletData.save();
-    } else {
-    
-      const newWallet = await Wallet.create({
-        user: currentUser,
-        balance: refundAmount,
-        transactions: [
-          {
-            orderId,
-            amount: refundAmount,
-            type: "credit",
-            transactionStatus: "refunded",
-          },
-        ],
-      });
-      await newWallet.save();
+    if(paymentMethod!=="cashOnDelivery"){
+      const walletData = await Wallet.findOne({ user: currentUser });
+      if (walletData) {
+        walletData.balance += refundAmount;
+        walletData.transactions.push({
+          orderId,
+          amount: refundAmount,
+          type: "credit",
+          transactionStatus: "refunded",
+        });
+        await walletData.save();
+      } else {
+      
+        const newWallet = await Wallet.create({
+          user: currentUser,
+          balance: refundAmount,
+          transactions: [
+            {
+              orderId,
+              amount: refundAmount,
+              type: "credit",
+              transactionStatus: "refunded",
+            },
+          ],
+        });
+        await newWallet.save();
+      }
     }
+    
 
     
     

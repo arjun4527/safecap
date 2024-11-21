@@ -700,6 +700,7 @@ Swal.fire({
                 });
 
                 const verifyResult = await verifyResponse.json();
+                console.log("kkk",verifyResult)
 
                 if (verifyResult.success) {
                     Swal.fire({
@@ -782,7 +783,7 @@ Swal.fire({
     timer: 3000,
     timerProgressBar: true, 
 })
-
+if(selectedPaymentMethod!=="razorPay")
 setTimeout(function() {
   window.location.href = "/";
 }, 3000); // 3000 milliseconds = 3 seconds
