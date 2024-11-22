@@ -16,36 +16,38 @@ const loadDashboard=async(req,res)=>{
 
   const orderData = await Orders.find(query);
 
-  let resultArray = []; // Array to store the result
+  let resultArray = []; 
 
   orderData.forEach((order) => {
-    let subTotal = 0; // Initialize subTotal for each order
+    let subTotal = 0; 
   
-    // Calculate subTotal for the current order
     order.items.forEach((item) => {
       subTotal += item.price * item.quantity;
     });
   
-    // Add shipping and tax to the order's total
-    const shipping = order.shippingPrice || 0; // Default to 0 if shipping is not provided
-    const tax = order.taxPrice || 0; // Default to 0 if tax is not provided
-    const total = subTotal + shipping + tax;
+    
+    const shippingPrice = order.shippingPrice || 0; 
+    const taxPrice = order.taxPrice || 0; 
+    const total = subTotal + shippingPrice + taxPrice;
   
-    // Add the order's id, subTotal, shipping, tax, date, and total to the result array
+    
     resultArray.push({
       id: order.id,
-      orderDate: order.orderDate || null, // Include order date (null if missing)
+      orderDate: order.orderDate || null, 
       subTotal,
-      shipping,
-      tax,
+      shippingPrice,
+      taxPrice,
       total,
     });
   });
+
+  let totalAmount=0
+  orderData.forEach(order=>{
+      totalAmount +=order.grandTotal
+  })
+
   
-  // Log the resulting array
-  console.log("Resulting Array:", resultArray);
-    
-    res.render("dashboard",{orderData,resultArray})
+    res.render("dashboard",{resultArray,totalAmount})
   } catch (error) {
     console.log(error.message)
   }
@@ -54,7 +56,7 @@ const loadDashboard=async(req,res)=>{
 
 
 
-//for
+//for today report
 const todayReport=async(req,res)=>{
 
     let startDate = new Date();
@@ -74,7 +76,32 @@ try {
       totalAmount +=order.grandTotal
   })
 
-  res.render("dashboard",{orderData,totalAmount})
+  let resultArray = [];
+
+  orderData.forEach((order) => {
+    let subTotal = 0; 
+  
+
+    order.items.forEach((item) => {
+      subTotal += item.price * item.quantity;
+    });
+  
+    
+    const shippingPrice = order.shippingPrice || 0; 
+    const taxPrice = order.taxPrice || 0; 
+    const total = subTotal + shippingPrice + taxPrice;
+
+    resultArray.push({
+      id: order.id,
+      orderDate: order.orderDate || null, 
+      subTotal,
+      shippingPrice,
+      taxPrice,
+      total,
+    });
+  })
+  
+  res.render("dashboard",{resultArray,totalAmount})
   } catch (error) {
     console.log("Error from the todayReport",error.message)
   }
@@ -83,7 +110,7 @@ try {
 
 
 
-//for weel report
+//for week report
 const weekReport=async(req,res)=>{
          let startDate = new Date();
           startDate.setDate(startDate.getDate() - startDate.getDay());
@@ -96,45 +123,105 @@ const weekReport=async(req,res)=>{
    
     const orderData = await Orders.find(query);
     
-    let resultArray = []; // Array to store the result
+    let resultArray = []; 
 
 orderData.forEach((order) => {
-  let subTotal = 0; // Initialize subTotal for each order
+  let subTotal = 0; 
 
-  // Calculate subTotal for the current order
+  
   order.items.forEach((item) => {
     subTotal += item.price * item.quantity;
   });
 
-  // Add shipping and tax to the order's total
-  const shipping = order.shippingPrice || 0; // Default to 0 if shipping is not provided
-  const tax = order.taxPrice || 0; // Default to 0 if tax is not provided
-  const total = subTotal + shipping + tax;
+  const shippingPrice = order.shippingPrice || 0;
+  const taxPrice = order.taxPrice || 0; 
+  const total = subTotal + shippingPrice + taxPrice;
 
-  // Add the order's id, subTotal, shipping, tax, date, and total to the result array
+
   resultArray.push({
     id: order.id,
-    orderDate: order.orderDate || null, // Include order date (null if missing)
+    orderDate: order.orderDate || null, 
     subTotal,
-    shipping,
-    tax,
+    shippingPrice,
+    taxPrice,
     total,
   });
 });
 
-// Log the resulting array
-console.log("Resulting Array:", resultArray);
 
-    
     let totalAmount=0
       orderData.forEach(order=>{
           totalAmount +=order.grandTotal
       })
       res.render("dashboard",{resultArray,totalAmount})
 
-    
   } catch (error) {
     console.log("Error from the weekReport",error.message)
+
+  }
+}
+
+
+
+
+// for monthly report
+const monthlyReport=async(req,res)=>{
+
+          let startDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+          let endDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
+               endDate.setHours(23, 59, 59, 999);
+  try {
+    const query = { orderDate: { $gte: startDate, $lte: endDate } };
+   
+    const orderData = await Orders.find(query);
+    
+    let resultArray = []; 
+
+orderData.forEach((order) => {
+  let subTotal = 0; 
+
+  
+  order.items.forEach((item) => {
+    subTotal += item.price * item.quantity;
+  });
+
+  const shippingPrice = order.shippingPrice || 0;
+  const taxPrice = order.taxPrice || 0; 
+  const total = subTotal + shippingPrice + taxPrice;
+
+
+  resultArray.push({
+    id: order.id,
+    orderDate: order.orderDate || null, 
+    subTotal,
+    shippingPrice,
+    taxPrice,
+    total,
+  });
+});
+
+
+    let totalAmount=0
+      orderData.forEach(order=>{
+          totalAmount +=order.grandTotal
+      })
+      res.render("dashboard",{resultArray,totalAmount})
+  } catch (error) {
+    console.log("Error from the monthlyReport",error.message)
+
+  }
+}
+
+
+
+
+//for custom report 
+const customReport=async(req,res)=>{
+  try {
+    const {startDate,endDate}=req.body
+    console.log(startDate,endDate)
+  } catch (error) {
+    console.log("Error from the customReport",error.message)
 
   }
 }
@@ -150,5 +237,7 @@ console.log("Resulting Array:", resultArray);
 module.exports={
   todayReport,
   loadDashboard,
-  weekReport
+  weekReport,
+  monthlyReport,
+  customReport
 }

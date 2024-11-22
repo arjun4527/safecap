@@ -165,6 +165,10 @@ admin_route.post("/editBrandOffer",noCacheMiddleware,auth.isLogin,offerControlle
 admin_route.get("/todayReport",noCacheMiddleware,auth.isLogin,dashboardController.todayReport)
 admin_route.get("/dashboard",noCacheMiddleware,auth.isLogin,dashboardController.loadDashboard)
 admin_route.get("/weekReport",noCacheMiddleware,auth.isLogin,dashboardController.weekReport)
+admin_route.get("/monthlyReport",noCacheMiddleware,auth.isLogin,dashboardController.monthlyReport)
+admin_route.post("/customReport",noCacheMiddleware,auth.isLogin,dashboardController.customReport)
+
+
 
 
 

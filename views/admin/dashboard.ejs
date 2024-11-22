@@ -329,36 +329,49 @@
             <div class="card mb-4">
                 <header class="card-header">
                     <h4 class="card-title">Sales Report</h4>
-                    <div class="row align-items-center" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                        <!-- Date input 1 -->
-                         <div>
-                            <div class="col-md-2 col-4" style="padding-right: 5px;">
-                                <input type="date" value="2022-05-02" class="form-control">
+                    <div style="width: 90%; max-width: 800px; margin: 40px auto; font-family: Arial, sans-serif;">
+                        <!-- Form Section -->
+                        <form action="/admin/customReport" method="post" style="display: flex; flex-wrap: wrap; gap: 15px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #fefefe; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                            <!-- Date Input 1 -->
+                            <div style="flex: 1; min-width: 180px;">
+                                <label for="start-date" style="font-size: 14px; color: #333; margin-bottom: 5px; display: block;">Start Date</label>
+                                <input type="date" id="start-date" name="startDate" value="2022-05-02" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
                             </div>
-                         </div>
-                       
-                        
-                        <!-- Date input 2 -->
-                         
-                            <div class="col-md-2 col-4" style="padding-left: 5px;">
-                                <input type="date" value="2022-05-02" class="form-control">
-                            </div>
-                         
                     
-                        <!-- Buttons Container -->
-                        <div class="container" style="display: flex; gap: 10px; justify-content: flex-end;">
-                            
-                            <a href="/admin/todayReport">
-                                <button id="todayBtn" style="background-color: green; color: white; padding: 10px 20px; border: none; cursor: pointer;" >Today</button>
-
+                            <!-- Date Input 2 -->
+                            <div style="flex: 1; min-width: 180px;">
+                                <label for="end-date" style="font-size: 14px; color: #333; margin-bottom: 5px; display: block;">End Date</label>
+                                <input type="date" id="end-date" name="endDate" value="2022-05-02" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+                            </div>
+                    
+                            <!-- Submit Button -->
+                            <div style="min-width: 100px;">
+                                <input type="submit" value="Apply" style="padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: bold;">
+                            </div>
+                        </form>
+                    
+                        <!-- Total Amount Section -->
+                        <div style="margin: 30px auto; text-align: center; background-color: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; padding: 20px; width: 100%; max-width: 400px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                            <p style="font-size: 24px; font-weight: bold; color: #007bff; margin: 0;">Total Amount</p>
+                            <p style="font-size: 18px; color: #333; margin-top: 10px;"><%= totalAmount %></p>
+                        </div>
+                    
+                        <!-- Buttons Section -->
+                        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
+                            <a href="/admin/todayReport" style="text-decoration: none;">
+                                <button style="padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px;">Today</button>
                             </a>
-                            <a href="/admin/weekReport">
-                                <button id="thisWeekBtn" style="background-color: green; color: white; padding: 10px 20px; border: none; cursor: pointer;" >This Week</button>
-
+                            <a href="/admin/weekReport" style="text-decoration: none;">
+                                <button style="padding: 10px 20px; background-color: #ffc107; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px;">This Week</button>
                             </a>
-                            <button id="thisMonthBtn" style="background-color: green; color: white; padding: 10px 20px; border: none; cursor: pointer;" onclick="monthReport()">This Month</button>
+                            <a href="/admin/monthlyReport" style="text-decoration: none;">
+                                <button style="padding: 10px 20px; background-color: #17a2b8; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px;">This Month</button>
+                            </a>
                         </div>
                     </div>
+                    
+                    
+                    
                     
                     
                     
@@ -399,22 +412,22 @@
                                                 </a>
                                             </td>
                                             <td>
-                                                <%= order.id %> <!-- Assuming 'id' refers to the order's identifier -->
+                                                <%= order.id %> 
                                             </td>
                                             <td>
-                                                <%= order.subTotal.toFixed(2) %> <!-- Display tax with two decimal places -->
+                                                <%= order.subTotal%> 
                                             </td>
                                             <td>
-                                                <%= order.tax.toFixed(2) %> <!-- Display tax with two decimal places -->
+                                                <%= order.taxPrice%> 
                                             </td>
                                             <td>
                                                 <span class="badge badge-pill badge-soft-success">
-                                                    <%= order.shipping.toFixed(2) %> <!-- Display shipping with two decimal places -->
+                                                    <%= order.shippingPrice %> 
                                                 </span>
                                             </td>
                                             <td>
                                                 <i class="material-icons md-payment font-xxl text-muted mr-5"></i>
-                                                <%= order.total.toFixed(2) %> <!-- Display grand total with two decimal places -->
+                                                <%= order.total %> 
                                             </td>
                                         </tr>
                                         <% }) %>
@@ -467,26 +480,7 @@
 
 <script>
 
-// document.addEventListener('DOMContentLoaded', function() {
-//         document.getElementById('todayBtn').addEventListener('click', todayReport);
-//     });
 
-
-//   function todayReport(){
-//     const currentDate = Date.now()
-     
-
-//     fetch('/admin/todayReport', {
-//           method: 'POST',
-//           headers: {
-//             'Content-Type': 'application/json'
-//           },
-//           body: JSON.stringify({
-//             today: currentDate,
-            
-//           })
-//         })
-//   }
 
 </script>
 
