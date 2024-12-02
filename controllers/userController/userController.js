@@ -10,6 +10,10 @@ const StatusCodes=require("../../config/statusCode")
 const WishList = require("../../models/wishList-model")
 const ProductOffer = require("../../models/productOffer-model")
 const BrandOffer = require("../../models/brandOffer-model")
+const AddProducts = require("../../models/product-model")
+const  Categories=require("../../models/category-model")
+
+
 
 
 
@@ -100,11 +104,85 @@ const productDetails=async(req,res)=>{
 
 
 
+//for search
+const search=async(req,res)=>{
+  console.log("arjun")
+  try {
+    const {searchInput}=req.body
+
+
+    const isLogged = req.session.user || req?.session?.passport?.user
+
+  
+
+    const categoryData=await Categories.find({})
+
+    const brandData=await Brands.find({})
+
+    
+    if (!searchInput) {
+      return res.status(400).json({success:false, message: 'Search input is required' });
+  }
+  const productData = await AddProducts.find({
+    $or: [
+        { productName: { $regex: searchInput, $options: 'i' } },
+        { description: { $regex: searchInput, $options: 'i' } }
+    ]
+ });
+ if (!productData) {
+  return res.status(400).json({success:false, message: 'No product found' });
+}else{
+  console.log("shop")
+  return res.render("shopPage",{productData,isLogged,categoryData,brandData})
+}
+  } catch (error) {
+    console.log("error from load search product",error.message)
+
+  }
+}
+
+
+
+
+//for show brand
+const showBrand=async(req,res)=>{
+  try {
+    const {brandId}=req.query
+
+    console.log("id",brandId)
+
+    const isLogged = req.session.user || req?.session?.passport?.user
+
+  
+
+    const categoryData=await Categories.find({})
+
+    const brandData=await Brands.find({})
+    
+
+    const  productData=await AddProducts.find({brand:brandId})
+
+    // const productData=[productDatas]
+    console.log("datacheck",productData)
+
+
+     return res.render("shopPage",{productData,isLogged,categoryData,brandData})
+
+  } catch (error) {
+    console.log("error from load showBrand",error.message)
+
+  }
+}
+
+
+
+
 
 
 
 module.exports={
   loadHome,
-  
-  productDetails
+  productDetails,
+  search,
+  showBrand
 }

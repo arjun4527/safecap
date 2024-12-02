@@ -87,7 +87,7 @@ const addProductOffer=async(req,res)=>{
 
     currentProduct.variants =currentProduct.variants.map(variant=>{
         
-      const offerPrice=Math.ceil(variant.price - (variant.price/100)*offerDiscount)
+      const offerPrice=Math.ceil((variant.price - (variant.price/100))*offerDiscount)
       return { ...variant, offerPrice };
     })
 
@@ -182,8 +182,7 @@ let isModified = false; // To track if we modified any variant
 
 currentProduct.variants.forEach(variant => {
     const updatedOfferPrice = Math.ceil(variant.price - (variant.price * offerDiscount / 100));
-    console.log("newPrice", updatedOfferPrice);
-    console.log("oldPrice", variant.price);
+    
 
     if ( variant.offerPrice > updatedOfferPrice) {
         variant.offerPrice = updatedOfferPrice;
@@ -194,9 +193,9 @@ currentProduct.variants.forEach(variant => {
 
 if (isModified) {
     await currentProduct.save();
-    console.log("Product updated successfully.");
+    
 } else {
-    console.log("No changes made to the product.");
+    
 }
 
 
@@ -297,17 +296,17 @@ const addBrandOffer=async(req,res)=>{
     const isOfferPriceExist = products.every(product =>
       product.variants.some(variant => variant.offerPrice !== undefined)
     );
-    console.log("isOfferPriceExist", isOfferPriceExist);
+    
     
    if(isOfferPriceExist){
      
     const originalPrice=products[0].variants[0].price
 
-    console.log("originalPrice",originalPrice)
+    
 
     const offerPrice=products[0].variants[0].offerPrice
 
-    console.log("offerPrice",offerPrice)
+  
 
 
     const productOfferDiscount=Math.ceil(((originalPrice-offerPrice)/originalPrice)*100)
@@ -315,18 +314,18 @@ const addBrandOffer=async(req,res)=>{
     console.log("productOfferDiscount",productOfferDiscount)
 
     if(productOfferDiscount<Number(offerDiscount)){
-        console.log("nithuin")
+        
       products.forEach(product => {
         product.variants.forEach(variant => {
             
             const newOfferPriceByBrandOffer = Math.ceil(variant.price - (variant.price * offerDiscount / 100));
             
-            console.log("new offer orce",newOfferPriceByBrandOffer);
+          
             
             // Update the offerPrice field
             variant.offerPrice = newOfferPriceByBrandOffer;
 
-            console.log("offerPrice",  variant.offerPrice)
+            
           });
            product.save()
 
@@ -339,9 +338,9 @@ const addBrandOffer=async(req,res)=>{
     for (const product of products) {
       for (const variant of product.variants) {
           if (variant.price) {
-              // Add a new field 'offerPrice' and calculate its value
-              variant.offerPrice = 0; // Initialize with a default value
-              const discount = (variant.price * offerDiscount) / 100;
+              
+              variant.offerPrice = 0; 
+              const discount =Math.ceil((variant.price * offerDiscount) / 100) 
               variant.offerPrice = variant.price - discount; 
           }
       }
@@ -448,8 +447,7 @@ const products = await AddProducts.find({brand:offerData.brandId});
 products.forEach(currentProduct=>{
   currentProduct.variants.forEach(variant => {
     const updatedOfferPrice = Math.ceil(variant.price - (variant.price * offerDiscount / 100));
-    console.log("newPrice", updatedOfferPrice);
-    console.log("oldPrice", variant.price);
+    
 
     if ( variant.offerPrice > updatedOfferPrice) {
         variant.offerPrice = updatedOfferPrice;

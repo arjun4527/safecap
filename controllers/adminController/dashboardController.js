@@ -1,57 +1,119 @@
 const Orders=require("../../models/order-model")
+const PDFDocument = require('pdfkit');
+const AddProducts = require("../../models/product-model")
+const Brands=require("../../models/brand-model")
+const moment=require('moment')
+
+
 
 
 
 //for render Dashboard
-const loadDashboard=async(req,res)=>{
+const loadDashboard = async (req, res) => {
   try {
+  
     let startDate = new Date();
-    startDate.setHours(0, 0, 0);
+    startDate.setHours(0, 0, 0, 0);
     
     let endDate = new Date();
-    endDate.setHours(23, 59, 59);
+    endDate.setHours(23, 59, 59, 999);
 
-    const query = { orderDate: { $gte: startDate, $lte: endDate } };
+    const page = parseInt(req.query.page) || 1;
+    const limit = 6;
+    const skip = (page - 1) * limit;
 
-
-  const orderData = await Orders.find(query);
-
-  let resultArray = []; 
-
-  orderData.forEach((order) => {
-    let subTotal = 0; 
   
-    order.items.forEach((item) => {
-      subTotal += item.price * item.quantity;
+    const query = { orderDate: { $gte: startDate, $lte: endDate },
+                     orderStatus:"delivered"
+                   };
+    const orderData = await Orders.find(query).skip(skip).limit(limit);
+
+
+    const totalOrders = await Orders.countDocuments(query);
+    const totalPages = Math.ceil(totalOrders / limit);
+
+  
+    let resultArray = [];
+    let totalAmount = 0;
+
+    orderData.forEach((order) => {
+      let subTotal = 0;
+
+      order.items.forEach((item) => {
+        subTotal += item.price * item.quantity; 
+      });
+
+      const shippingPrice = order.shippingPrice || 0;
+      const taxPrice = order.taxPrice || 0;
+      const couponDiscountAmount=order.couponDiscountAmount
+
+      const total = subTotal + shippingPrice + taxPrice-couponDiscountAmount;
+
+      resultArray.push({
+        id: order.id,
+        orderDate: order.orderDate || null,
+        subTotal,
+        shippingPrice,
+        taxPrice,
+        total,
+        couponDiscountAmount
+      });
+
+      
+      totalAmount += order.grandTotal || 0;
     });
-  
-    
-    const shippingPrice = order.shippingPrice || 0; 
-    const taxPrice = order.taxPrice || 0; 
-    const total = subTotal + shippingPrice + taxPrice;
-  
-    
-    resultArray.push({
-      id: order.id,
-      orderDate: order.orderDate || null, 
-      subTotal,
-      shippingPrice,
-      taxPrice,
-      total,
-    });
-  });
 
-  let totalAmount=0
-  orderData.forEach(order=>{
-      totalAmount +=order.grandTotal
+    let totalCouponDiscountAmount =0
+    orderData.forEach(order=>{
+      totalCouponDiscountAmount +=order.couponDiscountAmount
   })
 
+
+
+  //for total datas
+  const totalNoOfOrders=await Orders.countDocuments()
+    console.log("order",totalNoOfOrders)
+
+
+    const totalProduct=await AddProducts.countDocuments()
+    console.log("product",totalProduct)
+
+    const totalRevenue = await Orders.aggregate([
+      {
+          $group: {
+              _id: null, 
+              totalGrandTotal: { $sum: "$grandTotal" }
+          }
+      }
+  ])
+
+  const totalBrands=await Brands.countDocuments()
+
+
+ 
+
+
+
+
   
-    res.render("dashboard",{resultArray,totalAmount})
+    res.render("dashboard", {
+      resultArray,
+      totalAmount,
+      totalPages,
+      currentPage: page,
+      totalCouponDiscountAmount,
+      totalOrders,
+      totalNoOfOrders,
+      totalProduct,
+      totalRevenue,
+      totalBrands
+    });
   } catch (error) {
-    console.log(error.message)
+    console.error(error.message);
+    res.status(500).send("Internal Server Error");
   }
-}
+};
+
 
 
 
@@ -65,43 +127,91 @@ startDate.setHours(0, 0, 0);
 let endDate = new Date();
 endDate.setHours(23, 59, 59);
 
+try{
+ const page = parseInt(req.query.page) || 1;
+ const limit = 6;
+ const skip = (page - 1) * limit;
 
-const query = { orderDate: { $gte: startDate, $lte: endDate } };
+ const query = { orderDate: { $gte: startDate, $lte: endDate },
+                 orderStatus:"delivered"
+               };
 
-try {
-  const orderData = await Orders.find(query);
+ 
+ const orderData = await Orders.find(query).skip(skip).limit(limit);
 
-  let totalAmount=0
-  orderData.forEach(order=>{
-      totalAmount +=order.grandTotal
+
+ const totalOrders = await Orders.countDocuments(query);
+ 
+ const totalPages = Math.ceil(totalOrders / limit);
+
+ let resultArray = [];
+ let totalAmount = 0;
+
+ orderData.forEach((order) => {
+   let subTotal = 0;
+
+   order.items.forEach((item) => {
+     subTotal += item.price * item.quantity; 
+   });
+
+   const shippingPrice = order.shippingPrice || 0;
+   const taxPrice = order.taxPrice || 0;
+   const couponDiscountAmount=order.couponDiscountAmount
+
+   const total = (subTotal + shippingPrice + taxPrice)-couponDiscountAmount;
+
+
+  
+   resultArray.push({
+     id: order.id,
+     orderDate: order.orderDate || null,
+     subTotal,
+     shippingPrice,
+     taxPrice,
+     total,
+     couponDiscountAmount
+   });
+
+   
+   totalAmount += order.grandTotal || 0;
+ });
+
+ let totalCouponDiscountAmount =0
+    orderData.forEach(order=>{
+      totalCouponDiscountAmount +=order.couponDiscountAmount
   })
+  // console.log("dis",totalCouponDiscountAmount)
 
-  let resultArray = [];
 
-  orderData.forEach((order) => {
-    let subTotal = 0; 
-  
+  const totalNoOfOrders=await Orders.countDocuments()
+    console.log("order",totalNoOfOrders)
 
-    order.items.forEach((item) => {
-      subTotal += item.price * item.quantity;
-    });
-  
-    
-    const shippingPrice = order.shippingPrice || 0; 
-    const taxPrice = order.taxPrice || 0; 
-    const total = subTotal + shippingPrice + taxPrice;
 
-    resultArray.push({
-      id: order.id,
-      orderDate: order.orderDate || null, 
-      subTotal,
-      shippingPrice,
-      taxPrice,
-      total,
-    });
-  })
-  
-  res.render("dashboard",{resultArray,totalAmount})
+    const totalProduct=await AddProducts.countDocuments()
+    console.log("product",totalProduct)
+
+    const totalRevenue = await Orders.aggregate([
+      {
+          $group: {
+              _id: null, 
+              totalGrandTotal: { $sum: "$grandTotal" }
+          }
+      }
+  ])
+
+  const totalBrands=await Brands.countDocuments()
+
+ res.render("dashboard", {
+   resultArray,
+   totalAmount,
+   totalPages,
+   currentPage: page,
+   totalCouponDiscountAmount,
+   totalOrders,totalNoOfOrders,
+   totalProduct,
+   totalRevenue,
+   totalBrands
+ });
   } catch (error) {
     console.log("Error from the todayReport",error.message)
   }
@@ -119,41 +229,91 @@ const weekReport=async(req,res)=>{
           endDate.setDate(endDate.getDate() + 6);
           endDate.setHours(23, 59, 59, 999);
   try {
-    const query = { orderDate: { $gte: startDate, $lte: endDate } };
-   
-    const orderData = await Orders.find(query);
     
-    let resultArray = []; 
+    const page = parseInt(req.query.page) || 1;
+    const limit = 6;
+    const skip = (page - 1) * limit;
 
-orderData.forEach((order) => {
-  let subTotal = 0; 
+
+    const query = { orderDate: { $gte: startDate, $lte: endDate },orderStatus:"delivered" };
 
   
-  order.items.forEach((item) => {
-    subTotal += item.price * item.quantity;
-  });
+    const orderData = await Orders.find(query).skip(skip).limit(limit);
 
-  const shippingPrice = order.shippingPrice || 0;
-  const taxPrice = order.taxPrice || 0; 
-  const total = subTotal + shippingPrice + taxPrice;
+    
+    const totalOrders = await Orders.countDocuments(query);
+
+    const totalPages = Math.ceil(totalOrders / limit);
+
+  
+    let resultArray = [];
+    let totalAmount = 0;
+
+    orderData.forEach((order) => {
+      let subTotal = 0;
+
+      order.items.forEach((item) => {
+        subTotal += item.price * item.quantity;
+      });
+
+      const shippingPrice = order.shippingPrice || 0;
+      const taxPrice = order.taxPrice || 0;
+      const couponDiscountAmount=order.couponDiscountAmount
+
+      const total = subTotal + shippingPrice + taxPrice-couponDiscountAmount;
 
 
-  resultArray.push({
-    id: order.id,
-    orderDate: order.orderDate || null, 
-    subTotal,
-    shippingPrice,
-    taxPrice,
-    total,
-  });
-});
+  
+      resultArray.push({
+        id: order.id,
+        orderDate: order.orderDate || null,
+        subTotal,
+        shippingPrice,
+        taxPrice,
+        total,
+        couponDiscountAmount,
+        
+      });
+
+      
+      totalAmount += order.grandTotal || 0;
+    });
+    let totalCouponDiscountAmount =0
+    orderData.forEach(order=>{
+      totalCouponDiscountAmount +=order.couponDiscountAmount
+  })
+
+  const totalNoOfOrders=await Orders.countDocuments()
+    console.log("order",totalNoOfOrders)
 
 
-    let totalAmount=0
-      orderData.forEach(order=>{
-          totalAmount +=order.grandTotal
-      })
-      res.render("dashboard",{resultArray,totalAmount})
+    const totalProduct=await AddProducts.countDocuments()
+    console.log("product",totalProduct)
+
+    const totalRevenue = await Orders.aggregate([
+      {
+          $group: {
+              _id: null, 
+              totalGrandTotal: { $sum: "$grandTotal" }
+          }
+      }
+  ])
+
+  const totalBrands=await Brands.countDocuments()
+
+
+    res.render("dashboard", {
+      resultArray,
+      totalAmount,
+      totalPages,
+      currentPage: page,
+      totalCouponDiscountAmount,
+      totalOrders,
+      totalNoOfOrders,
+      totalProduct,
+      totalRevenue,
+      totalBrands
+    });
 
   } catch (error) {
     console.log("Error from the weekReport",error.message)
@@ -171,41 +331,93 @@ const monthlyReport=async(req,res)=>{
           let endDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
                endDate.setHours(23, 59, 59, 999);
   try {
-    const query = { orderDate: { $gte: startDate, $lte: endDate } };
-   
-    const orderData = await Orders.find(query);
-    
-    let resultArray = []; 
-
-orderData.forEach((order) => {
-  let subTotal = 0; 
+    const page = parseInt(req.query.page) || 1;
+    const limit = 6;
+    const skip = (page - 1) * limit;
 
   
-  order.items.forEach((item) => {
-    subTotal += item.price * item.quantity;
-  });
+    const query = { orderDate: { $gte: startDate, $lte: endDate },orderStatus:"delivered" };
 
-  const shippingPrice = order.shippingPrice || 0;
-  const taxPrice = order.taxPrice || 0; 
-  const total = subTotal + shippingPrice + taxPrice;
+  
+    const orderData = await Orders.find(query).skip(skip).limit(limit);
+
+    
+    const totalOrders = await Orders.countDocuments(query);
+    const totalPages = Math.ceil(totalOrders / limit);
+
+    let resultArray = [];
+    let totalAmount = 0;
+
+    orderData.forEach((order) => {
+      let subTotal = 0;
+
+      order.items.forEach((item) => {
+        subTotal += item.price * item.quantity; 
+      });
+
+      const shippingPrice = order.shippingPrice || 0;
+      const taxPrice = order.taxPrice || 0;
+      const couponDiscountAmount=order.couponDiscountAmount
+
+      const total = subTotal + shippingPrice + taxPrice-couponDiscountAmount;
 
 
-  resultArray.push({
-    id: order.id,
-    orderDate: order.orderDate || null, 
-    subTotal,
-    shippingPrice,
-    taxPrice,
-    total,
-  });
-});
+
+      resultArray.push({
+        id: order.id,
+        orderDate: order.orderDate || null,
+        subTotal,
+        shippingPrice,
+        taxPrice,
+        total,
+        couponDiscountAmount,
+        
+      });
 
 
-    let totalAmount=0
-      orderData.forEach(order=>{
-          totalAmount +=order.grandTotal
-      })
-      res.render("dashboard",{resultArray,totalAmount})
+      totalAmount += order.grandTotal || 0;
+    });
+
+    let totalCouponDiscountAmount =0
+    orderData.forEach(order=>{
+      totalCouponDiscountAmount +=order.couponDiscountAmount
+  })
+
+  const totalNoOfOrders=await Orders.countDocuments()
+    console.log("order",totalNoOfOrders)
+
+
+    const totalProduct=await AddProducts.countDocuments()
+    console.log("product",totalProduct)
+
+    const totalRevenue = await Orders.aggregate([
+      {
+          $group: {
+              _id: null, 
+              totalGrandTotal: { $sum: "$grandTotal" }
+          }
+      }
+  ])
+
+  const totalBrands=await Brands.countDocuments()
+
+  console.log("monthlyyyyyyyyyy",resultArray)
+
+
+
+  
+    res.render("dashboard", {
+      resultArray,
+      totalAmount,
+      totalPages,
+      currentPage: page,
+      totalCouponDiscountAmount,
+      totalOrders,
+      totalNoOfOrders,
+      totalProduct,
+      totalRevenue,
+      totalBrands
+    });
   } catch (error) {
     console.log("Error from the monthlyReport",error.message)
 
@@ -219,10 +431,229 @@ orderData.forEach((order) => {
 const customReport=async(req,res)=>{
   try {
     const {startDate,endDate}=req.body
-    console.log(startDate,endDate)
+
+    const page=parseInt(req.query.page) || 1
+    const limit=6
+    const skip=(page-1)* limit
+
+    const query = { orderDate: { $gte: startDate, $lte: endDate } };
+   
+    const orderData = await Orders.find(query).skip(skip).limit(limit);
+
+    const totalOrders = await Orders.countDocuments(query);
+
+    const totalPages=Math.ceil(totalOrders/limit)
+
+    let resultArray = []; 
+
+orderData.forEach((order) => {
+  let subTotal = 0; 
+
+  
+  order.items.forEach((item) => {
+    subTotal += item.price * item.quantity;
+  });
+
+  const shippingPrice = order.shippingPrice || 0;
+  const taxPrice = order.taxPrice || 0; 
+  const couponDiscountAmount=order.couponDiscountAmount ||0
+
+  const total = (subTotal + shippingPrice + taxPrice)-couponDiscountAmount || 0 
+
+
+  resultArray.push({
+    id: order.id,
+    orderDate: order.orderDate || null, 
+    subTotal,
+    shippingPrice,
+    taxPrice,
+    total,
+    couponDiscountAmount,
+    
+  });
+});
+
+
+    let totalAmount=0
+      orderData.forEach(order=>{
+          totalAmount +=order.grandTotal
+      })
+
+    let totalCouponDiscountAmount =0
+    orderData.forEach(order=>{
+      totalCouponDiscountAmount +=order.couponDiscountAmount
+  })
+
+  const totalNoOfOrders=await Orders.countDocuments()
+    console.log("order",totalNoOfOrders)
+
+
+    const totalProduct=await AddProducts.countDocuments()
+    console.log("product",totalProduct)
+
+    const totalRevenue = await Orders.aggregate([
+      {
+          $group: {
+              _id: null, 
+              totalGrandTotal: { $sum: "$grandTotal" }
+          }
+      }
+  ])
+
+  const totalBrands=await Brands.countDocuments()
+  
+      res.render("dashboard",{resultArray,totalAmount,totalPages,currentPage:page,totalCouponDiscountAmount,totalOrders,totalNoOfOrders,
+        totalProduct,
+        totalRevenue,
+        totalBrands})
   } catch (error) {
     console.log("Error from the customReport",error.message)
 
+  }
+}
+
+
+
+//for chart
+const updateChart=async(req,res)=>{
+  try {
+    
+    const {period}=req.body
+    console.log("periodddd",period)
+
+    let startDate
+    let endDate
+    let array = [];
+
+
+    if(period==='today'){
+      startDate = new Date();
+      startDate.setHours(0, 0, 0);
+    
+    endDate = new Date();
+    endDate.setHours(23, 59, 59);
+    }else if(period==='weekly'){
+      startDate = new Date();
+          startDate.setDate(startDate.getDate() - startDate.getDay());
+
+          endDate = new Date(startDate);
+          endDate.setDate(endDate.getDate() + 6);
+          endDate.setHours(23, 59, 59, 999);
+    }else if(period==='monthly'){
+       startDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+       endDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
+           endDate.setHours(23, 59, 59, 999);
+    }
+    
+   console.log("sd",startDate)
+   console.log("ed",endDate)
+    const query = { orderDate: { $gte: startDate, $lte: endDate },
+                 orderStatus:"delivered"
+               };
+
+ let sum=0
+
+ const orderData = await Orders.find(query)
+ console.log('ordderDat',orderData)
+
+ if(period==='today'){
+  orderData.forEach((order) => {
+    let subTotal = 0;
+  
+    order.items.forEach((item) => {
+      subTotal += item.price * item.quantity; 
+    });
+  
+    const shippingPrice = order.shippingPrice || 0;
+    const taxPrice = order.taxPrice || 0;
+    const couponDiscountAmount=order.couponDiscountAmount
+  
+  
+
+
+     const total = (subTotal + shippingPrice + taxPrice) - couponDiscountAmount;
+
+     sum=sum+total
+     
+   })
+   array.push(sum);
+   console.log("todayyy",array)
+
+     
+ }
+
+ if(period==='weekly'){
+ 
+
+   const query = { orderDate: { $gte: startDate, $lte: endDate },
+                 orderStatus:"delivered"}
+
+   const orderData = await Orders.find(query)
+
+   console.log("weekend",orderData)
+
+
+ 
+
+// Step 3: Initialize an array for totals for each day (0-6: Sunday-Saturday)
+ array = Array(7).fill(0);
+
+// Step 4: Sum grand totals for each day
+
+ orderData.forEach(order => {
+    const orderDate = new Date(order.orderDate);
+    const dayIndex = orderDate.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+    array[dayIndex] += order.grandTotal; // Add the order's grandTotal to the corresponding day
+    console.log("weekly",array)
+
+});
+ }
+
+
+ if(period==='monthly'){
+  const query = { orderDate: { $gte: startDate, $lte: endDate },
+  orderStatus:"delivered"
+};
+
+const orderData = await Orders.find(query)
+console.log("monthend",orderData)
+
+// let weeklySums = [];
+let currentStartDate = new Date(startDate);
+
+// Calculate weekly totals
+while (currentStartDate <= endDate) {
+    // Calculate the end of the current 7-day period
+    let currentEndDate = new Date(currentStartDate);
+    currentEndDate.setDate(currentEndDate.getDate() + 6);
+    if (currentEndDate > endDate) {
+        currentEndDate = endDate; // Ensure we don't go past the month's end
+    }
+
+    // Sum orders for this period
+    const weekSum = orderData
+        .filter(order => {
+            const orderDate = new Date(order.orderDate);
+            return orderDate >= currentStartDate && orderDate <= currentEndDate;
+        })
+        .reduce((sum, order) => sum + order.grandTotal, 0);
+
+    // Push the sum to the array
+    array.push(weekSum);
+
+    // Move to the next 7-day period
+    currentStartDate.setDate(currentStartDate.getDate() + 7);
+    console.log("monthoo",array)
+}
+
+
+ }
+ 
+
+  return res.json({success:true,amount:array})
+
+  } catch (error) {
+    console.log("Error from chart",error.message)
   }
 }
 
@@ -239,5 +670,8 @@ module.exports={
   loadDashboard,
   weekReport,
   monthlyReport,
-  customReport
+  customReport,
+  updateChart
+  
+  
 }

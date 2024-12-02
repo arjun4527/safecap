@@ -230,20 +230,27 @@
                         <div class="col-lg-5" > <!-- New column for order status -->
                             <div class="orderStatus mr-5">
                                 <h6 class="mb-3">Order Status</h6>
-                                <% if(orderData.orderStatus==="pending"){ %>
+                                <% if(orderData.orderStatus==="pending" ){ %>
                                     <label style="display: block; color:black; font-size: 17px;">
                                     <input type="radio" name="orderStatus" id="shipping" value="shipping" style="margin-right: 10px;"> Shipping
                                     </label>
-                                    <label style="display: block; color:black; font-size: 17px;">
-                                        <input type="radio" name="orderStatus" id="delivered" value="delivered" style="margin-right: 10px;"> Delivered
-                                    </label>
+                                    <% if( orderData.paymentStatus==="paid"){ %>
+                                        <label style="display: block; color:black; font-size: 17px;">
+                                            <input type="radio" name="orderStatus" id="delivered" value="delivered" style="margin-right: 10px;"> Delivered
+                                        </label>
+                                   <% } %>
+                                    
                                     <label style="display: block; color:black; font-size: 17px;">
                                         <input type="radio" name="orderStatus" id="canceled" value="canceled" style="margin-right: 10px;"> Canceled
                                     </label>
                                <% } else if(orderData.orderStatus==="shipping"){ %>
+                                <% if( orderData.paymentStatus==="paid"){ %>
+
                                     <label style="display: block; color:black; font-size: 17px;">
                                         <input type="radio" name="orderStatus" id="delivered" value="delivered" style="margin-right: 10px;"> Delivered
                                     </label>
+                                    <% } %>
+
                                     <label style="display: block; color:black; font-size: 17px;">
                                         <input type="radio" name="orderStatus" id="canceled" value="canceled" style="margin-right: 10px;"> Canceled
                                     </label>

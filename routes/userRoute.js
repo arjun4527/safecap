@@ -52,6 +52,10 @@ user_route.use(bodyParser.urlencoded({ extended: true }))
 // Home 
 user_route.get("/", noCacheMiddleware, auth.userBlocked, noCacheMiddleware, userController.loadHome)
 user_route.get("/productDetails", auth.userBlocked, noCacheMiddleware, auth.isLogin, userController.productDetails)
+user_route.post("/search", noCacheMiddleware,auth.isLogin, userController.search)
+user_route.get("/showBrand", noCacheMiddleware,auth.isLogin, userController.showBrand)
+
+
 
 
 
@@ -95,6 +99,7 @@ user_route.delete("/removeAddress", noCacheMiddleware, auth.isLogin, userProfile
 user_route.get("/editAddress", noCacheMiddleware, auth.isLogin, userProfileController.loadEditAddress)
 user_route.post("/editAddress", noCacheMiddleware, auth.isLogin, userProfileController.editAddress)
 user_route.get("/orders", noCacheMiddleware, auth.isLogin, userProfileController.loadOrderList)
+user_route.get("/invoice", noCacheMiddleware, auth.isLogin, userProfileController.loadInvoice)
 user_route.get("/orderDetails", noCacheMiddleware, auth.isLogin, userProfileController.loadOrderDetails)
 user_route.post("/orderDetails", noCacheMiddleware, auth.isLogin, userProfileController.cancelProduct)
 user_route.post("/orderCancel", noCacheMiddleware, auth.isLogin, userProfileController.orderCancel)
@@ -147,12 +152,16 @@ user_route.get("/clearWishList", noCacheMiddleware, auth.isLogin, wishListContro
 //razorPay
 user_route.post("/verifyPayment", noCacheMiddleware, auth.isLogin, razorpayController.verifyPayment)
 user_route.post("/paymentFailure", noCacheMiddleware, auth.isLogin, razorpayController.paymentFailure)
+user_route.get("/displayFailure", noCacheMiddleware, auth.isLogin, razorpayController.displayFailure)
+
 
 
 
 
 //return product
 user_route.post("/returnProduct", noCacheMiddleware, auth.isLogin, returnController.returnProduct)
+user_route.post("/retryPayment", noCacheMiddleware, auth.isLogin, returnController.retryPayment)
+
 
 
 

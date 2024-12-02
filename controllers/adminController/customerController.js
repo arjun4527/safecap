@@ -86,17 +86,14 @@ const loadOrderList=async(req,res)=>{
     const skip=(page-1)* limit
 
     const currentUser=req.session.user
-    // const orders=await Orders.find().skip(skip).limit(limit)
-
+  
     const orderData=await Orders.find().skip(skip).limit(limit)
-
-
 
     const totalOrders=await Orders.countDocuments()
 
     const totalPages=Math.ceil(totalOrders/limit)
 
-  // const orderData=await Orders.find({})
+  
     
     return res.render("orderList",{orderData,totalPages,currentPage:page,}) 
   } catch (error) {
@@ -135,7 +132,8 @@ const updateOrderStatus=async(req,res)=>{
       {
         $set:{
         
-          orderStatus:orderStatus
+          orderStatus:orderStatus,
+          updateDate: new Date()
         }
       },
       {new:true}
@@ -170,7 +168,7 @@ const loadReturnOrderList=async(req,res)=>{
         select: 'size' 
       }
     });  
-    console.log("aaa",returnData)
+    console.log("swathy",returnData)
          
       
   
@@ -189,6 +187,7 @@ const returnAccept=async(req,res)=>{
 
     
     const {orderId,userId,productId,size}=req.body
+  
     
     let refundAmount
     
@@ -200,16 +199,14 @@ const returnAccept=async(req,res)=>{
         if(i.product.toString()=== productId.toString()&& i.size===size) {
 
             i.orderStatus = "return approved"
-            refundAmount=i.price*i.quantity
-            orderData.grandTotal=totalAmount-refundAmount
+            refundAmount=Math.ceil((i.price*i.quantity)+orderData.taxPrice)
+            orderData.grandTotal=Math.ceil(totalAmount-refundAmount)
             
         }
      })
      await orderData.save()
 
-     console.log("1")
-
-
+    
      const walletData=await Wallet.findOne({user:userId})
 
      if (walletData) {
@@ -238,24 +235,19 @@ const returnAccept=async(req,res)=>{
       await newWallet.save();
     }
   
-
-
-    const returnData=await Return.findOne({orderId:orderId})
-    console.log("returnData",returnData)
-
+    const returnData = await Return.findOne({ productId: productId, size: size });
+    
     returnData.returnStatus="return approved"
-    console.log("return")
-
+    
     await returnData.save()
 
 
-
-    if(orderData.items.every(item=> item.orderStatus==='return approved'||item.orderStatus==='canceled')){
+    if(orderData.items.every(item=> item.orderStatus==='return approved'||item.orderStatus==='canceled' ||item.orderStatus==='return rejected' )){
 
       orderData.orderStatus="return"
     }
     await orderData.save()
-    console.log("return")
+  
 
 
     return res.status(StatusCodes.OK).json({success:true,message:"Return Approved SuccessFully"})
@@ -275,6 +267,7 @@ const returnAccept=async(req,res)=>{
 const returnReject=async(req,res)=>{
   try {
     const {orderId,productId,size}=req.body
+    console.log("orderId",orderId)
     
     const orderData = await Orders.findById(orderId)
 
@@ -289,12 +282,12 @@ const returnReject=async(req,res)=>{
      })
      await orderData.save()
 
-     const returnData=await Return.findOne({orderId:orderId})
+     const returnData = await Return.findOne({ productId: productId, size: size });
 
     returnData.returnStatus="return rejected"
 
     await returnData.save()
-    console.log("swathy")
+    console.log("amullll",returnData)
 
     return res.status(StatusCodes.OK).json({success:true,message:"Return Rejected SuccessFully"})
 

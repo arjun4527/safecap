@@ -93,11 +93,14 @@
                     <% brandsData.forEach(brand=>{ %>
 
                     <div class="collection-grid-item">
-                        <a href="collection-page.html" class="collection-grid-item__link">
+                        <a href="/showBrand?brandId=<%= brand._id %>" class="collection-grid-item__link">
                             <img data-src="/productImages/<%= brand.image%>" src="" alt="Performance Parts" class="blur-up lazyload"/>
-                            <div class="collection-grid-item__title-wrapper">
-                                <h3 class="collection-grid-item__title btn btn--secondary no-border"><%= brand.name%></h3>
-                            </div>
+                            <!-- <div class="collection-grid-item__title-wrapper">
+                                <a href="/showBrand?brandId=">
+                                    <h3 class="collection-grid-item__title btn btn--secondary no-border"><</h3>
+
+                                </a>
+                            </div> -->
                         </a>
                     </div>
                     <%})%>

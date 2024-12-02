@@ -74,9 +74,14 @@
                 <button id="productCancel" onclick="cancelProduct('<%= item.product %>', '<%= singleOrderData._id %>','<%= item.size %>')" style="background-color: red; color: white; padding: 10px; border: none; border-radius: 5px;">Cancel</button>
               <% } %>
               
-              <% if(item.orderStatus === "delivered") { %>
-                <button id="productReturn" onclick="returnProduct('<%= item.product %>', '<%= singleOrderData._id %>','<%= item.size %>')" style="background-color: red; color: white; padding: 10px; border: none; border-radius: 5px;">Return</button>
+            
+               <% if (item.orderStatus === "delivered" ) { %>
+              
+                  <button id="productReturn" onclick="returnProduct('<%= item.product %>', '<%= singleOrderData._id %>','<%= item.size %>')" style="background-color: red; color: white; padding: 10px; border: none; border-radius: 5px;">
+                    Return
+                  </button>
               <% } %>
+
               
           </div>
       </div>
@@ -282,6 +287,10 @@ function orderCancel( orderId) {
 
 
   function returnProduct(productId, orderId,size) {
+    console.log("id",productId)
+    console.log("ordid",orderId)
+    console.log("sssss",size)
+
     
    Swal.fire({
   title: 'Return Product',

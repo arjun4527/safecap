@@ -353,6 +353,7 @@
                 <!-- Start model close -->
                 <a href="javascript:void()" data-dismiss="modal" class="model-close-btn pull-right" title="close"><span class="icon icon anm anm-times-l"></span></a>
                 <!-- End model close -->
+                 
                 <%  productData.forEach(product=>{ %>
                   <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-12 col-12">
@@ -571,6 +572,28 @@
         
       })
 })
+
+
+
+
+
+
+// document.querySelector('.search-bar__form').addEventListener('submit', (event) => {
+//     event.preventDefault(); // Prevents default form submission
+//     const searchInput = document.getElementById('searchInput').value;
+//     console.log("Submitting search:", searchInput);
+
+
+//     // If using AJAX:
+//     fetch('/search', {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({ searchInput })
+//     }).then(response => response.json())
+//       .then(data => console.log("Search response:", data))
+//       .catch(error => console.error("Error:", error));
+// });
+
 
        
 

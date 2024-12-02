@@ -117,6 +117,7 @@ const placeOrder=async(req,res)=>{
     const cartData=await Cart.findOne({user:currentUser}).populate({ path: "items.product", populate: [  "category","brand", ] })
 
     const totalItems=cartData.items.length
+    
 
     const addressData=await Address.findById(addressId)
 
@@ -147,11 +148,13 @@ const placeOrder=async(req,res)=>{
       finalAmount = grandTotal
     }
 
+     let couponDiscountAmount=grandTotal-finalAmount
+   
     
 
-    // if(grandTotal>1000 && paymentMethod === "cashOnDelivery"){
-    //   return res.status(400).json({success:false,message:'Cash on delivery only available for upto 1000Rs purchase'})
-    // }
+    if(finalAmount>1000 && paymentMethod === "cashOnDelivery"){
+      return res.status(200).json({success:false,message:'Cash on delivery only available for upto 1000Rs purchase'})
+    }
 
     const productImages =  cartData.items.map((item) =>{
            
@@ -208,7 +211,8 @@ const placeOrder=async(req,res)=>{
       shippingPrice:shipping,
       grandTotal:finalAmount,
       paymentMethod:paymentMethod,
-      // orderDate:currentDate
+      couponDiscountAmount
+      
 
     })
 
@@ -229,12 +233,11 @@ const placeOrder=async(req,res)=>{
             { new: true } // Option to return the updated document
           );
           
+        }else{
+          return res.status(200).json({ success: false, message: "Insufficient Balance in your Wallet" });
         }
       }
     }
-
-
-
 
     if (paymentMethod === "razorPay") {
       try {
@@ -339,7 +342,7 @@ const applyCoupon=async(req,res)=>{
     const couponData=await Coupon.findById(couponId)
 
     if(couponData.is_blocked){
-      return res.status(StatusCodes.BAD_REQUEST).json({success:false,message:"This coupon is not valid"})
+      return res.status(StatusCodes.OK).json({success:false,message:"This coupon is not valid"})
     }
   
 
@@ -368,39 +371,28 @@ const applyCoupon=async(req,res)=>{
     const grandTotal=Math.floor(total+tax+shipping)
 
     if(couponData.minAmount>grandTotal){
-      return res.status(StatusCodes.BAD_REQUEST).json({success:false,message:`Your total is below the minimum purchase amount of ${couponData.minAmount} required to use this coupon. Add more items to qualify!`})
+      return res.status(StatusCodes.OK).json({success:false,message:`Your total is below the minimum purchase amount of ${couponData.minAmount} required to use this coupon. Add more items to qualify!`})
 
     }
-
-    
     let couponDiscount=(grandTotal/100)* Number(discountPercentage)
 
     if(couponDiscount>couponData.maxAmount){
       couponDiscount=couponData.maxAmount
     }
-
-
     const totalAmount=grandTotal-couponDiscount
 
     const finalAmount=Math.ceil(totalAmount)
     
-   console.log("ididid",couponId)
-    
     req.session.finalAmount=finalAmount
 
     req.session.couponId=couponId
-    console.log("req",req.session.couponId)
-
-     
+  
     return res.status(StatusCodes.OK).json({success:true,
       couponDiscount:couponDiscount,
       finalAmount:finalAmount})
     
-
-
-
   } catch (error) {
-    console.log("Errrom from apply coupon",error.message)
+    console.log("Error from apply coupon",error.message)
   }
 }
 

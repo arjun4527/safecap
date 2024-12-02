@@ -1,0 +1,129 @@
+<%- include('../layouts/userLayouts/header') %>
+<%- include('../layouts/userLayouts/navbar') %>
+
+
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f9f9f9;">
+
+  <div style="max-width: 800px; margin: 20px auto; background: #fff; padding: 20px; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); position: relative;">
+    
+    <!-- Back Button -->
+     <!-- <a href="/orderList">
+      <button  style="position: absolute; top: 20px; left: 20px; background: black; color: white; border: none; padding: 10px 15px; font-size: 14px; border-radius: 4px; cursor: pointer;">
+        Back
+    </button>
+     </a>
+     -->
+  
+    <!-- Invoice Header -->
+     <div id="invoice">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <h1 style="margin: 0; font-size: 24px; color: #333;">Invoice</h1>
+        <p style="margin: 5px 0; font-size: 14px; color: #666;">Thank you for your purchase!</p>
+    </div>
+  
+    <!-- Company and Customer Information -->
+    <div style="display: flex; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap;">
+        <!-- Company Details -->
+        <div style="flex: 1; min-width: 200px;">
+            <h2 style="margin: 0; font-size: 18px; color: #333;">Company Name</h2>
+            <p style="margin: 5px 0; font-size: 14px; color: #555;">Safe Cap<br>Kochi, Kerala, 686314<br>Email: safecapcompany@.com<br>Phone: (91) 9364666477</p>
+        </div>
+        <!-- Customer Details -->
+        <div style="flex: 1; min-width: 200px; text-align: right;">
+            <h2 style="margin: 0; font-size: 18px; color: #333;">Customer Details</h2>
+            <p style="margin: 5px 0; font-size: 14px; color: #555;"><%= orderData.shippingAddress.name %><br><%= orderData.shippingAddress.address %><br><%= orderData.shippingAddress.district %>, Kerala, <%= orderData.shippingAddress.pincode %><br>Email: <%= orderData.user.email %><br>Phone: <%= orderData.shippingAddress.phone %> </p>
+        </div>
+    </div>
+  
+    <!-- Invoice Details -->
+    <div style="margin-bottom: 20px; font-size: 14px; color: #555;">
+        <p style="margin: 5px 0; color: black;">Invoice Number: <strong>#IKE2255</strong></p>
+        <p style="margin: 5px 0; color: black;">Order Date: <strong><%= orderData.orderDate %></strong></p>
+        <p style="margin: 5px 0; color: black;">Payment Method: <strong><%= orderData.paymentMethod %></strong></p>
+        <p style="margin: 5px 0; color: black;">Payment Status: <strong><%= orderData.paymentStatus %></strong></p>
+    </div>
+  
+    <!-- Order Summary Table -->
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+        <thead>
+            <tr style="background-color: #f2f2f2;">
+                <th style="text-align: left; padding: 10px; font-size: 14px; color: #333; border-bottom: 1px solid #ddd;">Item</th>
+                <th style="text-align: left; padding: 10px; font-size: 14px; color: #333; border-bottom: 1px solid #ddd;">Category</th>
+                <th style="text-align: left; padding: 10px; font-size: 14px; color: #333; border-bottom: 1px solid #ddd;">Brand</th>
+                <th style="text-align: left; padding: 10px; font-size: 14px; color: #333; border-bottom: 1px solid #ddd;">Size</th>
+                <th style="text-align: left; padding: 10px; font-size: 14px; color: #333; border-bottom: 1px solid #ddd;">ProductStatus</th>
+                <th style="text-align: center; padding: 10px; font-size: 14px; color: #333; border-bottom: 1px solid #ddd;">Quantity</th>
+                <th style="text-align: right; padding: 10px; font-size: 14px; color: #333; border-bottom: 1px solid #ddd;">Unit Price</th>
+                <th style="text-align: right; padding: 10px; font-size: 14px; color: #333; border-bottom: 1px solid #ddd;">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+          <% orderData.items.forEach(order => { %>
+            <tr>
+              <td style="padding: 10px; font-size: 14px; color: #555; border-bottom: 1px solid #ddd;"><%= order.productName %></td>
+              <td style="padding: 10px; font-size: 14px; color: #555; border-bottom: 1px solid #ddd;"><%= order.categoryName %></td>
+              <td style="padding: 10px; font-size: 14px; color: #555; border-bottom: 1px solid #ddd;"><%= order.brandName %></td>
+              <td style="padding: 10px; font-size: 14px; color: #555; border-bottom: 1px solid #ddd;"><%= order.size %></td>
+              <td style="padding: 10px; font-size: 14px; color: #555; border-bottom: 1px solid #ddd;"><%= order.orderStatus %></td>
+              <td style="text-align: center; padding: 10px; font-size: 14px; color: #555; border-bottom: 1px solid #ddd;"><%= order.quantity %></td>
+              <td style="text-align: right; padding: 10px; font-size: 14px; color: #555; border-bottom: 1px solid #ddd;"><%= order.price %></td>
+              <td style="text-align: right; padding: 10px; font-size: 14px; color: #555; border-bottom: 1px solid #ddd;"><%= order.quantity * order.price %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+    </table>
+  
+    <!-- Total Summary -->
+    <div style="text-align: right; font-size: 14px; color: #333;">
+        <p style="margin: 5px 0; color: black;">Subtotal: <strong>₹<%= subTotal %></strong></p>
+        <p style="margin: 5px 0; color: black;">Tax (5%): <strong>₹<%= taxPrice %></strong></p>
+        <p style="margin: 5px 0; color: black;">Shipping: <strong>₹<%= shippingPrice %></strong></p>
+        <p style="margin: 5px 0; color: black;">Discount: <strong>₹<%= orderData.couponDiscountAmount %></strong></p>
+        <p style="margin: 10px 0; font-size: 16px; color: #333;"><strong>Total: ₹<%= grandPrice %></strong></p>
+    </div>
+     
+  
+    <div style="margin-top: 60px; text-align: center; font-size: 12px; color: #777;">
+      <p style="margin: 5px 0; color: black;">If you have any questions about this invoice, please contact our support team.</p>
+      <p style="margin: 5px 0; color: black;">© 2024 E-commerce Company. All rights reserved.</p>
+  </div>
+  <!-- Download Invoice Button -->
+  <button onclick="downloadInvoice()" id="downloadInvoice" style="float: right; background: black; color: white; border: none; padding: 10px 15px; font-size: 14px; border-radius: 4px; cursor: pointer; margin-bottom: 20px;">
+    Download Invoice
+</button>
+</div>
+    
+        
+   
+    <!-- Footer -->
+    
+    
+  </div>
+
+
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+
+</body>
+
+<script>
+  document.getElementById('downloadInvoice').addEventListener('click', function () {
+    const invoice = document.getElementById('invoice'); // Select the invoice container
+
+    // Use html2canvas to render the invoice as an image
+    html2canvas(invoice, { scale: 2 }).then(canvas => {
+      const imgData = canvas.toDataURL('image/png'); // Convert canvas to image
+      const pdf = new jspdf.jsPDF('p', 'mm', 'a4');  // Create a PDF object
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight); // Add image to PDF
+      pdf.save('invoice.pdf'); // Trigger download
+    });
+  });
+</script>
+</html>

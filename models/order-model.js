@@ -65,7 +65,7 @@ const orderItemSchema = new mongoose.Schema({
 const orderSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Users", //
+    ref: "User", //
     required: true,
   },
   items: [orderItemSchema], 
@@ -119,6 +119,14 @@ const orderSchema = new mongoose.Schema({
     required: true,
     default:Date.now
   },
+  updateDate: {
+    type: Date,
+    required: true,
+    default:Date.now
+  },
+  couponDiscountAmount:{
+    type:Number
+  }
   
 });
 

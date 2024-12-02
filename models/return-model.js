@@ -13,6 +13,10 @@ const returnSchema=new mongoose.Schema({
     type:mongoose.Schema.Types.ObjectId,
     ref:"AddProducts"
   },
+  size:{
+    type:String,
+    default:"h"
+  },
   returnStatus:{
     type:String,
     enum:["return requested","return approved","return rejected"],

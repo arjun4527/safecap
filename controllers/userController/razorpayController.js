@@ -16,7 +16,7 @@ const verifyPayment = async (req, res) => {
 
       const { razorpay_order_id, razorpay_payment_id, razorpay_signature,orderId } = req.body;
 
-
+      console.log("qqqqqqqqqqqqdfghdfh")
 
       const hmac = Crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET);
       hmac.update(razorpay_order_id + '|' + razorpay_payment_id);
@@ -82,7 +82,29 @@ const paymentFailure=async(req,res)=>{
 
 
 
+//for display failure
+const displayFailure=async(req,res)=>{
+  try {
+    const isLogged = req.session.user || req?.session?.passport?.user
+
+    const latestOrder = await Orders.findOne().sort({ _id: -1 }).exec();
+    
+    const orderId=latestOrder._id
+    const finalAmount=latestOrder.grandTotal
+    console.log("mujeeb",orderId)
+    console.log("niy=thin",finalAmount)
+
+    return res.render("displayFailure",{isLogged,orderId,finalAmount})
+  } catch (error) {
+    console.log("error from displayFailure",error.mesage)
+  }
+}
+
+
+
+
 module.exports={
   verifyPayment,
-  paymentFailure
+  paymentFailure,
+  displayFailure
 }

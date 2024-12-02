@@ -32,7 +32,7 @@ const loadProfile=async(req,res)=>{
     
     const isLogged = req.session.user || req?.session?.passport?.user
 
-    const currentUser= req.session.user
+    const currentUser= req.session.user || req?.session?.passport?.user
 
     const userData=await User.findOne({_id:currentUser})
 
@@ -57,7 +57,7 @@ const  loadEditProfile=async(req,res)=>{
   try {
     const isLogged = req.session.user || req?.session?.passport?.user
 
-    const currentUser= req.session.user
+    const currentUser= req.session.user || req?.session?.passport?.user
 
     const userData=await User.findOne({_id:currentUser})
 
@@ -75,11 +75,11 @@ const  loadEditProfile=async(req,res)=>{
 //for edit profile
 const editProfile=async(req,res)=>{
   try {
-    const currentUser= req.session.user
+    const currentUser= req.session.user || req?.session?.passport?.user
 
     const {firstName,lastName,email}=req.body
 
-    console.log("check",firstName,lastName)
+  
 
     if(firstName || lastName){
       const updatedProfile=await User.findByIdAndUpdate(
@@ -110,7 +110,7 @@ const loadChangePassword=async(req,res)=>{
   try {
     const isLogged = req.session.user || req?.session?.passport?.user
 
-    const currentUser= req.session.user
+    const currentUser= req.session.user || req?.session?.passport?.user
 
     return res.render("changePassword",{isLogged})
   } catch (error) {
@@ -126,7 +126,7 @@ const changePassword=async(req,res)=>{
  try {
   const {currentPassword,newPassword,confirmPassword}=req.body
   
-  const currentUser= req.session.user
+  const currentUser= req.session.user || req?.session?.passport?.user
 
   const userData=await User.findOne({_id:currentUser})
   
@@ -162,7 +162,7 @@ const loadAddress=async(req,res)=>{
   try {
     const isLogged = req.session.user || req?.session?.passport?.user
 
-    const currentUser= req.session.user
+    const currentUser= req.session.user || req?.session?.passport?.user
 
 
     const addressData=await Address.find({user:currentUser})
@@ -196,7 +196,7 @@ const addAddress=async(req,res)=>{
   try {
     const {name,phone,pincode,altPhone,address,district,state,landMark}=req.body
     
-    const currentUser=req.session.user
+    const currentUser=req.session.user || req?.session?.passport?.user
 
     const newAddress=new Address({
       name,
@@ -318,7 +318,7 @@ const loadOrderList=async(req,res)=>{
 
 
     // const orders=await Orders.find().skip(skip).limit(limit)
-    const currentUser= req.session.user
+    const currentUser= req.session.user || req?.session?.passport?.user
 
     const orderData=await Orders.find({user:currentUser}).skip(skip).limit(limit)
 
@@ -366,7 +366,7 @@ const loadOrderDetails=async(req,res)=>{
 //for cancel product from order
 const cancelProduct=async(req,res)=>{
   try {
-    const currentUser = req.session.user; 
+    const currentUser = req.session.user || req?.session?.passport?.user
 
     const {id,orderId,size}=req.body
 
@@ -375,7 +375,7 @@ const cancelProduct=async(req,res)=>{
     const orderData=await Orders.findById(orderId)
     const totalAmount=orderData.grandTotal
     let paymentMethod=orderData.paymentMethod
-    console.log("method",paymentMethod)
+    // console.log("method",paymentMethod)
 
     
      orderData.items.forEach((i)=>{
@@ -383,7 +383,7 @@ const cancelProduct=async(req,res)=>{
         if(i.product.toString()=== id.toString() && i.size===size) {
 
             i.orderStatus = "canceled"
-            refundAmount=i.price*i.quantity
+            refundAmount=(i.price*i.quantity)
             orderData.grandTotal=totalAmount-refundAmount
 
         }
@@ -562,8 +562,48 @@ const loadWallet=async(req,res)=>{
 
 
 
+//for load invoice
+const loadInvoice=async(req,res)=>{
+  try {
+    const {orderId}=req.query
+    
+    let deliveredItems
+    const isLogged = req.session.user || req?.session?.passport?.user
 
+   const orderData=await Orders.findById(orderId).populate('user')
 
+   let totalPrice
+   let subTotal=0
+   let couponDiscount
+   
+  //  const deliveredItem = orderData.items.find(item => item.orderStatus === "delivered")
+    
+   orderData.items.forEach(item=>{
+    if(item.orderStatus === "delivered" || item.orderStatus === "return rejected"){
+      couponDiscount=item.couponDiscountAmount
+
+      totalPrice=item.quantity*item.price
+      subTotal=subTotal+totalPrice
+      
+    }
+   })
+   
+   couponDiscount=orderData.couponDiscountAmount
+
+   let taxPrice=Math.ceil(subTotal*(5/100))
+
+   let shippingPrice=Math.ceil(subTotal*(.5/100))
+
+   let grandPrice=Math.ceil((subTotal+taxPrice+shippingPrice)-couponDiscount)
+
+  
+
+    return res.render("invoice",{isLogged,orderData,totalPrice,subTotal,taxPrice,shippingPrice,grandPrice})
+  } catch (error) {
+    console.log("Error  from loadInvoice ",error.message)
+
+  }
+}
 
 
 
@@ -589,5 +629,6 @@ module.exports={
   cancelProduct,
   orderCancel,
   orderList,
-  loadWallet
+  loadWallet,
+  loadInvoice
 }

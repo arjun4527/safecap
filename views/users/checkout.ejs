@@ -362,16 +362,18 @@
                                    
                                         <button class="btn"  id="placeOrder" value="Place order" type="submit">Place Order</button>
 
-                                    
+                                        <a href="/" style="text-decoration: none;">
+                                            <button class="btn" style="margin-left: 190px; padding: 10px 15px; font-size: 14px; height: auto; width: auto;" type="submit">
+                                              Continue Shopping
+                                            </button>
+                                          </a>
+                                          
                                       
                                   </div>
                               </div>
                           </div>
                       </div>
-                      <a href="/">
-                        <button class="btn"  value="Place order" type="submit">Continue Shopping</button>
-
-                      </a>
+                      
                       
 
                         
@@ -540,6 +542,7 @@ function applyCoupon(couponId){
 
           }else{
             Swal.fire({
+            title:"Warning", 
             icon: 'Error',
             text: response.message,
             confirmButtonText: 'Try Again',
@@ -619,10 +622,6 @@ const placeOrderButton=document.getElementById('placeOrder')
 
 
 
-
-
-
-
 placeOrderButton.addEventListener("click",()=>{
 
   const selectedPaymentMethod=getSelectedPaymentMethod()
@@ -680,12 +679,12 @@ Swal.fire({
     const orderId=data.orderId
 
     const options = {
-        key: razorPayKeyId, // Razorpay key dynamically fetched from server
-        amount: order.amount, // Amount in smallest currency unit
-        currency: order.currency, // Currency (e.g., INR)
-        name: "SafeCap", // Business name
-        description: "Order payment", // Payment description
-        order_id: order.id, // Razorpay order ID
+        key: razorPayKeyId, 
+        amount: order.amount, 
+        currency: order.currency,
+        name: "SafeCap", 
+        description: "Order payment", 
+        order_id: order.id, 
         handler: async function (response) {
             try {
                 const verifyResponse = await fetch('/verifyPayment', {
@@ -700,7 +699,7 @@ Swal.fire({
                 });
 
                 const verifyResult = await verifyResponse.json();
-                console.log("kkk",verifyResult)
+            
 
                 if (verifyResult.success) {
                     Swal.fire({
@@ -708,6 +707,9 @@ Swal.fire({
                         title: 'Payment Successful',
                         text: 'Your payment has been verified successfully.',
                     });
+                       setTimeout(() => {
+                        window.location.replace('/');
+                       }, 3000);
                 } else {
                     Swal.fire({
                         icon: 'error',
@@ -715,6 +717,7 @@ Swal.fire({
                         text: verifyResult.message || 'Payment verification failed.',
                     });
                 }
+                
             } catch (error) {
                 console.error('Error verifying payment:', error);
                 Swal.fire({
@@ -738,38 +741,31 @@ Swal.fire({
 
     // Handle payment failure
     rzp.on('payment.failed', function (response) {
-
-        
-        fetch('/paymentFailure', {
-         method: "POST",
-         headers: {
-             'Content-Type': "application/json"
-         },
-         body: JSON.stringify({orderId:orderId })
-        })
-
-        .then(response => {
-    
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
-    }
-    return response.json();
-})
-.then(data => {
-    if(data.success){
-        Swal.fire({
-            icon: 'error',
-            title: 'Payment Failed',
-            text: 'The payment was unsuccessful. Please try again.',
-        });
-    }
-})
-    
-
-
-
-   
+    fetch('/paymentFailure', {
+        method: "POST",
+        headers: {
+            'Content-Type': "application/json"
+        },
+        body: JSON.stringify({ orderId: orderId })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            
+            // Redirect the user to the failure page
+            window.location.href = '/displayFailure';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
     });
+});
+
 }
 
     
@@ -799,8 +795,14 @@ setTimeout(function() {
     timerProgressBar: true, 
 })
     
-        // console.error(data.message || 'An error occurred');
-        // alert(data.message || 'An unexpected error occurred');
+    }
+    if(!data.success){
+        Swal.fire({
+    icon: 'warning',
+    text: data.message,
+    confirmButtonText: 'OK',
+    confirmButtonColor: '#000000', 
+});
     }
 })
 .catch(error => {
@@ -821,8 +823,6 @@ setTimeout(function() {
 
 
 })
-
-
 
 
 

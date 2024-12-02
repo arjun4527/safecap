@@ -1,0 +1,162 @@
+<%- include('../layouts/userLayouts/header') %>
+<%- include('../layouts/userLayouts/navbar') %>
+
+<div style="margin: 0; padding: 0; height:600px; display: flex; justify-content: center; align-items:center; background-color: #f8f9fa; position: relative;">
+    <!-- Back to Home Button -->
+    
+  
+    <div style="background-color: #ffe6e6; border: 1px solid #ff4d4d; padding: 50px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); text-align: center; width: 1000px; max-width: 90%; height: 500px;">
+      <h1 style="color: #ff4d4d; font-family: Arial, sans-serif; font-size: 40px; margin-bottom: 20px;">Payment Failure</h1>
+      <h2 style="color: #333; font-family: Arial, sans-serif; font-size: 24px; margin-bottom: 20px;">We're sorry, but something went wrong.</h2>
+      <p style="color: #555; font-family: Arial, sans-serif; font-size: 18px; margin-bottom: 30px; line-height: 1.5;">
+          Your payment could not be completed at this time. This could be due to insufficient funds, incorrect payment details, or a technical issue. Please verify your details and try again. If the issue persists, contact our support team for assistance.
+      </p>
+      <button onclick="retryPayment()" style="background-color: #007bff; color: white; border: none; border-radius: 5px; padding: 15px 30px; font-size: 18px; cursor: pointer; font-family: Arial, sans-serif;">
+          Retry Payment
+      </button>
+      <a href="/">
+        <button 
+        style="position: absolute; top: 20px; left: 20px; background-color: #28a745; color: white; border: none; border-radius: 5px; padding: 10px 20px; font-size: 16px; cursor: pointer; font-family: Arial, sans-serif;">
+        Back to Home
+      </button>
+      </a>
+     
+    </div>
+  </div>
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<script>
+  function retryPayment() {
+    
+
+    const orderId='<%= orderId %>'
+    const finalAmount='<%= finalAmount %>'
+
+   
+    fetch('/retryPayment', {
+    method: "POST",
+    headers: {
+        'Content-Type': "application/json"
+    },
+    body: JSON.stringify({ orderId:orderId,finalAmount: finalAmount})
+})
+.then(response => {
+    
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response.json();
+})
+.then(data => {
+
+
+     
+  if (data.success ) {
+    const order = data.order;
+    const razorPayKeyId = data.razorPayKeyId;
+    const orderId=data.orderId
+
+    const options = {
+        key: razorPayKeyId, 
+        amount: order.amount, 
+        currency: order.currency,
+        name: "SafeCap", 
+        description: "Order payment", 
+        order_id: order.id, 
+        handler: async function (response) {
+            try {
+                const verifyResponse = await fetch('/verifyPayment', {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        razorpay_order_id: response.razorpay_order_id,
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_signature: response.razorpay_signature,
+                        orderId:orderId
+                    }),
+                });
+
+                const verifyResult = await verifyResponse.json();
+            
+
+                if (verifyResult.success) {
+                    console.log("arun hlo")
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Payment Successful',
+                        text: 'Your payment has been verified successfully.',
+                    });
+                    setTimeout(() => {
+                        window.location.replace('/');
+                       }, 3000);
+                       return
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Verification Failed',
+                        text: verifyResult.message || 'Payment verification failed.',
+                    });
+                }
+
+                window.location.href('/')
+            } catch (error) {
+                console.error('Error verifying payment:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred during payment verification. Please try again.',
+                });
+            }
+        },
+        prefill: {
+            name: "Customer Name", 
+            email: "customer@example.com", 
+            contact: "9999999999", 
+        },
+        theme: { color: "#3399cc" }, 
+    };
+
+    // Initialize and open Razorpay payment gateway
+    const rzp = new Razorpay(options);
+    rzp.open();
+    rzp.on('payment.failed', function (response) {
+        const orderId=data.orderId
+
+    fetch('/paymentFailure', {
+        method: "POST",
+        headers: {
+            'Content-Type': "application/json"
+        },
+        body: JSON.stringify({ orderId: orderId })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            console.log("gichu");
+            // Redirect the user to the failure page
+            window.location.href = '/displayFailure';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        window.location.href = '/displayFailure';
+    });
+});
+
+  }
+
+  })
+  
+
+  
+}
+</script>

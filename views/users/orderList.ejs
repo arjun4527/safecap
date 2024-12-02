@@ -69,6 +69,10 @@
                                     <th style="width: 10%; border: 1px solid #ccc; padding: 8px; text-align: center; background-color: black; color: white;">Payment Method</th>
                                     <th style="width: 10%; border: 1px solid #ccc; padding: 8px; text-align: center; background-color: black; color: white;">Total Amount</th>
                                     <th style="width: 10%; border: 1px solid #ccc; padding: 8px; text-align: center; background-color: black; color: white;">View Order</th>
+                                    <th style="width: 10%; border: 1px solid #ccc; padding: 8px; text-align: center; background-color: black; color: white;">Invoice</th>
+                                    <th style="width: 10%; border: 1px solid #ccc; padding: 8px; text-align: center; background-color: black; color: white;"> Payment</th>
+
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -104,8 +108,35 @@
                                             <span><%= order.grandTotal %></span>
                                         </td>
                                        <td style="border: 1px solid #ccc; text-align: center;">
-    <a href="/orderDetails?id=<%= order._id %>" style="display: inline-block; background-color: black; color: white; padding: 8px 12px; border-radius: 5px; text-decoration: none;">Order Details</a>
-</td>
+                                         <a href="/orderDetails?id=<%= order._id %>" style="display: inline-block; background-color: black; color: white; padding: 8px 12px; border-radius: 5px; text-decoration: none;">Order Details</a>
+                                       </td>
+                                       
+                                       <% if(order.orderStatus==="delivered" || order.orderStatus==="return"){ %>
+                                        <td style="border: 1px solid #ccc; text-align: center;">
+                                            <a href="/invoice?orderId=<%= order._id %>" style="display: inline-block; background-color: black; color: white; padding: 15px 12px; border-radius: 5px; text-decoration: none;">Invoice</a>
+                                           </td>
+                                      <% }else{ %>
+                                        <td style="border: 1px solid #ccc; text-align: center;">
+                                            <a href="" style="display: inline-block; background-color: black; color: white; padding: 8px 12px; border-radius: 5px; text-decoration: none;"> No Invoice</a>
+                                           </td>
+                                     <% } %>
+                                      <% if(order.paymentMethod==="razorPay" &&  order.paymentStatus==="pending"){ %>
+                                        <td style="border: 1px solid #ccc; text-align: center;">
+                                            <a onclick="paymentRetry('<%= order._id %>', '<%= order.grandTotal %>')" 
+                                               style="display: inline-block; background-color: black; color: white; padding: 12px 15px; border-radius: 5px; text-decoration: none;">
+                                               Retry Payment
+                                            </a>
+                                        </td>
+                                        
+                                      <% }else{ %>
+                                        <td style="border: 1px solid #ccc; text-align: center;">
+                                            <a 
+                                               style="display: inline-block; background-color: black; color: white; padding: 18px 15px; border-radius: 5px; text-decoration: none;">
+                                               Paid
+                                            </a>
+                                        </td>
+                                     <% } %>
+                                       
 
                                     </tr>
                                 <% }) %>
@@ -291,6 +322,132 @@
 </body>
 
 
-
+<script>
+    function paymentRetry(orderId,finalAmount) {
+       
+     
+      fetch('/retryPayment', {
+      method: "POST",
+      headers: {
+          'Content-Type': "application/json"
+      },
+      body: JSON.stringify({ orderId:orderId,finalAmount: finalAmount})
+  })
+  .then(response => {
+      
+      if (!response.ok) {
+          throw new Error('Network response was not ok');
+      }
+      return response.json();
+  })
+  .then(data => {
+  
+  
+       
+    if (data.success ) {
+      const order = data.order;
+      const razorPayKeyId = data.razorPayKeyId;
+      const orderId=data.orderId
+  
+      const options = {
+          key: razorPayKeyId, 
+          amount: order.amount, 
+          currency: order.currency,
+          name: "SafeCap", 
+          description: "Order payment", 
+          order_id: order.id, 
+          handler: async function (response) {
+              try {
+                  const verifyResponse = await fetch('/verifyPayment', {
+                      method: "POST",
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                          razorpay_order_id: response.razorpay_order_id,
+                          razorpay_payment_id: response.razorpay_payment_id,
+                          razorpay_signature: response.razorpay_signature,
+                          orderId:orderId
+                      }),
+                  });
+  
+                  const verifyResult = await verifyResponse.json();
+              
+  
+                  if (verifyResult.success) {
+                      console.log("arun hlo")
+                      Swal.fire({
+                          icon: 'success',
+                          title: 'Payment Successful',
+                          text: 'Your payment has been verified successfully.',
+                      });
+                      setTimeout(() => {
+                          window.location.replace('/');
+                         }, 3000);
+                         return
+                  } else {
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Verification Failed',
+                          text: verifyResult.message || 'Payment verification failed.',
+                      });
+                  }
+  
+                  window.location.href('/')
+              } catch (error) {
+                  console.error('Error verifying payment:', error);
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Error',
+                      text: 'An error occurred during payment verification. Please try again.',
+                  });
+              }
+          },
+          prefill: {
+              name: "Customer Name", 
+              email: "customer@example.com", 
+              contact: "9999999999", 
+          },
+          theme: { color: "#3399cc" }, 
+      };
+  
+      // Initialize and open Razorpay payment gateway
+      const rzp = new Razorpay(options);
+      rzp.open();
+      rzp.on('payment.failed', function (response) {
+          const orderId=data.orderId
+  
+      fetch('/paymentFailure', {
+          method: "POST",
+          headers: {
+              'Content-Type': "application/json"
+          },
+          body: JSON.stringify({ orderId: orderId })
+      })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          return response.json();
+      })
+      .then(data => {
+          if (data.success) {
+              console.log("gichu");
+              // Redirect the user to the failure page
+              window.location.href = '/displayFailure';
+          }
+      })
+      .catch(error => {
+          console.error('Error:', error);
+          window.location.href = '/displayFailure';
+      });
+  });
+  
+    }
+  
+    })
+    
+  
+    
+  }
+  </script>
 
 </html>

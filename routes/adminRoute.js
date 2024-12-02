@@ -26,6 +26,8 @@ const productController=require("../controllers/adminController/productControlle
 const couponManagementController=require("../controllers/adminController/couponManagementController")
 const offerController=require("../controllers/adminController/offerController")
 const dashboardController=require("../controllers/adminController/dashboardController")
+const bestSellingController=require("../controllers/adminController/bestSellingController")
+
 
 
 
@@ -161,12 +163,30 @@ admin_route.post("/editBrandOffer",noCacheMiddleware,auth.isLogin,offerControlle
 
 
 
-//sashboard
-admin_route.get("/todayReport",noCacheMiddleware,auth.isLogin,dashboardController.todayReport)
+//dashboard
 admin_route.get("/dashboard",noCacheMiddleware,auth.isLogin,dashboardController.loadDashboard)
+admin_route.get("/todayReport",noCacheMiddleware,auth.isLogin,dashboardController.todayReport)
 admin_route.get("/weekReport",noCacheMiddleware,auth.isLogin,dashboardController.weekReport)
 admin_route.get("/monthlyReport",noCacheMiddleware,auth.isLogin,dashboardController.monthlyReport)
 admin_route.post("/customReport",noCacheMiddleware,auth.isLogin,dashboardController.customReport)
+admin_route.post("/updateChart",noCacheMiddleware,auth.isLogin,dashboardController.updateChart)
+
+
+
+
+
+
+//best sellling
+admin_route.get("/bestSellingProduct",noCacheMiddleware,auth.isLogin,bestSellingController.bestSellingProduct)
+admin_route.get("/bestSellingCategory",noCacheMiddleware,auth.isLogin,bestSellingController.bestSellingCategory)
+admin_route.get("/bestSellingBrand",noCacheMiddleware,auth.isLogin,bestSellingController.bestSellingBrand)
+
+
+
+
+
+
+
 
 
 

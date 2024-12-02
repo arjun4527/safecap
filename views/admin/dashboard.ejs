@@ -104,9 +104,9 @@
                             <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-primary material-icons md-monetization_on"></i></span>
                             <div class="text">
                                 <h6 class="mb-1 card-title">Revenue</h6>
-                                <span>$13,456.5</span>
+                                <span><%= totalRevenue[0].totalGrandTotal %></span>
                                 <span class="text-sm">
-                                    Shipping fees are not included
+                                    Shipping fees are  included
                                 </span>
                             </div>
                         </article>
@@ -117,7 +117,7 @@
                         <article class="icontext">
                             <span class="icon icon-sm rounded-circle bg-success-light"><i class="text-success material-icons md-local_shipping"></i></span>
                             <div class="text">
-                                <h6 class="mb-1 card-title">Orders</h6> <span>53.668</span>
+                                <h6 class="mb-1 card-title">Orders</h6> <span><%= totalNoOfOrders %></span>
                                 <span class="text-sm">
                                     Excluding orders in transit
                                 </span>
@@ -130,7 +130,7 @@
                         <article class="icontext">
                             <span class="icon icon-sm rounded-circle bg-warning-light"><i class="text-warning material-icons md-qr_code"></i></span>
                             <div class="text">
-                                <h6 class="mb-1 card-title">Products</h6> <span>9.856</span>
+                                <h6 class="mb-1 card-title">Products</h6> <span><%= totalProduct %></span>
                                 <span class="text-sm">
                                     In 19 Categories
                                 </span>
@@ -143,9 +143,9 @@
                         <article class="icontext">
                             <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
                             <div class="text">
-                                <h6 class="mb-1 card-title">Monthly Earning</h6> <span>$6,982</span>
+                                <h6 class="mb-1 card-title">Discount</h6> <span><%= totalBrands %></span>
                                 <span class="text-sm">
-                                    Based in your local time.
+                                    Based on coupons.
                                 </span>
                             </div>
                         </article>
@@ -153,195 +153,40 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xl-8 col-lg-12">
-                    <div class="card mb-4">
-                        <article class="card-body">
-                            <h5 class="card-title">Sale statistics</h5>
-                            <canvas id="myChart" height="120px"></canvas>
-                        </article>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-5">
-                            <div class="card mb-4">
-                                <article class="card-body">
-                                    <h5 class="card-title">New Members</h5>
-                                    <div class="new-member-list">
-                                        <div class="d-flex align-items-center justify-content-between mb-4">
-                                            <div class="d-flex align-items-center">
-                                                <img src="assets/imgs/people/avatar4.jpg" alt="" class="avatar">
-                                                <div>
-                                                    <h6>Patric Adams</h6>
-                                                    <p class="text-muted font-xs">
-                                                        Sanfrancisco
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <a href="#" class="btn btn-xs"><i class="material-icons md-add"></i> Add</a>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-between mb-4">
-                                            <div class="d-flex align-items-center">
-                                                <img src="assets/imgs/people/avatar2.jpg" alt="" class="avatar">
-                                                <div>
-                                                    <h6>Dilan Specter</h6>
-                                                    <p class="text-muted font-xs">
-                                                        Sanfrancisco
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <a href="#" class="btn btn-xs"><i class="material-icons md-add"></i> Add</a>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-between mb-4">
-                                            <div class="d-flex align-items-center">
-                                                <img src="assets/imgs/people/avatar3.jpg" alt="" class="avatar">
-                                                <div>
-                                                    <h6>Tomas Baker</h6>
-                                                    <p class="text-muted font-xs">
-                                                        Sanfrancisco
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <a href="#" class="btn btn-xs"><i class="material-icons md-add"></i> Add</a>
-                                        </div>
-                                    </div>
-                                </article>
-                            </div>
+                <div class="col-xl-8 col-lg-12" style="width: 90%">
+                    <div style="max-width: 1000px; margin: 20px auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                        <h1 style="text-align: center; color: #333;">Dynamic Bar Chart</h1>
+                        
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <button onclick="updateChart('today')" style="margin: 5px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Today</button>
+                            <button onclick="updateChart('weekly')" style="margin: 5px; padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">Weekly</button>
+                            <button onclick="updateChart('monthly')" style="margin: 5px; padding: 10px 20px; background-color: #17a2b8; color: white; border: none; border-radius: 4px; cursor: pointer;">Monthly</button>
                         </div>
-                        <div class="col-lg-7">
-                            <div class="card mb-4">
-                                <article class="card-body">
-                                    <h5 class="card-title">Recent activities</h5>
-                                    <ul class="verti-timeline list-unstyled font-sm">
-                                        <li class="event-list">
-                                            <div class="event-timeline-dot">
-                                                <i class="material-icons md-play_circle_outline font-xxl"></i>
-                                            </div>
-                                            <div class="media">
-                                                <div class="me-3">
-                                                    <h6><span>Today</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
-                                                </div>
-                                                <div class="media-body">
-                                                    <div>
-                                                        Lorem ipsum dolor sit amet consectetur
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="event-list active">
-                                            <div class="event-timeline-dot">
-                                                <i class="material-icons md-play_circle_outline font-xxl animation-fade-right"></i>
-                                            </div>
-                                            <div class="media">
-                                                <div class="me-3">
-                                                    <h6><span>17 May</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
-                                                </div>
-                                                <div class="media-body">
-                                                    <div>
-                                                        Debitis nesciunt voluptatum dicta reprehenderit
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="event-list">
-                                            <div class="event-timeline-dot">
-                                                <i class="material-icons md-play_circle_outline font-xxl"></i>
-                                            </div>
-                                            <div class="media">
-                                                <div class="me-3">
-                                                    <h6><span>13 May</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
-                                                </div>
-                                                <div class="media-body">
-                                                    <div>
-                                                        Accusamus voluptatibus voluptas.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="event-list">
-                                            <div class="event-timeline-dot">
-                                                <i class="material-icons md-play_circle_outline font-xxl"></i>
-                                            </div>
-                                            <div class="media">
-                                                <div class="me-3">
-                                                    <h6><span>05 April</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
-                                                </div>
-                                                <div class="media-body">
-                                                    <div>
-                                                        At vero eos et accusamus et iusto odio dignissi
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="event-list">
-                                            <div class="event-timeline-dot">
-                                                <i class="material-icons md-play_circle_outline font-xxl"></i>
-                                            </div>
-                                            <div class="media">
-                                                <div class="me-3">
-                                                    <h6><span>26 Mar</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
-                                                </div>
-                                                <div class="media-body">
-                                                    <div>
-                                                        Responded to need “Volunteer Activities
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </article>
-                            </div>
-                        </div>
+                        
+                        <canvas id="myChart" width="400" height="200"></canvas>                   
                     </div>
-                </div>
-                <div class="col-xl-4 col-lg-12">
-                    <div class="card mb-4">
-                        <article class="card-body">
-                            <h5 class="card-title">Revenue Base on Area</h5>
-                            <canvas id="myChart2" height="217"></canvas>
-                        </article>
-                    </div>
-                    <div class="card mb-4">
-                        <article class="card-body">
-                            <h5 class="card-title">Marketing Chanel</h5>
-                            <span class="text-muted font-xs">Facebook</span>
-                            <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" style="width: 15%">15%</div>
-                            </div>
-                            <span class="text-muted font-xs">Instagram</span>
-                            <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" style="width: 65%">65% </div>
-                            </div>
-                            <span class="text-muted font-xs">Google</span>
-                            <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" style="width: 51%"> 51% </div>
-                            </div>
-                            <span class="text-muted font-xs">Twitter</span>
-                            <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" style="width: 80%"> 80%</div>
-                            </div>
-                            <span class="text-muted font-xs">Other</span>
-                            <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" style="width: 80%"> 80%</div>
-                            </div>
-                        </article>
-                    </div>
-                </div>
+                <!-- <div class="col-xl-4 col-lg-12">
+                    <button style="padding: 10px 20px; background: #28a745; color:white;  border-radius: 0%;"  onclick="todayChart()">Today</button>
+                    <button style="padding: 10px 20px; background: #ffc107; color:white;  border-radius: 0%;" onclick="weeklyChart()">montly</button>
+                    <button style="padding: 10px 20px; background: #17a2b8; color:white; border-radius: 0%;" onclick="monthlyChart()">yearly</button>
+                </div> -->
             </div>
             <div class="card mb-4">
                 <header class="card-header">
-                    <h4 class="card-title">Sales Report</h4>
+                    <h4 class="card-title" style="font-size: 35px;">Sales Report</h4>
                     <div style="width: 90%; max-width: 800px; margin: 40px auto; font-family: Arial, sans-serif;">
                         <!-- Form Section -->
                         <form action="/admin/customReport" method="post" style="display: flex; flex-wrap: wrap; gap: 15px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #fefefe; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
                             <!-- Date Input 1 -->
                             <div style="flex: 1; min-width: 180px;">
                                 <label for="start-date" style="font-size: 14px; color: #333; margin-bottom: 5px; display: block;">Start Date</label>
-                                <input type="date" id="start-date" name="startDate" value="2022-05-02" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+                                <input type="date" id="start-date" name="startDate" value="2024-11-01" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
                             </div>
                     
                             <!-- Date Input 2 -->
                             <div style="flex: 1; min-width: 180px;">
                                 <label for="end-date" style="font-size: 14px; color: #333; margin-bottom: 5px; display: block;">End Date</label>
-                                <input type="date" id="end-date" name="endDate" value="2022-05-02" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+                                <input type="date" id="end-date" name="endDate" value="2024-11-01" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
                             </div>
                     
                             <!-- Submit Button -->
@@ -351,10 +196,24 @@
                         </form>
                     
                         <!-- Total Amount Section -->
-                        <div style="margin: 30px auto; text-align: center; background-color: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; padding: 20px; width: 100%; max-width: 400px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-                            <p style="font-size: 24px; font-weight: bold; color: #007bff; margin: 0;">Total Amount</p>
-                            <p style="font-size: 18px; color: #333; margin-top: 10px;"><%= totalAmount %></p>
+                        <div style="display: flex; justify-content: space-around; align-items: center; margin: 30px auto; flex-wrap: wrap; gap: 20px;">
+                            <div style="text-align: center; background-color: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; padding: 20px; width: 100%; max-width: 300px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                                <p style="font-size: 24px; font-weight: bold; color: #007bff; margin: 0;">Total Amount</p>
+                                <p style="font-size: 18px; color: #333; margin-top: 10px;"><%= totalAmount %></p>
+                            </div>
+                        
+                            <div style="text-align: center; background-color: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; padding: 20px; width: 100%; max-width: 300px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                                <p style="font-size: 24px; font-weight: bold; color: #007bff; margin: 0;">Total Discount</p>
+                                <p style="font-size: 18px; color: #333; margin-top: 10px;"><%= totalCouponDiscountAmount %></p>
+                            </div>
+                        
+                            <div style="text-align: center; background-color: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; padding: 20px; width: 100%; max-width: 300px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                                <p style="font-size: 24px; font-weight: bold; color: #007bff; margin: 0;">Total Orders</p>
+                                <p style="font-size: 18px; color: #333; margin-top: 10px;"><%= totalOrders %></p>
+                            </div>
                         </div>
+                        
+                         
                     
                         <!-- Buttons Section -->
                         <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
@@ -374,12 +233,12 @@
                     
                     
                     
-                    
                 </header>
                 <div class="card-body">
                     <div class="table-responsive">
                         <div class="table-responsive">
-                            <table class="table align-middle table-nowrap mb-0">
+                            <table class="table align-middle table-nowrap mb-0" id="dataTable">
+
                                 <thead class="table-light">
                                     <tr>
                                         <th scope="col" class="text-center">
@@ -391,6 +250,8 @@
                                         <th class="align-middle" scope="col">Date</th>
                                         <th class="align-middle" scope="col">OrderId</th>
                                         <th class="align-middle" scope="col">Price</th>
+                                        <th class="align-middle" scope="col">Coupon Discount</th>
+
                                         <th class="align-middle" scope="col">Tax</th>
                                         <th class="align-middle" scope="col">shipping</th>
                                         <th class="align-middle" scope="col">Total Price</th>
@@ -418,6 +279,9 @@
                                                 <%= order.subTotal%> 
                                             </td>
                                             <td>
+                                                <%= order.couponDiscountAmount %> 
+                                            </td>
+                                            <td>
                                                 <%= order.taxPrice%> 
                                             </td>
                                             <td>
@@ -439,18 +303,59 @@
                     </div> <!-- table-responsive end// -->
                 </div>
             </div>
+
             <div class="pagination-area mt-30 mb-50">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-start">
-                        <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                        <li class="page-item"><a class="page-link" href="#">02</a></li>
-                        <li class="page-item"><a class="page-link" href="#">03</a></li>
-                        <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                        <li class="page-item"><a class="page-link" href="#">16</a></li>
-                        <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
+
+                      <% if (currentPage>1){ %>
+                         <li class="page-item ">
+                          <a class="page-link" href="?page=<% currentPage-1 %>"><i class="material-icons md-chevron_left"></i></a>
+                        </li>
+                     <% } %>
+
+                     <% for(let i=1;i<=totalPages;i++){ %>
+                      <li class="page-item <%= currentPage===i?"active":''%>">
+                        <a class="page-link" href="?page=<%= i %>"><%= ('0'+ i ).slice(-2) %></a>
+                      </li>
+                    <% } %>
+
+                    <% if(currentPage<totalPages){ %>
+                      <li class="page-item">
+                        <a class="page-link" href="?page=<%= currentPage + 1 %>"><i class="material-icons md-chevron_right"></i></a>
+                      </li>
+                   <% } %>
                     </ul>
                 </nav>
             </div>
+
+
+
+            <div class="mt-4">
+                <!-- Button for Download PDF -->
+                <button 
+                  style="background-color: #006400; color: white; border: none;" 
+                  class="btn me-2" 
+                  onclick="downloadPDF()">
+                  <i class="fas fa-file-pdf"></i> Download PDF
+                </button>
+                
+                <!-- Button for Download Excel -->
+                <button 
+                  style="background-color: #006400; color: white; border: none;" 
+                  class="btn" 
+                  onclick="downloadExcel()">
+                  <i class="fas fa-file-excel"></i> Download Excel
+                </button>
+              </div>
+              
+              
+            
+
+
+
+
+
         </section> <!-- content-main end// -->
         <footer class="main-footer font-xs">
             <div class="row pb-30 pt-15">
@@ -476,12 +381,336 @@
     <!-- Main Script -->
     <script src="/adminAssets/js/main.js" type="text/javascript"></script>
     <script src="/adminAssets/js/custom-chart.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    
+
 </body>
 
 <script>
+    async function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+
+  
+  const doc = new jsPDF();
+
+  const pageWidth = doc.internal.pageSize.width; 
+  const today = new Date().toLocaleDateString();
+
+
+  doc.setFontSize(30);
+  doc.setTextColor(0, 102, 204);
+  doc.text("Safe Cap", pageWidth / 2, 15, { align: "center" }); 
+
+
+  doc.setFontSize(12);
+  doc.setTextColor(0, 0, 0)
+  doc.text("Headquarters: Bangalore", 14, 25); 
+  doc.text("Sales Report", pageWidth / 2, 25, { align: "center" });
+  doc.text(`Date: ${today}`, pageWidth - 14, 25, { align: "right" }); 
+
+  const table = document.getElementById("dataTable");
+
+
+  const headers = [...table.querySelectorAll("thead tr th")].map(th => th.innerText.trim());
+  const rows = [...table.querySelectorAll("tbody tr")].map(row =>
+    [...row.querySelectorAll("td")].map(td => td.innerText.trim())
+  );
+
+  
+  doc.autoTable({
+    head: [headers],
+    body: rows,
+    startY: 30, 
+    styles: {
+      fontSize: 8,
+      cellPadding: 2,
+    },
+  });
+
+  
+  doc.save("Order_Details.pdf");
+}
 
 
 
-</script>
+
+
+function downloadExcel() {
+  
+  const table = document.getElementById("dataTable");
+
+  
+  const workbook = XLSX.utils.book_new(); 
+  const worksheet = XLSX.utils.table_to_sheet(table); 
+
+  const today = new Date().toLocaleDateString(); 
+  const heading = [
+    ["Safe Cap"], 
+    ["Sales Report"], 
+    [`Date: ${today}`], 
+    [], 
+  ]
+
+  XLSX.utils.sheet_add_aoa(worksheet, heading, { origin: "A1" });
+
+
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Order Details");
+
+  
+  XLSX.writeFile(workbook, "Order_Details.xlsx");
+}
+
+
+
+
+
+
+
+const ctx = document.getElementById('myChart').getContext('2d');
+let price
+
+   const chartData = {
+        today: {
+            labels: ['Today'],
+            data: []
+        },
+        weekly: {
+            labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+            data: []
+        },
+        monthly: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+            data: []
+        }
+    };
+
+
+    // Create initial chart instance
+    const myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: chartData.today.labels,
+            datasets: [{
+                label: 'Activity Data',
+                data: chartData.today.data,
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Function to update chart dynamically
+    function updateChart(period) {
+
+        
+
+        fetch("/admin/updateChart", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+        period: period,
+        
+    })
+})
+.then(response => response.json())
+.then(data => {
+    if(data.success){
+      price=data.amount
+    //   console.log("jdfvhfvfvfv",price)
+
+    chartData[period].data = price;
+
+// Update the chart's dataset with the new data
+myChart.data.labels = chartData[period].labels;
+myChart.data.datasets[0].data = chartData[period].data;
+
+        myChart.update();
+    }
+})
+
+
+    }
+
+
+    
+
+
+
+
+
+
+
+
+
+
+// async function todayChart() {
+//             try {
+//                 const response = await fetch('/admin/todayChart'); // Adjust the API endpoint as necessary
+//                 const data = await response.json();
+//                 console.log("daata coming",data);
+                
+//                 return data.totalRevenue;
+//             } catch (error) {
+//                 console.error("Error fetching total revenue:", error);
+//                 return 0;
+//             }
+//         }
+
+//         // Render the chart
+//         async function renderChart() {
+//             const totalRevenue = await fetchTotalRevenue();
+
+//             const ctx = document.getElementById('revenueChart').getContext('2d');
+//             new Chart(ctx, {
+//                 type: 'bar', // You can also use 'pie', 'line', etc.
+//                 data: {
+//                     labels: ['Total Revenue'], // Label for the bar
+//                     datasets: [{
+//                         label: 'Revenue',
+//                         data: [totalRevenue], // Total revenue data
+//                         backgroundColor: ['rgba(75, 192, 192, 0.2)'],
+//                         borderColor: ['rgba(75, 192, 192, 1)'],
+//                         borderWidth: 1
+//                     }]
+//                 },
+//                 options: {
+//                     scales: {
+//                         y: {
+//                             beginAtZero: true
+//                         }
+//                     }
+//                 }
+//             });
+//         }
+
+//         renderChart()
+
+
+
+
+
+
+
+
+
+;
+
+
+// let chartInstance;
+
+//     function renderBarChart(labels, data, yLabel, yMax) {
+//         const ctx = document.getElementById('myChart').getContext('2d');
+        
+//         // Destroy the old chart instance if it exists
+//         if (chartInstance) {
+//             chartInstance.destroy();
+//         }
+
+//         chartInstance = new Chart(ctx, {
+//             type: 'bar',
+//             data: {
+//                 labels: labels, // X-axis labels
+//                 datasets: [{
+//                     label: yLabel, // Y-axis label
+//                     data: data, // Data for the bar chart
+//                     backgroundColor: 'rgba(75, 192, 192, 0.6)', // Bar color
+//                     borderColor: 'rgba(75, 192, 192, 1)', // Bar border color
+//                     borderWidth: 1 // Border width
+//                 }]
+//             },
+//             options: {
+//                 responsive: true,
+//                 scales: {
+//                     x: {
+//                         title: {
+//                             display: true,
+//                             text: 'Dates'
+//                         }
+//                     },
+//                     y: {
+//                         title: {
+//                             display: true,
+//                             text: yLabel
+//                         },
+//                         beginAtZero: true,
+//                         max: yMax // Dynamically set maximum value for the Y-axis
+//                     }
+//                 }
+//             }
+//         });
+//     }
+
+
+
+//     async function fetchAndRenderData() {
+//     // Get input values
+//     const startDate = document.getElementById('start-date').value;
+//     const endDate = document.getElementById('end-date').value;
+//     const metric = document.getElementById('data-type').value;
+
+//     if (!startDate || !endDate) {
+//         alert("Please select both start and end dates.");
+//         return;
+//     }
+
+//     try {
+//         // Fetch data from the backend
+//         const response = await fetch(`/api/orders?startDate=${startDate}&endDate=${endDate}`);
+//         const data = await response.json();
+
+//         if (!data || !data.resultArray) {
+//             alert("No data available for the selected range.");
+//             return;
+//         }
+
+//         // Prepare data for the chart
+//         const labels = data.resultArray.map(order => new Date(order.orderDate).toLocaleDateString());
+//         let dataset;
+
+//         switch (metric) {
+//             case 'revenue':
+//                 dataset = data.resultArray.map(order => order.total); // Revenue is the total amount
+//                 break;
+//             case 'orders':
+//                 dataset = data.resultArray.map(() => 1); // 1 per order
+//                 break;
+//             case 'discount':
+//                 dataset = data.resultArray.map(order => order.couponDiscountAmount);
+//                 break;
+//             default:
+//                 dataset = [];
+//         }
+
+//         // Update the chart
+//         chart.data.labels = labels;
+//         chart.data.datasets[0].data = dataset; // Update dataset dynamically
+//         chart.data.datasets[0].label = metric.charAt(0).toUpperCase() + metric.slice(1);
+//         chart.update();
+//     } catch (error) {
+//         console.error("Error fetching or updating chart data:", error);
+//     }
+// }
+
+
+
+  </script>
+  
 
 </html>
