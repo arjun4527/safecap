@@ -584,7 +584,6 @@ const updateChart=async(req,res)=>{
 
  if(period==='weekly'){
  
-
    const query = { orderDate: { $gte: startDate, $lte: endDate },
                  orderStatus:"delivered"}
 
@@ -592,18 +591,12 @@ const updateChart=async(req,res)=>{
 
    console.log("weekend",orderData)
 
-
- 
-
-// Step 3: Initialize an array for totals for each day (0-6: Sunday-Saturday)
  array = Array(7).fill(0);
-
-// Step 4: Sum grand totals for each day
 
  orderData.forEach(order => {
     const orderDate = new Date(order.orderDate);
-    const dayIndex = orderDate.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
-    array[dayIndex] += order.grandTotal; // Add the order's grandTotal to the corresponding day
+    const dayIndex = orderDate.getDay(); 
+    array[dayIndex] += order.grandTotal
     console.log("weekly",array)
 
 });
@@ -618,19 +611,15 @@ const updateChart=async(req,res)=>{
 const orderData = await Orders.find(query)
 console.log("monthend",orderData)
 
-// let weeklySums = [];
 let currentStartDate = new Date(startDate);
 
-// Calculate weekly totals
 while (currentStartDate <= endDate) {
-    // Calculate the end of the current 7-day period
+
     let currentEndDate = new Date(currentStartDate);
     currentEndDate.setDate(currentEndDate.getDate() + 6);
     if (currentEndDate > endDate) {
-        currentEndDate = endDate; // Ensure we don't go past the month's end
+        currentEndDate = endDate;
     }
-
-    // Sum orders for this period
     const weekSum = orderData
         .filter(order => {
             const orderDate = new Date(order.orderDate);
@@ -638,18 +627,52 @@ while (currentStartDate <= endDate) {
         })
         .reduce((sum, order) => sum + order.grandTotal, 0);
 
-    // Push the sum to the array
+    
     array.push(weekSum);
 
-    // Move to the next 7-day period
     currentStartDate.setDate(currentStartDate.getDate() + 7);
     console.log("monthoo",array)
 }
+ }
 
 
+
+ if(period==='yearly'){
+  
+  let startDate = new Date(new Date().getFullYear(), 0, 1); 
+
+let endDate = new Date(new Date().getFullYear(), 11, 31);
+  const query = { orderDate: { $gte: startDate, $lte: endDate },
+  orderStatus:"delivered"
+};
+
+const orderData = await Orders.find(query)
+
+
+let currentStartDate = new Date(startDate);
+
+while (currentStartDate <= endDate) {
+
+    let currentEndDate = new Date(currentStartDate);
+    currentEndDate.setDate(currentEndDate.getDate() + 30);
+    if (currentEndDate > endDate) {
+        currentEndDate = endDate;
+    }
+    const weekSum = orderData
+        .filter(order => {
+            const orderDate = new Date(order.orderDate);
+            return orderDate >= currentStartDate && orderDate <= currentEndDate;
+        })
+        .reduce((sum, order) => sum + order.grandTotal, 0);
+
+    
+    array.push(weekSum);
+
+    currentStartDate.setDate(currentStartDate.getDate() + 30);
+    console.log("yearoo",array)
+}
  }
  
-
   return res.json({success:true,amount:array})
 
   } catch (error) {

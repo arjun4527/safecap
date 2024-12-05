@@ -149,17 +149,7 @@
                             <input type="text" placeholder="Search..." class="form-control">
                         </div>
                         <div class="col-lg-2 col-6">
-                            <div class="custom_select">
-                                <select class="form-select select-nice">
-                                    <option selected>Categories</option>
-                                    <option>Technology</option>
-                                    <option>Fashion</option>
-                                    <option>Home Decor</option>
-                                    <option>Healthy</option>
-                                    <option>Travel</option>
-                                    <option>Auto-car</option>
-                                </select>
-                            </div>
+                           
                         </div>
                         <div class="col-lg-2 col-6">
                             <input type="date" class="form-control" name="">
@@ -170,46 +160,47 @@
 
                 <div class="card-body">
                     <div class="row gx-3">
-                        <% brandsData.forEach(brand=>{ %>
-
-                        <div class="col-xl-2 col-lg-3 col-md-4 col-6">
-                            <figure class="card border-1">
-                                <div class="card-header bg-white text-center">
-                                    <img height="76" src="/productImages/<%= brand?.image%>" class="img-fluid" alt="Logo">
-                                    
-                                </div>
-                                
-                                <figcaption class="card-body text-center">
-                                    <h6 class="card-title m-0"><%= brand.name%></h6>
-
-                                    <a href="/admin/editBrand?id=<%= brand._id %>">
-                                        <button class="btn btn-primary">Edit</button>
-                                    </a>
-
-                                     
-                                    <button id="statusButton<%= brand._id %>"
-                                         
-                                        class="btn <%= brand.is_blocked ? 'btn-success' : 'btn-warning' %>" 
-                                        data-id="<%= brand._id %>">
-                                        <%= brand.is_blocked ? 'List' : 'Unlist' %>
-                                    </button>
-                                    <div class="mt-3">
-                                        <span id="statusText<%= brand._id %>" class="<%= brand.is_blocked ? 'badge bg-danger' : 'badge bg-success' %>">
-                                            <%= brand.is_blocked ? 'Inactive' : 'Active' %>
-                                          </span>
+                        <% brandsData.forEach(brand => { %>
+                            <div class="col-xl-2 col-lg-3 col-md-4 col-6">
+                                <figure class="card border-1" style="height: 300px; display: flex; flex-direction: column; justify-content: space-between;">
+                                    <div class="card-header bg-white text-center" style="height: 100px; display: flex; align-items: center; justify-content: center;">
+                                        <img 
+                                            height="76" 
+                                            src="/productImages/<%= brand?.image %>" 
+                                            style="max-height: 76px; max-width: 100%; object-fit: contain;" 
+                                            class="img-fluid" 
+                                            alt="Logo">
                                     </div>
-                               
-                                   
-                                </figcaption>
-                            </figure>
-                        </div> <!-- col.// -->
-                        <%})%>
-
-                        
-                                    
-
+                
+                                    <figcaption class="card-body text-center" style="flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
+                                        <h6 class="card-title m-0" style="margin-bottom: 8px;"><%= brand.name %></h6>
+                
+                                        <div>
+                                            <a href="/admin/editBrand?id=<%= brand._id %>">
+                                                <button class="btn btn-primary" style="margin-bottom: 8px;">Edit</button>
+                                            </a>
+                
+                                            <button id="statusButton<%= brand._id %>" 
+                                                class="btn <%= brand.is_blocked ? 'btn-success' : 'btn-warning' %>" 
+                                                data-id="<%= brand._id %>" 
+                                                style="margin-bottom: 8px;">
+                                                <%= brand.is_blocked ? 'List' : 'Unlist' %>
+                                            </button>
+                                        </div>
+                                        
+                                        <div class="mt-3">
+                                            <span id="statusText<%= brand._id %>" 
+                                                class="<%= brand.is_blocked ? 'badge bg-danger' : 'badge bg-success' %>">
+                                                <%= brand.is_blocked ? 'Inactive' : 'Active' %>
+                                            </span>
+                                        </div>
+                                    </figcaption>
+                                </figure>
+                            </div> <!-- col.// -->
+                        <% }) %>
                     </div> <!-- row.// -->
-                </div> <!-- card-body end// -->
+                </div>
+                 <!-- card-body end// -->
 
             </div> <!-- card end// -->
         </section> <!-- content-main end// -->
@@ -235,15 +226,20 @@
             </div>
         </footer>
     </main>
+   
+    <!-- Main Script -->
+    <script src="/adminAssets/js/main.js" type="text/javascript"></script>
+    <script defer src="your-script.js"></script>
+
     <script src="/adminAssets/js/vendors/jquery-3.6.0.min.js"></script>
     <script src="/adminAssets/js/vendors/bootstrap.bundle.min.js"></script>
     <script src="/adminAssets/js/vendors/select2.min.js"></script>
     <script src="/adminAssets/js/vendors/perfect-scrollbar.js"></script>
     <script src="/adminAssets/js/vendors/jquery.fullscreen.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+     
     <!-- Main Script -->
     <script src="/adminAssets/js/main.js" type="text/javascript"></script>
-    <script defer src="your-script.js"></script>
+    
    
 
 

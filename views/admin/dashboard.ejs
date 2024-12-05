@@ -33,60 +33,25 @@
           
     </aside>
     <main class="main-wrap">
-        <header class="main-header navbar">
-            <div class="col-search">
-                <form class="searchform">
-                    <div class="input-group">
-                        <input list="search_terms" type="text" class="form-control" placeholder="Search term">
-                        <button class="btn btn-light bg" type="button"> <i class="material-icons md-search"></i></button>
-                    </div>
-                    <datalist id="search_terms">
-                        <option value="Products">
-                        <option value="New orders">
-                        <option value="Apple iphone">
-                        <option value="Ahmed Hassan">
-                    </datalist>
-                </form>
-            </div>
-            <div class="col-nav">
-                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i class="material-icons md-apps"></i> </button>
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link btn-icon" href="#">
-                            <i class="material-icons md-notifications animation-shake"></i>
-                            <span class="badge rounded-pill">3</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
-                    </li>
-                    <li class="dropdown nav-item">
-                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i class="material-icons md-public"></i></a>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
-                            <a class="dropdown-item text-brand" href="#"><img src="assets/imgs/theme/flag-us.png" alt="English">English</a>
-                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-fr.png" alt="Français">Français</a>
-                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-jp.png" alt="Français">日本語</a>
-                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-cn.png" alt="Français">中国人</a>
-                        </div>
-                    </li>
-                    <li class="dropdown nav-item">
-                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="assets/imgs/people/avatar2.jpg" alt="User"></a>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
-                            <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
-                            <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
-                            <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
-                            <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
-                            <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-danger" href="/admin/logout"><i class="material-icons md-exit_to_app"></i>Logout</a>
-                        </div>
-                    </li>
-                </ul>
+        <header class="main-header navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 0 20px;">
+            <!-- Left Section (Empty or Placeholder) -->
+            <div style="flex: 1;"></div>
+            
+            <!-- Center Section (Title) -->
+            <h1 class="content-title card-title" style="margin: 0; text-align: center; flex: 1;">SafeCap</h1>
+            
+            <!-- Right Section (Icons) -->
+            <div style="flex: 1; display: flex; justify-content: flex-end; align-items: center;">
+                <a class="nav-link btn-icon" href="#" style="margin-right: 15px;">
+                    <i class="material-icons md-notifications animation-shake"></i>
+                    <span class="badge rounded-pill" style="position: absolute; top: 5px; right: 5px;">3</span>
+                </a>
+                <a class="nav-link btn-icon darkmode" href="#" style="margin-left: 15px;">
+                    <i class="material-icons md-nights_stay"></i>
+                </a>
             </div>
         </header>
+        
         <section class="content-main">
             <div class="content-header">
                 <div>
@@ -161,6 +126,8 @@
                             <button onclick="updateChart('today')" style="margin: 5px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Today</button>
                             <button onclick="updateChart('weekly')" style="margin: 5px; padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">Weekly</button>
                             <button onclick="updateChart('monthly')" style="margin: 5px; padding: 10px 20px; background-color: #17a2b8; color: white; border: none; border-radius: 4px; cursor: pointer;">Monthly</button>
+                            <button onclick="updateChart('yearly')" style="margin: 5px; padding: 10px 20px; background-color: #ffc107; color: white; border: none; border-radius: 4px; cursor: pointer;">Yearly</button>
+
                         </div>
                         
                         <canvas id="myChart" width="400" height="200"></canvas>                   
@@ -386,6 +353,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="path/to/dropdown-functionality.js"></script>
+
 
 
     
@@ -481,11 +450,15 @@ let price
             data: []
         },
         weekly: {
-            labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+            labels: ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ],
             data: []
         },
         monthly: {
             labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+            data: []
+        },
+        yearly: {
+            labels: ['jan', 'Feb', 'Mar', 'Apr','May','Jun','July','Aug','Sep','Oct','Nov','Dec'],
             data: []
         }
     };
@@ -497,7 +470,7 @@ let price
         data: {
             labels: chartData.today.labels,
             datasets: [{
-                label: 'Activity Data',
+                label: 'Total Revenue',
                 data: chartData.today.data,
                 backgroundColor: 'rgba(54, 162, 235, 0.5)',
                 borderColor: 'rgba(54, 162, 235, 1)',
@@ -533,11 +506,11 @@ let price
 .then(data => {
     if(data.success){
       price=data.amount
-    //   console.log("jdfvhfvfvfv",price)
+
 
     chartData[period].data = price;
 
-// Update the chart's dataset with the new data
+
 myChart.data.labels = chartData[period].labels;
 myChart.data.datasets[0].data = chartData[period].data;
 
@@ -547,166 +520,6 @@ myChart.data.datasets[0].data = chartData[period].data;
 
 
     }
-
-
-    
-
-
-
-
-
-
-
-
-
-
-// async function todayChart() {
-//             try {
-//                 const response = await fetch('/admin/todayChart'); // Adjust the API endpoint as necessary
-//                 const data = await response.json();
-//                 console.log("daata coming",data);
-                
-//                 return data.totalRevenue;
-//             } catch (error) {
-//                 console.error("Error fetching total revenue:", error);
-//                 return 0;
-//             }
-//         }
-
-//         // Render the chart
-//         async function renderChart() {
-//             const totalRevenue = await fetchTotalRevenue();
-
-//             const ctx = document.getElementById('revenueChart').getContext('2d');
-//             new Chart(ctx, {
-//                 type: 'bar', // You can also use 'pie', 'line', etc.
-//                 data: {
-//                     labels: ['Total Revenue'], // Label for the bar
-//                     datasets: [{
-//                         label: 'Revenue',
-//                         data: [totalRevenue], // Total revenue data
-//                         backgroundColor: ['rgba(75, 192, 192, 0.2)'],
-//                         borderColor: ['rgba(75, 192, 192, 1)'],
-//                         borderWidth: 1
-//                     }]
-//                 },
-//                 options: {
-//                     scales: {
-//                         y: {
-//                             beginAtZero: true
-//                         }
-//                     }
-//                 }
-//             });
-//         }
-
-//         renderChart()
-
-
-
-
-
-
-
-
-
-;
-
-
-// let chartInstance;
-
-//     function renderBarChart(labels, data, yLabel, yMax) {
-//         const ctx = document.getElementById('myChart').getContext('2d');
-        
-//         // Destroy the old chart instance if it exists
-//         if (chartInstance) {
-//             chartInstance.destroy();
-//         }
-
-//         chartInstance = new Chart(ctx, {
-//             type: 'bar',
-//             data: {
-//                 labels: labels, // X-axis labels
-//                 datasets: [{
-//                     label: yLabel, // Y-axis label
-//                     data: data, // Data for the bar chart
-//                     backgroundColor: 'rgba(75, 192, 192, 0.6)', // Bar color
-//                     borderColor: 'rgba(75, 192, 192, 1)', // Bar border color
-//                     borderWidth: 1 // Border width
-//                 }]
-//             },
-//             options: {
-//                 responsive: true,
-//                 scales: {
-//                     x: {
-//                         title: {
-//                             display: true,
-//                             text: 'Dates'
-//                         }
-//                     },
-//                     y: {
-//                         title: {
-//                             display: true,
-//                             text: yLabel
-//                         },
-//                         beginAtZero: true,
-//                         max: yMax // Dynamically set maximum value for the Y-axis
-//                     }
-//                 }
-//             }
-//         });
-//     }
-
-
-
-//     async function fetchAndRenderData() {
-//     // Get input values
-//     const startDate = document.getElementById('start-date').value;
-//     const endDate = document.getElementById('end-date').value;
-//     const metric = document.getElementById('data-type').value;
-
-//     if (!startDate || !endDate) {
-//         alert("Please select both start and end dates.");
-//         return;
-//     }
-
-//     try {
-//         // Fetch data from the backend
-//         const response = await fetch(`/api/orders?startDate=${startDate}&endDate=${endDate}`);
-//         const data = await response.json();
-
-//         if (!data || !data.resultArray) {
-//             alert("No data available for the selected range.");
-//             return;
-//         }
-
-//         // Prepare data for the chart
-//         const labels = data.resultArray.map(order => new Date(order.orderDate).toLocaleDateString());
-//         let dataset;
-
-//         switch (metric) {
-//             case 'revenue':
-//                 dataset = data.resultArray.map(order => order.total); // Revenue is the total amount
-//                 break;
-//             case 'orders':
-//                 dataset = data.resultArray.map(() => 1); // 1 per order
-//                 break;
-//             case 'discount':
-//                 dataset = data.resultArray.map(order => order.couponDiscountAmount);
-//                 break;
-//             default:
-//                 dataset = [];
-//         }
-
-//         // Update the chart
-//         chart.data.labels = labels;
-//         chart.data.datasets[0].data = dataset; // Update dataset dynamically
-//         chart.data.datasets[0].label = metric.charAt(0).toUpperCase() + metric.slice(1);
-//         chart.update();
-//     } catch (error) {
-//         console.error("Error fetching or updating chart data:", error);
-//     }
-// }
 
 
 

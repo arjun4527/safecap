@@ -106,9 +106,9 @@
                         <table class="table table-hover" style="width: 100%; text-align: left;">
                             <thead>
                                 <tr>
-                                    <th>Image</th>
-                                    <th scope="col">Product Name</th>
+                                    <!-- <th>Image</th> -->
                                     <th scope="col">ProductId</th>
+                                    <th scope="col">Product Name</th>
                                     <th scope="col">Quantity Sold</th>
                                     
                                 </tr>
@@ -119,11 +119,11 @@
                                       <tr>
                                         <td style="color: black;"><%= product._id %></td>
 
-                                        <td>
-                                            <img src="<%= product.image %>" 
+                                        <!-- <td>
+                                            <img src="" 
                                                  alt="Product Image" 
                                                  style="width: 50px; height: 50px;" />
-                                          </td>
+                                          </td> -->
                                           
                                         <td style="color: black;"><%= product.name %></td>
                                         <td style="color: black;"><%= product.totalQuantity %></td>
@@ -160,14 +160,20 @@
             </div>
         </footer>
     </main>
-    <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/vendors/select2.min.js"></script>
-    <script src="assets/js/vendors/perfect-scrollbar.js"></script>
-    <script src="assets/js/vendors/jquery.fullscreen.min.js"></script>
+   
     <!-- Main Script -->
     <script src="assets/js/main.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="/adminAssets/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="/adminAssets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="/adminAssets/js/vendors/select2.min.js"></script>
+    <script src="/adminAssets/js/vendors/perfect-scrollbar.js"></script>
+    <script src="/adminAssets/js/vendors/jquery.fullscreen.min.js"></script>
+     
+    <!-- Main Script -->
+    <script src="/adminAssets/js/main.js" type="text/javascript"></script>
+    
 
 </body>
 

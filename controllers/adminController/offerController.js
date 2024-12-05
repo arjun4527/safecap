@@ -473,9 +473,6 @@ products.forEach(currentProduct=>{
 
 
 
-
-
-
 module.exports={
   loadProductOffer,
   loadAddProductOffer,

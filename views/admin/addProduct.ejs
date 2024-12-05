@@ -159,19 +159,20 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div class="mb-4">
-                                          <label class="form-label">Product Image 1</label>
-                                          <input class="form-control" type="file" name="image" id="input1" multiple
-                                            accept="image/png, image/jpeg, image/jpg" onchange="viewImage(event, 1)">
-                                          <span class="error" style="color:red" id="imageError"></span>
+                                            <label class="form-label">Product Image 1</label>
+                                            <input class="form-control" type="file" name="image" id="input1" multiple
+                                                accept="image/png, image/jpeg, image/jpg" onchange="viewImage(event, 1)">
+                                            <span class="error" style="color:red" id="imageError"></span>
                                         </div>
-                                      
+                                        
                                         <!-- Image preview -->
                                         <div class="image-cropper d-flex align-items-center" id="cropperContainer1" style="display:none;">
-                                          <img src="" id="imgView1" style="width: 300px; height: auto;" alt="Image Preview">
-                                          <button type="button" id="saveButton1" class="btn-sm btn-primary">Save</button>
+                                            <img src="" id="imgView1" style="width: 300px; height: auto;" >
+                                            <button type="button" id="saveButton1" class="btn-sm btn-primary">Save</button>
                                         </div>
                                         <img src="" id="croppedImg1" alt="Cropped Image" style="display:none;">
-                                      </div>
+                                    </div>
+                                    
                                       
 
 
@@ -185,7 +186,7 @@
                                       
                                         <!-- Image preview -->
                                         <div class="image-cropper d-flex align-items-center" id="cropperContainer2" style="display:none;">
-                                          <img src="" id="imgView2" style="width: 300px; height: auto;" alt="Image Preview">
+                                          <img src="" id="imgView2" style="width: 300px; height: auto;" >
                                           <button type="button" id="saveButton2" class="btn-sm btn-primary">Save</button>
                                         </div>
                                         <img src="" id="croppedImg2" alt="Cropped Image" style="display:none;">
@@ -202,7 +203,7 @@
                                       
                                         <!-- Image preview -->
                                         <div class="image-cropper d-flex align-items-center" id="cropperContainer3" style="display:none;">
-                                          <img src="" id="imgView3" style="width: 300px; height: auto;" alt="Image Preview">
+                                          <img src="" id="imgView3" style="width: 300px; height: auto;" >
                                           <button type="button" id="saveButton3" class="btn-sm btn-primary">Save</button>
                                         </div>
                                         <img src="" id="croppedImg3" alt="Cropped Image" style="display:none;">
@@ -219,7 +220,7 @@
                                       
                                         <!-- Image preview -->
                                         <div class="image-cropper d-flex align-items-center" id="cropperContainer4" style="display:none;">
-                                          <img src="" id="imgView4" style="width: 300px; height: auto;" alt="Image Preview">
+                                          <img src="" id="imgView4" style="width: 300px; height: auto;" >
                                           <button type="button" id="saveButton4" class="btn-sm btn-primary">Save</button>
                                         </div>
                                         <img src="" id="croppedImg4" alt="Cropped Image" style="display:none;">
@@ -317,20 +318,37 @@
             </div>
         </footer>
     </main>
-    <script src="adminAssets/js/vendors/jquery-3.6.0.min.js"></script>
-    <script src="adminAssets/js/vendors/bootstrap.bundle.min.js"></script>
-    <script src="adminAssets/js/vendors/select2.min.js"></script>
-    <script src="adminAssets/js/vendors/perfect-scrollbar.js"></script>
-    <script src="adminAssets/js/vendors/jquery.fullscreen.min.js"></script>
+    
     <!-- Main Script -->
     <script src="adminAssets/js/main.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script src="/adminAssets/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="/adminAssets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="/adminAssets/js/vendors/select2.min.js"></script>
+    <script src="/adminAssets/js/vendors/perfect-scrollbar.js"></script>
+    <script src="/adminAssets/js/vendors/jquery.fullscreen.min.js"></script>
+     
+    <!-- Main Script -->
+    <script src="/adminAssets/js/main.js" type="text/javascript"></script>
+    
+
 
     
     
-    <script>
+    <script> 
+
+
+
+
+
+
+
+
+
+
+
     
       // for form validation
       function validateForm() {

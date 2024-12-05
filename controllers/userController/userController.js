@@ -108,7 +108,7 @@ const productDetails=async(req,res)=>{
 const search=async(req,res)=>{
   console.log("arjun")
   try {
-    const {searchInput}=req.body
+    const {searchInput}=req.query
 
 
     const isLogged = req.session.user || req?.session?.passport?.user
@@ -140,6 +140,8 @@ const search=async(req,res)=>{
 
   }
 }
+
+
 
 
 
@@ -184,5 +186,6 @@ module.exports={
   loadHome,
   productDetails,
   search,
+  // searchAndFilter,
   showBrand
 }

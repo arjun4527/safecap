@@ -52,7 +52,7 @@ user_route.use(bodyParser.urlencoded({ extended: true }))
 // Home 
 user_route.get("/", noCacheMiddleware, auth.userBlocked, noCacheMiddleware, userController.loadHome)
 user_route.get("/productDetails", auth.userBlocked, noCacheMiddleware, auth.isLogin, userController.productDetails)
-user_route.post("/search", noCacheMiddleware,auth.isLogin, userController.search)
+user_route.get("/search", noCacheMiddleware, auth.isLogin, userController.search);
 user_route.get("/showBrand", noCacheMiddleware,auth.isLogin, userController.showBrand)
 
 

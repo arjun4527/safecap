@@ -191,19 +191,7 @@
                                             <div class="product-name">
                                                 <a href="#"><%= product.productName %></a>
                                             </div>
-                                            <!-- End product name -->
-                                            <!-- product price -->
-                                            <div class="product-price">
-                                                
-                                            </div>
-                                            <!-- End product price -->
-                                            <div class="product-review">
-                                                <i class="font-13 fa fa-star"></i>
-                                                <i class="font-13 fa fa-star"></i>
-                                                <i class="font-13 fa fa-star"></i>
-                                                <i class="font-13 fa fa-star-o"></i>
-                                                <i class="font-13 fa fa-star-o"></i>
-                                            </div>
+                                           
                                            
                                         </div>
                                         <!-- End product details -->
@@ -353,8 +341,14 @@
                 <!-- Start model close -->
                 <a href="javascript:void()" data-dismiss="modal" class="model-close-btn pull-right" title="close"><span class="icon icon anm anm-times-l"></span></a>
                 <!-- End model close -->
-                 
-                <%  productData.forEach(product=>{ %>
+                 <% if(!productData){ %>
+                    <div style="text-align: center; margin-top: 50px; color: black;">
+    <img src="https://via.placeholder.com/150?text=No+Image" alt="No Products Found" style="width: 150px; opacity: 0.7;">
+    <p style="font-size: 18px; margin-top: 20px; color: black;">No products found</p>
+</div>
+
+                <% }else{ %>
+                    <%  productData.forEach(product=>{ %>
                   <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                         <div class="product-details-img">
@@ -378,6 +372,9 @@
                 </div>
             </div>
                <% }) %>
+               <%  } %>
+                 
+                
                 
                 <!--End-product-single-->
                 </div>
@@ -408,7 +405,7 @@
 <!-- belle/shop-fullwidth.html   11 Nov 2019 12:39:06 GMT -->
 
 <script>
-    const brandItems = document.querySelectorAll('[name="brand"]');
+ const brandItems = document.querySelectorAll('[name="brand"]');
     const categoryItems = document.querySelectorAll('[name="category"]');
     const filterButton = document.getElementById('filterbutton');
     let valueArr = [];
@@ -504,6 +501,7 @@
 
 
 
+
        const sortBtn=document.getElementById("sortBtn")
        const AtoZ=document.getElementById("A-Z")
        const ZtoA=document.getElementById("Z-A")
@@ -516,8 +514,6 @@
 
       const sortBy=selectedSort()
     //   console.log("appu",sortBy)
-
-
 
       $.ajax({
         
@@ -572,36 +568,6 @@
         
       })
 })
-
-
-
-
-
-
-// document.querySelector('.search-bar__form').addEventListener('submit', (event) => {
-//     event.preventDefault(); // Prevents default form submission
-//     const searchInput = document.getElementById('searchInput').value;
-//     console.log("Submitting search:", searchInput);
-
-
-//     // If using AJAX:
-//     fetch('/search', {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify({ searchInput })
-//     }).then(response => response.json())
-//       .then(data => console.log("Search response:", data))
-//       .catch(error => console.error("Error:", error));
-// });
-
-
-       
-
-
-
-
-
-
 
 
 

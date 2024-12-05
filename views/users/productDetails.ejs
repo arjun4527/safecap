@@ -112,84 +112,56 @@
                                         </p>
                                         
                                     <div class="product-single__description rte">
-                                        <!-- <ul>
-                                            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-                                            <li>Sed ut perspiciatis unde omnis iste natus error sit</li>
-                                            <li>Neque porro quisquam est qui dolorem ipsum quia dolor</li>
-                                            <li>Lorem Ipsum is not simply random text.</li>
-                                        </ul> -->
+                                        
                                         <h3><%= productData.description %></h3>
                                     </div>
                                     
                                     <div id="quantity_message"> Only  <span class="items"><%=productData.variants[0].stock %></span>  left in stock.</div>
                                     
-                                    <!-- countdown start -->
-                                    <!-- <div class="saleTime product-countdown" data-countdown="2022/03/01"></div> -->
-                                    <!-- countdown end -->
+                                   
                                     <form method="post" action="http://annimexweb.com/cart/add" id="product_form_10508262282" accept-charset="UTF-8" class="product-form product-form-product-template hidedropdown" enctype="multipart/form-data">
-                                        <!-- <div class="swatch clearfix swatch-0 option1" data-option-index="0">
-                                            <div class="product-form__item">
-                                              <label class="header">Color: <span class="slVariant">Red</span></label>
-                                              <div data-value="Black" class="swatch-element color black available">
-                                                <input class="swatchInput" id="swatch-0-black" type="radio" name="option-0" value="Black"><label class="swatchLbl color small rectangle" for="swatch-0-black" style="background-color:black;" title="Black"></label>
-                                              </div>
-                                              <div data-value="Maroon" class="swatch-element color maroon available">
-                                                <input class="swatchInput" id="swatch-0-maroon" type="radio" name="option-0" value="Maroon"><label class="swatchLbl color small rectangle" for="swatch-0-maroon" style="background-color:maroon;" title="Maroon"></label>
-                                              </div>
-                                              <div data-value="Blue" class="swatch-element color blue available">
-                                                <input class="swatchInput" id="swatch-0-blue" type="radio" name="option-0" value="Blue"><label class="swatchLbl color small rectangle" for="swatch-0-blue" style="background-color:blue;" title="Blue"></label>
-                                              </div>
-                                              <div data-value="Dark Green" class="swatch-element color dark-green available">
-                                                <input class="swatchInput" id="swatch-0-dark-green" type="radio" name="option-0" value="Dark Green"><label class="swatchLbl color small rectangle" for="swatch-0-dark-green" style="background-color:darkgreen;" title="Dark Green"></label>
-                                              </div>
-                                            </div>
-                                        </div> -->
+                                        
                                         <div class="swatch clearfix swatch-1 option2" data-option-index="1">
                                             <div class="product-form__item">
                                                
                                                 <label class="header">Size: <span data-size="" class="sVariant">s</span></label>
                                               
 
-                                              
-                                              <!-- <div data-value="S" data-price="" class="swatch-element s available">
-                                                <input class="swatchInput" id="swatch-1-s" type="radio" name="option-1" value="S">
-                                                <label class="swatchLbl medium rectangle" for="swatch-1-s" title="S">S</label>
-                                              </div>
-                                              <div data-value="S" data-price="" class="swatch-element m available">
-                                                <input class="swatchInput" id="swatch-1-m" type="radio" name="option-1" value="M">
-                                                <label class="swatchLbl medium rectangle" for="swatch-1-m" title="M">M</label>
-                                              </div>
-                                              <div data-value="L" data-price="" class="swatch-element l available">
-                                                <input class="swatchInput" id="swatch-1-l" type="radio" name="option-1" value="L">
-                                                <label class="swatchLbl medium rectangle" for="swatch-1-l" title="L">L</label>
-                                              </div> -->
+                        
                                     
-                                              <% productData.variants.forEach(variant => { %>
-                                                <div 
-                                                  data-value="<%= variant.size %>" 
-                                                  data-price="<%= variant.price %>" 
-                                                  data-offerPrice="<%= variant.offerPrice || 0 %>" 
-                                                  data-stock="<%= variant.stock || 0 %>" 
-                                                  class="swatch-element <%= variant.size.toLowerCase() %> available"
-                                                >
-                                                  <input 
-                                                    class="swatchInput" 
-                                                    id="swatch-1-<%= variant.size.toLowerCase() %>" 
-                                                    type="radio" 
-                                                    name="option-1" 
-                                                    value="<%= variant.size %>" 
-                                                    data-size="<%= variant.size %>"
-                                                  >
-                                                  <label 
-                                                    class="swatchLbl medium rectangle" 
-                                                    for="swatch-1-<%= variant.size.toLowerCase() %>" 
-                                                    title="<%= variant.size %>"
-                                                  >
-                                                    <%= variant.size %>
-                                                  </label>
-                                                </div>
-                                              <% }) %>
-                                              
+                                                <div id="variants-container">
+                                                    <% productData.variants.forEach(variant => { %>
+                                                      <div 
+                                                        data-value="<%= variant.size %>" 
+                                                        data-price="<%= variant.price %>" 
+                                                        data-offerPrice="<%= variant.offerPrice || 0 %>" 
+                                                        data-stock="<%= variant.stock || 0 %>" 
+                                                        class="swatch-element <%= variant.size.toLowerCase() %> available" 
+                                                        style="display: inline-block; margin: 5px; padding: 10px; border: <%= variant.size.toLowerCase() === 'small' ? '2px solid black;' : '1px solid #ccc;' %>" 
+                                                        onclick="document.querySelectorAll('.swatch-element').forEach(el => el.style.border = '1px solid #ccc'); this.style.border = '2px solid black';"
+                                                      >
+                                                        <input 
+                                                          class="swatchInput" 
+                                                          id="swatch-1-<%= variant.size.toLowerCase() %>" 
+                                                          type="radio" 
+                                                          name="option-1" 
+                                                          value="<%= variant.size %>" 
+                                                          data-size="<%= variant.size %>"
+                                                          <%= variant.size.toLowerCase() === 'small' ? 'checked' : '' %>
+                                                        >
+                                                        <label 
+                                                          class="swatchLbl medium rectangle" 
+                                                          for="swatch-1-<%= variant.size.toLowerCase() %>" 
+                                                          title="<%= variant.size %>"
+                                                          style="display: block; text-align: center; cursor: pointer;"
+                                                        >
+                                                          <%= variant.size %>
+                                                        </label>
+                                                      </div>
+                                                    <% }) %>
+                                                  </div>
+                                                  
+                                                  
                                               
                                               
 
