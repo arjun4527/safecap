@@ -87,7 +87,7 @@ const addProductOffer=async(req,res)=>{
 
     currentProduct.variants =currentProduct.variants.map(variant=>{
         
-      const offerPrice=Math.ceil((variant.price - (variant.price/100))*offerDiscount)
+      const offerPrice=Math.ceil(variant.price - (variant.price * offerDiscount / 100))
       return { ...variant, offerPrice };
     })
 
