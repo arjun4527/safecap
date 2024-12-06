@@ -68,14 +68,14 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                                     <div class="product-single__meta">
-                                        <h1 class="product-single__title"><%= productData.productName%></h1>
+                                        <h1 class="product-single__title" style="font-size: 25px;"><%= productData.productName%></h1>
                                         <!-- <div class="product-nav clearfix">					
                                             <a href="#" class="next" title="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
                                         </div> -->
                                         <div class="prInfoRow">
-                                            <div class="product-stock"> <span class="instock ">In Stock</span> <span class="outstock hide">Unavailable</span> </div>
+                                            <div class="product-stock"> <span class="instock "></span> <span class="outstock hide">Unavailable</span> </div>
                                              <div class="product-sku"> <span class="variant-sku"></span></div> 
-                                             <div class="product-review"><a class="reviewLink" href="#tab2"><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star-o"></i><i class="font-13 fa fa-star-o"></i><span class="spr-badge-caption">6 reviews</span></a></div> 
+                                             <div class="product-review" style="margin-left: 60px;"><a class="reviewLink" href="#tab2"><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star"></i><i class="font-13 fa fa-star-o"></i><i class="font-13 fa fa-star-o"></i><span class="spr-badge-caption">6 reviews</span></a></div> 
                                         </div>
                                         <p class="product-single__price product-single__price-product-template">
                                             <!-- <span class="visually-hidden">Regular price</span>
@@ -98,7 +98,7 @@
                                                 </span>
                                             <% } else { %>
                                                 <!-- Display the original price without a line-through if no offerPrice -->
-                                                <span id="ProductPrice-product-template">
+                                                <span id="ProductPrice-product-template" style="font-size: 25px;">
                                                     <span class="money">₹<%= productData.variants[0].price %></span>
                                                 </span>
                                             <% } %>
@@ -115,8 +115,33 @@
                                         
                                         <h3><%= productData.description %></h3>
                                     </div>
+
+
+
+                                    <% 
+                                    let inStock = false; 
+                                    productData.variants.forEach(variant => {
+                                        if (variant.stock !== 0) {
+                                            inStock = true; 
+                                        }
+                                    });
+                                    %>
+                                    <% if (inStock) { %>
+                                        <button style="background-color: green; color: white; border: none; border-radius: 20px; padding: 10px 20px; font-size: 16px; cursor: pointer;">
+                                            In Stock
+                                        </button>
+                                    <% } else { %>
+                                        <button style="background-color: red; color: white; border: none; border-radius: 20px; padding: 10px 20px; font-size: 16px; cursor: pointer;">
+                                            Out of Stock
+                                        </button>
+                                    <% } %>
                                     
-                                    <div id="quantity_message"> Only  <span class="items"><%=productData.variants[0].stock %></span>  left in stock.</div>
+
+
+
+
+                                    
+                                    <div id="quantity_message" style="margin-top: 20px;"> Only  <span class="items"><%=productData.variants[0].stock %></span>  left in stock.</div>
                                     
                                    
                                     <form method="post" action="http://annimexweb.com/cart/add" id="product_form_10508262282" accept-charset="UTF-8" class="product-form product-form-product-template hidedropdown" enctype="multipart/form-data">
@@ -172,26 +197,26 @@
                                         <div class="product-action clearfix">
                                             <div class="product-form__item--quantity">
                                                 <div class="wrapQtyBtn">
-                                                    <div class="qtyField">
+                                                    <!-- <div class="qtyField">
                                                         <a class="qtyBtn minus" href="javascript:void(0);"><i class="fa anm anm-minus-r" aria-hidden="true"></i></a>
                                                         <input type="text" id="Quantity" name="quantity" value="1" class="product-form__input qty">
                                                         <a class="qtyBtn plus" href="javascript:void(0);"><i class="fa anm anm-plus-r" aria-hidden="true"></i></a>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                             </div>    
                                             <% if(productData.is_blocked || brandData.is_blocked || categoryData.is_blocked){ %>
-                                                <span style="color: red; font-weight:700;">Currently Unavailable</span> 
+                                                <span style="color: red; font-weight:700; font-size: 20px; margin-top: 30px;">Currently Unavailable</span> 
                                            <% }else{ %>
                                               <div class="product-form__item--submit">
-                                                <button type="button" id="addCart" name="add" class="btn product-form__cart-submit">
+                                                <button type="button" style="margin-top: 20px; margin-right: 10px;" id="addCart" name="add" class="btn product-form__cart-submit">
                                                     Add to cart
                                                 </button>
                                                 
                                                 
                                             </div>
-                                            <div class="shopify-payment-button" data-shopify="payment-button">
+                                            <!-- <div class="shopify-payment-button" data-shopify="payment-button">
                                                 <button type="button" class="shopify-payment-button__button shopify-payment-button__button--unbranded">Buy it now</button>
-                                            </div>
+                                            </div> -->
                                           <% } %>                      
                                             
                                         </div>

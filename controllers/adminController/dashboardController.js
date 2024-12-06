@@ -519,7 +519,7 @@ const updateChart=async(req,res)=>{
   try {
     
     const {period}=req.body
-    console.log("periodddd",period)
+    // console.log("periodddd",period)
 
     let startDate
     let endDate
@@ -545,8 +545,8 @@ const updateChart=async(req,res)=>{
            endDate.setHours(23, 59, 59, 999);
     }
     
-   console.log("sd",startDate)
-   console.log("ed",endDate)
+  //  console.log("sd",startDate)
+  //  console.log("ed",endDate)
     const query = { orderDate: { $gte: startDate, $lte: endDate },
                  orderStatus:"delivered"
                };
