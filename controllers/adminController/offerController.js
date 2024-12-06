@@ -85,10 +85,12 @@ const addProductOffer=async(req,res)=>{
     //for offer start
     const currentProduct=await AddProducts.findById(productId)
 
-    currentProduct.variants =currentProduct.variants.map(variant=>{
+    currentProduct.variants.forEach(variant=>{
         
       const offerPrice=Math.ceil(variant.price - (variant.price * offerDiscount / 100))
-      return { ...variant, offerPrice };
+      console.log("price",offerPrice)
+      // return { ...variant, offerPrice };
+      variant.offerPrice = offerPrice 
     })
 
     await currentProduct.save()
