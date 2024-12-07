@@ -135,7 +135,6 @@ user_route.get("/shopPage", noCacheMiddleware, auth.isLogin, shopPageController.
 user_route.get("/quickView", noCacheMiddleware, auth.isLogin, shopPageController.loadQuickView)
 // user_route.get("/cartDataGlobal", noCacheMiddleware, auth.isLogin, shopPageController.loadCartData)
 user_route.post("/filter", noCacheMiddleware, auth.isLogin, shopPageController.filter)
-user_route.post("/search-filter", noCacheMiddleware, auth.isLogin, shopPageController.searchAndFilter);
 user_route.post("/sort", noCacheMiddleware, auth.isLogin, shopPageController.sort)
 
 

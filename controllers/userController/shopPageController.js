@@ -49,77 +49,27 @@ const loadQuickView=async(req,res)=>{
 
 
 //for filter brand
-// const filter=async(req,res)=>{
-//   try {
+const filter=async(req,res)=>{
+  try {
     
-//     const selectedValueArr=req.body.selectedValueArr
+    const selectedValueArr=req.body.selectedValueArr
   
     
-//     const productData=await AddProducts.find({$or:[
-//       {brand:selectedValueArr},
-//       {category:selectedValueArr}
-//       ]
-//      })
-    
-
-//     return res.json({productData:productData,success:true})
-
-
-//   } catch (error) {
-//     console.log("Error from brandFilter",error.message)
-//   }
-// }
-const filter = async (req, res) => {   
-  try {          
-    const { selectedValueArr } = req.body;
-    
-    const productData = await AddProducts.find({
-      $or: [
-        { brand: { $in: selectedValueArr } },
-        { category: { $in: selectedValueArr } }
+    const productData=await AddProducts.find({$or:[
+      {brand:selectedValueArr},
+      {category:selectedValueArr}
       ]
-    });
+     })
     
-    return res.json({ productData, success: true });
+
+    return res.json({productData:productData,success:true})
+
+
   } catch (error) {
-    console.log("Error from filter", error.message);
-    res.status(500).json({ success: false, message: "An error occurred during filtering" });
-  } 
-};
+    console.log("Error from brandFilter",error.message)
+  }
+}
 
-
-const searchAndFilter = async (req, res) => {   
-  try {          
-    const { searchInput, selectedValueArr } = req.body;
-    
-    // Base query for finding products
-    let query = {
-      $or: [
-        { productName: { $regex: searchInput, $options: 'i' } },
-        { description: { $regex: searchInput, $options: 'i' } }
-      ]
-    };
-
-    // Add filter conditions if selected values exist
-    if (selectedValueArr && selectedValueArr.length > 0) {
-      query.$and = [
-        {
-          $or: [
-            { brand: { $in: selectedValueArr } },
-            { category: { $in: selectedValueArr } }
-          ]
-        }
-      ];
-    }
-
-    const productData = await AddProducts.find(query);
-    
-    return res.json({ productData, success: true });
-  } catch (error) {
-    console.log("Error from search and filter", error.message);
-    res.status(500).json({ success: false, message: "An error occurred during search and filter" });
-  } 
-};
 
 
 
@@ -172,6 +122,6 @@ module.exports={
   loadQuickView,
   filter,
   sort,
-  searchAndFilter
+  
   
 }
