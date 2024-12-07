@@ -28,21 +28,26 @@
                                 <div class="product-details-img">
                                     <div class="product-thumb">
                                         <div id="gallery" class="product-dec-slider-2 product-tab-left">
-                                            <% productData.productImage.forEach((image, index) => { %>
-                                                <a data-image="/productImages/<%= image %>" data-zoom-image="/productImages/<%= image %>" 
-                                                   class="slick-slide slick-cloned" data-slick-index="<%= index %>" aria-hidden="true" tabindex="-1">
-                                                    <img class="blur-up lazyload" src="/productImages/<%= image %>" alt="Product Image" />
-                                                </a>
-                                            <% }) %>
+                                             <a data-image="/productImages/<%= productData.productImage[0] %>" data-zoom-image="/productImages/<%= productData.productImage[0] %>" class="slick-slide slick-cloned" data-slick-index="-4" aria-hidden="true" tabindex="-1">
+                                                <img class="blur-up lazyload" src="/productImages/<%= productData.productImage[0] %>" alt="" />
+                                            </a>
+                                            <a data-image="/productImages/<%= productData.productImage[1] %>" data-zoom-image="/productImages/<%= productData.productImage[1] %>" class="slick-slide slick-cloned" data-slick-index="-3" aria-hidden="true" tabindex="-1">
+                                                <img class="blur-up lazyload" src="/productImages/<%= productData.productImage[1] %>" alt="" />
+                                            </a>
+                                            <a data-image="/productImages/<%= productData.productImage[2] %>" data-zoom-image="/productImages/<%= productData.productImage[2] %>" class="slick-slide slick-cloned" data-slick-index="-2" aria-hidden="true" tabindex="-1">
+                                                <img class="blur-up lazyload" src="/productImages/<%= productData.productImage[2] %>" alt="" />
+                                            </a>
+                                            <a data-image="/productImages/<%= productData.productImage[3] %>" data-zoom-image="/productImages/<%= productData.productImage[3] %>" class="slick-slide slick-cloned" data-slick-index="-1" aria-hidden="true" tabindex="-1">
+                                                <img class="blur-up lazyload" src="/productImages/<%= productData.productImage[3] %>" alt="" />
+                                            </a>
+                                             
                                         </div>
                                     </div>
-                                    
-                                    <div class="zoompro-wrap product-zoom-right pl-20">
+                                     <!-- main photo  -->
+                                     <div class="zoompro-wrap product-zoom-right pl-20">
                                         <div class="zoompro-span">
-                                            <img class="blur-up lazyload zoompro" data-zoom-image="/productImages/<%= productData.productImage[0] %>" 
-                                                 src="/productImages/<%= productData.productImage[0] %>" alt="Main Product Image" />
+                                            <img class="blur-up lazyload zoompro" data-zoom-image="/productImages/<%= productData.productImage[0] %>"alt="" src="/productImages/<%= productData.productImage[0] %>" />
                                         </div>
-                                    </div>
 
                                         
                                         <!-- <div class="product-labels"><span class="lbl on-sale">Sale</span><span class="lbl pr-label1">new</span></div> -->
@@ -625,27 +630,7 @@
      <script src="assets/js/vendor/photoswipe-ui-default.min.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-     <script>
-        $(document).ready(function () {
-            // Initialize zoom plugin
-            $('.zoompro').ezPlus();
     
-            // Reinitialize on thumbnail click
-            $('#gallery a').on('click', function (e) {
-                e.preventDefault();
-    
-                const zoomImage = $(this).attr('data-zoom-image');
-                const mainImage = $(this).attr('data-image');
-    
-                // Update the main image
-                $('.zoompro').attr('src', mainImage).data('zoom-image', zoomImage);
-    
-                // Reinitialize zoom
-                $('.zoompro').ezPlus();
-            });
-        });
-    </script>
-
      <script>
         $(function(){
             var $pswp = $('.pswp')[0],
