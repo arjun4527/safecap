@@ -60,7 +60,7 @@
                                         <p class="no-margin"><input id="amount" type="text"></p>
                                     </div> -->
                                     <div class="col-6 text-right margin-25px-top">
-                                        <button  id = "filterbutton"class="btn btn-secondary btn--small">filter</button>
+                                        <button  id = "filterbutton"class="btn btn-secondary btn--small">Apply filter</button>
                                     </div>
                                 </div>
                             
@@ -405,99 +405,238 @@
 <!-- belle/shop-fullwidth.html   11 Nov 2019 12:39:06 GMT -->
 
 <script>
- const brandItems = document.querySelectorAll('[name="brand"]');
-    const categoryItems = document.querySelectorAll('[name="category"]');
-    const filterButton = document.getElementById('filterbutton');
-    let valueArr = [];
+//  const brandItems = document.querySelectorAll('[name="brand"]');
+//     const categoryItems = document.querySelectorAll('[name="category"]');
+//     const filterButton = document.getElementById('filterbutton');
+//     let valueArr = [];
 
-    // Function to update valueArr based on checked items
-    function updateValueArray() {
-        valueArr = []; // Clear the array
-        brandItems.forEach(item => {
-            if (item.checked) {
-                valueArr.push(item.value);
-            }
-        });
-        categoryItems.forEach(item => {
-            if (item.checked) {
-                valueArr.push(item.value);
-            }
-        });
-        console.log("Selected Values:", valueArr);
-    }
+//     // Function to update valueArr based on checked items
+//     function updateValueArray() {
+//         valueArr = []; // Clear the array
+//         brandItems.forEach(item => {
+//             if (item.checked) {
+//                 valueArr.push(item.value);
+//             }
+//         });
+//         categoryItems.forEach(item => {
+//             if (item.checked) {
+//                 valueArr.push(item.value);
+//             }
+//         });
+//         console.log("Selected Values:", valueArr);
+//     }
 
 
-    brandItems.forEach(item => {
-        item.addEventListener('change', updateValueArray);
-    });
-
-    
-    categoryItems.forEach(item => {
-        item.addEventListener('change', updateValueArray);
-    });
-
-    filterButton.addEventListener("click", () => {
-        filter(valueArr);
-    })
+//     brandItems.forEach(item => {
+//         item.addEventListener('change', updateValueArray);
+//     });
 
     
-//    let sortBy = ["a-z","z-b"]
+//     categoryItems.forEach(item => {
+//         item.addEventListener('change', updateValueArray);
+//     });
+
+//     filterButton.addEventListener("click", () => {
+//         filter(valueArr);
+//     })
+
     
-    function filter(selectedValueArr) {
-        $.ajax({
-            url: "/filter",
-            method: "POST",
-            data: JSON.stringify({ selectedValueArr }),
-            contentType: "application/json",
+// //    let sortBy = ["a-z","z-b"]
+    
+//     function filter(selectedValueArr) {
+//         $.ajax({
+//             url: "/filter",
+//             method: "POST",
+//             data: JSON.stringify({ selectedValueArr }),
+//             contentType: "application/json",
            
-            success: function(response) {
-                if (response.success) {
-                    $('.grid-products .row').empty();
+//             success: function(response) {
+//                 if (response.success) {
+//                     $('.grid-products .row').empty();
 
-                    if (response.productData.length > 0) {
-                        response.productData.forEach(product => {
-                            const productHTML = `
-                                <div class="col-6 col-sm-6 col-md-4 col-lg-3 grid-view-item style2 item">
-                                    <div class="grid-view_image">
-                                        <a href="/productDetails?id=${product._id}" class="grid-view-item__link">
-                                            <img class="grid-view-item__image primary blur-up lazyload" 
-                                                 src="/productImages/${product.productImage[0]}" 
-                                                 alt="${product.productName}" title="${product.productName}">
-                                            <img class="grid-view-item__image hover blur-up lazyload" 
-                                                 src="/productImages/${product.productImage[1]}" 
-                                                 alt="${product.productName}" title="${product.productName}">
-                                        </a>
-                                        <div class="product-details hoverDetails text-center mobile">
-                                            <div class="product-name">
-                                                <a href="#">${product.productName}</a>
-                                            </div>
-                                            <div class="product-price">
-                                                <!-- Add product price here if available -->
-                                            </div>
-                                            <div class="product-review">
-                                                <i class="font-13 fa fa-star"></i>
-                                                <i class="font-13 fa fa-star"></i>
-                                                <i class="font-13 fa fa-star"></i>
-                                                <i class="font-13 fa fa-star-o"></i>
-                                                <i class="font-13 fa fa-star-o"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
-                            $('.grid-products .row').append(productHTML);
-                        });
-                    } else {
-                        $('.grid-products .row').append('<p>No products found.</p>');
-                    }
-                }
-            },
-            error: function() {
-                console.error('Error fetching product data.');
-                $('.grid-products .row').empty().append('<p>Error fetching products. Please try again.</p>');
-            }
+//                     if (response.productData.length > 0) {
+//                         response.productData.forEach(product => {
+//                             const productHTML = `
+//                                 <div class="col-6 col-sm-6 col-md-4 col-lg-3 grid-view-item style2 item">
+//                                     <div class="grid-view_image">
+//                                         <a href="/productDetails?id=${product._id}" class="grid-view-item__link">
+//                                             <img class="grid-view-item__image primary blur-up lazyload" 
+//                                                  src="/productImages/${product.productImage[0]}" 
+//                                                  alt="${product.productName}" title="${product.productName}">
+//                                             <img class="grid-view-item__image hover blur-up lazyload" 
+//                                                  src="/productImages/${product.productImage[1]}" 
+//                                                  alt="${product.productName}" title="${product.productName}">
+//                                         </a>
+//                                         <div class="product-details hoverDetails text-center mobile">
+//                                             <div class="product-name">
+//                                                 <a href="#">${product.productName}</a>
+//                                             </div>
+//                                             <div class="product-price">
+//                                                 <!-- Add product price here if available -->
+//                                             </div>
+//                                             <div class="product-review">
+//                                                 <i class="font-13 fa fa-star"></i>
+//                                                 <i class="font-13 fa fa-star"></i>
+//                                                 <i class="font-13 fa fa-star"></i>
+//                                                 <i class="font-13 fa fa-star-o"></i>
+//                                                 <i class="font-13 fa fa-star-o"></i>
+//                                             </div>
+//                                         </div>
+//                                     </div>
+//                                 </div>
+//                             `;
+//                             $('.grid-products .row').append(productHTML);
+//                         });
+//                     } else {
+//                         $('.grid-products .row').append('<p>No products found.</p>');
+//                     }
+//                 }
+//             },
+//             error: function() {
+//                 console.error('Error fetching product data.');
+//                 $('.grid-products .row').empty().append('<p>Error fetching products. Please try again.</p>');
+//             }
+//         });
+//     }
+
+
+
+
+
+const brandItems = document.querySelectorAll('[name="brand"]');
+const categoryItems = document.querySelectorAll('[name="category"]');
+const filterButton = document.getElementById('filterbutton');
+const searchInput = document.getElementById('searchInput');
+const searchForm = document.querySelector('.search-bar__form');
+
+let valueArr = [];
+let currentSearchInput = '';
+let lastSearchResults = []; // To store the last search results
+
+// Function to update valueArr based on checked items
+function updateValueArray() {
+    valueArr = []; // Clear the array
+    brandItems.forEach(item => {
+        if (item.checked) {
+            valueArr.push(item.value);
+        }
+    });
+    categoryItems.forEach(item => {
+        if (item.checked) {
+            valueArr.push(item.value);
+        }
+    });
+    console.log("Selected Values:", valueArr);
+}
+
+// Regular search function
+searchForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const searchTerm = searchInput.value;
+    window.location.href = `/search?searchInput=${encodeURIComponent(searchTerm)}`;
+});
+
+// Add event listeners to checkboxes
+brandItems.forEach(item => {
+    item.addEventListener('change', updateValueArray);
+});
+
+categoryItems.forEach(item => {
+    item.addEventListener('change', updateValueArray);
+});
+
+// Separate filter function
+function applyFilter() {
+    $.ajax({
+        url: "/filter",
+        method: "POST",
+        data: JSON.stringify({ selectedValueArr: valueArr }),
+        contentType: "application/json",
+        success: function(response) {
+            updateProductDisplay(response.productData);
+        },
+        error: function() {
+            console.error('Error fetching filtered products');
+        }
+    });
+}
+
+// Combined search and filter function
+function applySearchAndFilter() {
+    const searchTerm = document.getElementById('searchPerformedFlag')?.value || '';
+    
+    $.ajax({
+        url: "/search-filter",
+        method: "POST",
+        data: JSON.stringify({ 
+            searchInput: searchTerm, 
+            selectedValueArr: valueArr 
+        }),
+        contentType: "application/json",
+        success: function(response) {
+            updateProductDisplay(response.productData);
+        },
+        error: function() {
+            console.error('Error fetching search and filter results');
+        }
+    });
+}
+
+// Function to update product display
+function updateProductDisplay(productData) {
+    $('.grid-products .row').empty();
+
+    if (productData.length > 0) {
+        productData.forEach(product => {
+            const productHTML = `
+                <div class="col-6 col-sm-6 col-md-4 col-lg-3 grid-view-item style2 item">
+                    <div class="grid-view_image">
+                        <a href="/productDetails?id=${product._id}" class="grid-view-item__link">
+                            <img class="grid-view-item__image primary blur-up lazyload" 
+                                 src="/productImages/${product.productImage[0]}" 
+                                 alt="${product.productName}" title="${product.productName}">
+                            <img class="grid-view-item__image hover blur-up lazyload" 
+                                 src="/productImages/${product.productImage[1]}" 
+                                 alt="${product.productName}" title="${product.productName}">
+                        </a>
+                        <div class="product-details hoverDetails text-center mobile">
+                            <div class="product-name">
+                                <a href="#">${product.productName}</a>
+                            </div>
+                            <div class="product-price">
+                                <!-- Add product price here if available -->
+                            </div>
+                            <div class="product-review">
+                                <i class="font-13 fa fa-star"></i>
+                                <i class="font-13 fa fa-star"></i>
+                                <i class="font-13 fa fa-star"></i>
+                                <i class="font-13 fa fa-star-o"></i>
+                                <i class="font-13 fa fa-star-o"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            $('.grid-products .row').append(productHTML);
         });
+    } else {
+        $('.grid-products .row').append('<p>No products found.</p>');
     }
+}
+
+// Trigger filter when filter button is clicked
+filterButton.addEventListener("click", () => {
+    // Check if a search has been performed
+    const searchPerformedFlag = document.getElementById('searchPerformedFlag');
+    
+    if (searchPerformedFlag && searchPerformedFlag.value === 'true') {
+        // If search has been performed, filter search results
+        applySearchAndFilter();
+    } else {
+        // If no search, apply regular filter
+        applyFilter();
+    }
+});
 
 
 

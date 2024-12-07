@@ -2,17 +2,26 @@
 
 <div class="pageWrapper">
 	<!--Search Form Drawer-->
-	<div class="search">
-        <div class="search__form">
-            <form class="search-bar__form" action="/search" method="GET" style="display: flex; justify-content: flex-end; align-items: center; position: relative; width: 100%;">
-                <input class="search__input" type="search" id="searchInput" name="searchInput" value="" placeholder="Search entire store..." style="margin-right: 10px; padding: 5px; font-size: 14px;">
-                <!-- <button class="go-btn search__button" type="submit" style="margin-right: 5px; padding: 5px 10px;"><i class="icon anm anm-search-l"></i></button> -->
-                <button class="btn btn-md rounded font-sm hover-up" type="submit" style="padding: 5px 15px;">Search</button>
-            </form>
-            
-            <button type="button" class="search-trigger close-btn"><i class="icon anm anm-times-l"></i></button>
-        </div>
-    </div>
+
+
+
+	<input type="hidden" 
+       id="searchPerformedFlag" 
+       value="<%= locals.searchPerformed ? 'true' : 'false' %>"
+       data-search-input="<%= locals.searchInput || '' %>">
+
+<!-- Your existing search form -->
+<form class="search-bar__form" action="/search" method="GET">
+    <input class="search__input" 
+           type="search" 
+           id="searchInput" 
+           name="searchInput" 
+           value="<%= locals.searchInput || '' %>" 
+           placeholder="Search entire store...">
+    <button type="submit" class="btn btn-md rounded font-sm hover-up">Search</button>
+</form>
+
+
     <!--End Search Form Drawer-->
     <!--Top Header-->
     <div class="top-header">
