@@ -49,42 +49,49 @@ const loadQuickView=async(req,res)=>{
 
 
 //for filter brand
-const filter=async(req,res)=>{
+const filter = async (req, res) => {
   try {
-    
-    const selectedValueArr=req.body.selectedValueArr
-    let productData
+    const selectedValueArr = req.body.selectedValueArr; // Ensure this is an array
+    if (!Array.isArray(selectedValueArr)) {
+      return res.status(400).json({ success: false, message: "Invalid input format" });
+    }
 
-    if(req.session.searchInput){
-      let searchInput=req.session.searchInput
+    let productData = [];
 
+    if (req.session.searchInput) {
+      const searchInput = req.session.searchInput;
+
+      // Find products matching the search input
       const searchedData = await AddProducts.find({
         $or: [
-            { productName: { $regex: searchInput, $options: 'i' } },
-            { description: { $regex: searchInput, $options: 'i' } }
-        ]
-     });
+          { productName: { $regex: searchInput, $options: 'i' } },
+          { description: { $regex: searchInput, $options: 'i' } },
+        ],
+      });
 
-      productData = searchedData.filter(product => 
-      selectedValueArr.includes(product.brand) || 
-      selectedValueArr.includes(product.category)
-    );
-    }else{
-      productData=await AddProducts.find({$or:[
-        {brand:selectedValueArr},
-        {category:selectedValueArr}
-        ]
-       })
+      // Filter based on brand or category
+      productData = searchedData.filter(
+        (product) =>
+          selectedValueArr.includes(product.brand) || selectedValueArr.includes(product.category)
+      );
+    } else {
+      // Directly find products matching the brand or category
+      productData = await AddProducts.find({
+        $or: [
+          { brand: { $in: selectedValueArr } }, // Use $in for arrays
+          { category: { $in: selectedValueArr } },
+        ],
+      });
     }
-  
-  
-    return res.json({productData:productData,success:true})
 
-
+    // Return the filtered product data
+    return res.status(200).json({ productData, success: true });
   } catch (error) {
-    console.log("Error from brandFilter",error.message)
+    console.error("Error from filter:", error.message);
+    return res.status(500).json({ success: false, message: "Internal server error" });
   }
-}
+};
+
 
 
 

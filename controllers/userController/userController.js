@@ -111,6 +111,7 @@ const search=async(req,res)=>{
     const {searchInput}=req.query
 
     req.session.searchInput=searchInput
+    console.log("sessio",req.session.searchInput)
 
 
     const isLogged = req.session.user || req?.session?.passport?.user
