@@ -52,7 +52,7 @@ user_route.use(bodyParser.urlencoded({ extended: true }))
 // Home 
 user_route.get("/", noCacheMiddleware, auth.userBlocked, noCacheMiddleware, userController.loadHome)
 user_route.get("/productDetails", auth.userBlocked, noCacheMiddleware, auth.isLogin, userController.productDetails)
-user_route.get("/search", noCacheMiddleware, auth.isLogin, userController.search);
+// user_route.get("/search", noCacheMiddleware, auth.isLogin, userController.search);
 user_route.get("/showBrand", noCacheMiddleware,auth.isLogin, userController.showBrand)
 
 
@@ -134,7 +134,8 @@ user_route.post("/resetPassword", noCacheMiddleware, auth.isLogout, authenticati
 user_route.get("/shopPage", noCacheMiddleware, auth.isLogin, shopPageController.loadShopPage)
 user_route.get("/quickView", noCacheMiddleware, auth.isLogin, shopPageController.loadQuickView)
 // user_route.get("/cartDataGlobal", noCacheMiddleware, auth.isLogin, shopPageController.loadCartData)
-user_route.post("/filter", noCacheMiddleware, auth.isLogin, shopPageController.filter)
+// user_route.post("/filter", noCacheMiddleware, auth.isLogin, shopPageController.filter)
+user_route.post("/searchFilter", noCacheMiddleware, auth.isLogin, shopPageController.combinedSearchFilter);
 user_route.post("/sort", noCacheMiddleware, auth.isLogin, shopPageController.sort)
 
 

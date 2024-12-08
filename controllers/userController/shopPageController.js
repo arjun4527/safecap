@@ -49,26 +49,58 @@ const loadQuickView=async(req,res)=>{
 
 
 //for filter brand
-const filter=async(req,res)=>{
-  try {
+// const filter=async(req,res)=>{
+//   try {
     
-    const selectedValueArr=req.body.selectedValueArr
+//     const selectedValueArr=req.body.selectedValueArr
   
     
-    const productData=await AddProducts.find({$or:[
-      {brand:selectedValueArr},
-      {category:selectedValueArr}
-      ]
-     })
+//     const productData=await AddProducts.find({$or:[
+//       {brand:selectedValueArr},
+//       {category:selectedValueArr}
+//       ]
+//      })
     
 
-    return res.json({productData:productData,success:true})
+//     return res.json({productData:productData,success:true})
 
 
+//   } catch (error) {
+//     console.log("Error from brandFilter",error.message)
+//   }
+// }
+const combinedSearchFilter = async (req, res) => {
+  try {
+      const { searchInput, filters } = req.body;
+
+      let query = {};
+
+      if (searchInput) {
+          query.$or = [
+              { productName: { $regex: searchInput, $options: "i" } },
+              { description: { $regex: searchInput, $options: "i" } }
+          ];
+      }
+
+      if (filters && filters.length > 0) {
+          query.$or = query.$or || [];
+          query.$or.push({ brand: { $in: filters } });
+          query.$or.push({ category: { $in: filters } });
+      }
+
+      const productData = await AddProducts.find(query);
+
+      if (!productData || productData.length === 0) {
+          return res.status(404).json({ success: false, message: "No products found" });
+      }
+
+      res.json({ success: true, productData });
   } catch (error) {
-    console.log("Error from brandFilter",error.message)
+      console.error("Error handling search/filter:", error.message);
+      res.status(500).json({ success: false, message: "Internal Server Error" });
   }
-}
+};
+
 
 
 
@@ -120,7 +152,7 @@ const sort=async(req,res)=>{
 module.exports={
   loadShopPage,
   loadQuickView,
-  filter,
+  combinedSearchFilter,
   sort,
   
   
