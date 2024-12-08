@@ -33,50 +33,14 @@
                     	<div class="sidebar_widget filterBox filter-widget">
                             <div class="widget-title" style="font-size: 25px; color: black;">Categories</div>
                             <ul>
-                                <% if (categoryData) { %>
-                                    <div class="filters">
-                                        <ul>
-                                            <% categoryData.forEach((category, index) => { %>
-                                                <li>
-                                                    <input type="checkbox" name="category" value="<%= category._id %>" id="category<%= index %>">
-                                                    <label for="category<%= index %>">
-                                                        <%= category.name %>
-                                                    </label>
-                                                </li>
-                                            <% }) %>
-                                            <% brandData.forEach((brand, index) => { %>
-                                                <li>
-                                                    <input type="checkbox" name="brand" value="<%= brand._id %>" id="brand<%= index %>">
-                                                    <label for="brand<%= index %>">
-                                                        <%= brand.name %>
-                                                    </label>
-                                                </li>
-                                            <% }) %>
-                                        </ul>
-                                    </div>
-                                <% } %>
-                                
-                                <div class="grid-products">
-                                    <div class="row">
-                                        <% if (productData && productData.length > 0) { %>
-                                            <% productData.forEach(product => { %>
-                                                <div class="col-6 col-sm-6 col-md-4 col-lg-3 grid-view-item style2 item">
-                                                    <div class="grid-view_image">
-                                                        <a href="/productDetails?id=<%= product._id %>" class="grid-view-item__link">
-                                                            <img src="/productImages/<%= product.productImage[0] %>" alt="<%= product.productName %>">
-                                                        </a>
-                                                        <div class="product-details text-center">
-                                                            <div class="product-name"><%= product.productName %></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            <% }) %>
-                                        <% } else { %>
-                                            <p>No products found.</p>
-                                        <% } %>
-                                    </div>
-                                </div>
-                                
+                                <% categoryData.forEach((category, index) => { %>
+                                    <li>
+                                        <input type="radio" name="category" value="<%= category._id %>" id="option<%= index %>">
+                                        <label for="check<%= index %>" style="color: black; font-size: 20px;">
+                                            <span><span></span></span><%= category.name %>
+                                        </label>
+                                    </li>
+                                <% }) %>
                             </ul>
                         </div>
                         <!--Categories-->
@@ -534,55 +498,6 @@
 //             }
 //         });
 //     }
-
-
-
-
-window.addEventListener("DOMContentLoaded", async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const searchQuery = urlParams.get("search");
-
-    if (searchQuery) {
-        try {
-            // Fetch products based on the search query
-            const response = await fetch(`/searchFilter`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ searchInput: searchQuery, filters: [] }) // Empty filters initially
-            });
-
-            const result = await response.json();
-            if (result.success) {
-                const productRow = document.querySelector(".grid-products .row");
-                productRow.innerHTML = "";
-
-                result.productData.forEach(product => {
-                    const productHTML = `
-                        <div class="col-6 col-sm-6 col-md-4 col-lg-3 grid-view-item style2 item">
-                            <div class="grid-view_image">
-                                <a href="/productDetails?id=${product._id}" class="grid-view-item__link">
-                                    <img src="/productImages/${product.productImage[0]}" alt="${product.productName}">
-                                </a>
-                                <div class="product-details text-center">
-                                    <div class="product-name">${product.productName}</div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    productRow.innerHTML += productHTML;
-                });
-            } else {
-                console.error("Error fetching search results:", result.message);
-                document.querySelector(".grid-products .row").innerHTML = "<p>No products found.</p>";
-            }
-        } catch (error) {
-            console.error("Error fetching search results:", error);
-        }
-    }
-});
-
 
 
 
