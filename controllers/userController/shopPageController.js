@@ -53,15 +53,31 @@ const filter=async(req,res)=>{
   try {
     
     const selectedValueArr=req.body.selectedValueArr
-  
-    
-    const productData=await AddProducts.find({$or:[
-      {brand:selectedValueArr},
-      {category:selectedValueArr}
-      ]
-     })
-    
+    let productData
 
+    if(req.session.searchInput){
+      let searchInput=req.session.searchInput
+
+      const searchedData = await AddProducts.find({
+        $or: [
+            { productName: { $regex: searchInput, $options: 'i' } },
+            { description: { $regex: searchInput, $options: 'i' } }
+        ]
+     });
+
+      productData = searchedData.filter(product => 
+      selectedValueArr.includes(product.brand) || 
+      selectedValueArr.includes(product.category)
+    );
+    }else{
+      productData=await AddProducts.find({$or:[
+        {brand:selectedValueArr},
+        {category:selectedValueArr}
+        ]
+       })
+    }
+  
+  
     return res.json({productData:productData,success:true})
 
 

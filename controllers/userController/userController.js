@@ -110,6 +110,8 @@ const search=async(req,res)=>{
   try {
     const {searchInput}=req.query
 
+    req.session.searchInput=searchInput
+
 
     const isLogged = req.session.user || req?.session?.passport?.user
 
@@ -140,9 +142,6 @@ const search=async(req,res)=>{
 
   }
 }
-
-
-
 
 
 
