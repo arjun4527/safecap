@@ -158,11 +158,10 @@
 
         try {
             // Using GET to send the search input as a query parameter
-            const response = await fetch(`/api/search`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ searchInput }),
+            const response = await fetch(`/search?searchInput=${encodeURIComponent(searchInput)}`, {
+    method: "GET", // Change method to GET
 });
+
 
 
             const result = await response.json();

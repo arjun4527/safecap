@@ -144,7 +144,7 @@ const productDetails=async(req,res)=>{
 const search = async (req, res) => {
   console.log("Search triggered");
   try {
-      const { searchInput } = req.body; // Using req.query to extract search input
+      const { searchInput } = req.query; // Using req.query to extract search input
 
       const isLogged = req.session.user || req?.session?.passport?.user;
 
