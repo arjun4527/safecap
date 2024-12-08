@@ -49,9 +49,12 @@ const loadQuickView=async(req,res)=>{
 
 
 //for filter brand
+const mongoose = require('mongoose'); 
+
 const filter = async (req, res) => {
   try {
-    const selectedValueArr = req.body.selectedValueArr; // Ensure this is an array
+    const selectedValueArr = req.body.selectedValueArr;
+
     if (!Array.isArray(selectedValueArr)) {
       return res.status(400).json({ success: false, message: "Invalid input format" });
     }
@@ -60,37 +63,49 @@ const filter = async (req, res) => {
 
     if (req.session.searchInput) {
       const searchInput = req.session.searchInput;
-
-      // Find products matching the search input
       const searchedData = await AddProducts.find({
         $or: [
           { productName: { $regex: searchInput, $options: 'i' } },
           { description: { $regex: searchInput, $options: 'i' } },
         ],
       });
+    
+      if (searchedData.length === 0) {
+        return res.status(200).json({ productData: [], success: true });
+      }
 
-      // Filter based on brand or category
-      productData = searchedData.filter(
-        (product) =>
-          selectedValueArr.includes(product.brand) || selectedValueArr.includes(product.category)
-      );
+      
+      const selectedObjectIds = selectedValueArr.map((value) => new mongoose.Types.ObjectId(value));
+      
+      productData = searchedData.filter((product) => {
+        const brandMatch = product.brand && selectedObjectIds.some((id) => id.equals(product.brand));
+        const categoryMatch = product.category && selectedObjectIds.some((id) => id.equals(product.category));
+
+        console.log(`Checking product: ${product.productName}`);
+        console.log("Brand match:", brandMatch, "Category match:", categoryMatch);
+
+        return brandMatch || categoryMatch;
+      });
+
+      
     } else {
-      // Directly find products matching the brand or category
+      
       productData = await AddProducts.find({
         $or: [
-          { brand: { $in: selectedValueArr } }, // Use $in for arrays
-          { category: { $in: selectedValueArr } },
+          { brand: { $in: selectedValueArr.map((value) => new mongoose.Types.ObjectId(value)) } },
+          { category: { $in: selectedValueArr.map((value) => new mongoose.Types.ObjectId(value)) } },
         ],
       });
     }
 
-    // Return the filtered product data
+  
     return res.status(200).json({ productData, success: true });
   } catch (error) {
     console.error("Error from filter:", error.message);
     return res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
+
 
 
 
