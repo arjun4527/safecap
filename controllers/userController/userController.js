@@ -105,82 +105,42 @@ const productDetails=async(req,res)=>{
 
 
 //for search
-// const search=async(req,res)=>{
-//   console.log("arjun")
-//   try {
-//     const {searchInput}=req.query
+const search=async(req,res)=>{
+  console.log("arjun")
+  try {
+    const {searchInput}=req.query
 
 
-//     const isLogged = req.session.user || req?.session?.passport?.user
+    const isLogged = req.session.user || req?.session?.passport?.user
 
   
 
-//     const categoryData=await Categories.find({})
+    const categoryData=await Categories.find({})
 
-//     const brandData=await Brands.find({})
+    const brandData=await Brands.find({})
 
     
-//     if (!searchInput) {
-//       return res.status(400).json({success:false, message: 'Search input is required' });
-//   }
-//   const productData = await AddProducts.find({
-//     $or: [
-//         { productName: { $regex: searchInput, $options: 'i' } },
-//         { description: { $regex: searchInput, $options: 'i' } }
-//     ]
-//  });
-//  if (!productData) {
-//   return res.status(400).json({success:false, message: 'No product found' });
-// }else{
-//   console.log("shop")
-//   return res.render("shopPage",{productData,isLogged,categoryData,brandData})
-// }
-//   } catch (error) {
-//     console.log("error from load search product",error.message)
+    if (!searchInput) {
+      return res.status(400).json({success:false, message: 'Search input is required' });
+  }
+  const productData = await AddProducts.find({
+    $or: [
+        { productName: { $regex: searchInput, $options: 'i' } },
+        { description: { $regex: searchInput, $options: 'i' } }
+    ]
+ });
+ if (!productData) {
+  return res.status(400).json({success:false, message: 'No product found' });
+}else{
+  console.log("shop")
+  return res.render("shopPage",{productData,isLogged,categoryData,brandData})
+}
+  } catch (error) {
+    console.log("error from load search product",error.message)
 
-//   }
-// }
+  }
+}
 
-// const search = async (req, res) => {
-//   console.log("Search triggered");
-//   try {
-//       const { searchInput } = req.query; // Using req.query to extract search input
-
-//       const isLogged = req.session.user || req?.session?.passport?.user;
-
-//       const categoryData = await Categories.find({});
-//       const brandData = await Brands.find({});
-
-//       if (!searchInput) {
-//           return res.status(400).json({ success: false, message: "Search input is required" });
-//       }
-
-//       const productData = await AddProducts.find({
-//           $or: [
-//               { productName: { $regex: searchInput, $options: "i" } },
-//               { description: { $regex: searchInput, $options: "i" } },
-//           ],
-//       });
-
-//       if (!productData || productData.length === 0) {
-//           return res.status(404).json({ success: false, message: "No products found" });
-//       }
-
-//       console.log("Products found");
-
-//       // Respond with JSON data for fetch
-//       return res.json({
-//           success: true,
-//           products: productData,
-//           isLogged,
-//           categoryData,
-//           brandData,
-//       });
-//   } catch (error) {
-//       console.error("Error fetching products:", error.message);
-//       res.status(500).json({ success: false, message: "Internal server error" });
-//   }
-// };
 
 
 
@@ -228,7 +188,7 @@ const showBrand=async(req,res)=>{
 module.exports={
   loadHome,
   productDetails,
-  // search,
+  search,
   // searchAndFilter,
   showBrand
 }
