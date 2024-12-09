@@ -166,9 +166,13 @@ const placeOrder=async(req,res)=>{
       const product = await AddProducts.findById(item.product );
       
       const variant = product.variants.find(v => v.size === item.size);
+
+      if(product.is_blocked){
+        return res.status(StatusCodes.OK).json({ success: true, message: `Product is Blocked ${product.productName} (size: ${item.size})` });
+      }
     
       if (variant.stock < item.quantity) {
-        return res.status(StatusCodes.BAD_REQUEST).json({ success: true, message: `Insufficient stock for ${product.productName} (size: ${item.size})` });
+        return res.status(StatusCodes.OK).json({ success: true, message: `Insufficient stock for ${product.productName} (size: ${item.size})` });
       }
     }
     
