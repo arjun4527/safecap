@@ -115,42 +115,89 @@ const filter = async (req, res) => {
 
 
 // for sorting
-const sort=async(req,res)=>{
+const sort = async (req, res) => {
   try {
-    const {sortBy}=req.body
-    
-    console.log(sortBy)
-    let sortedProducts
-    if(sortBy==="A-Z"){
-     sortedProducts=await AddProducts.find().sort({ productName: 1 });
+    const { sortBy } = req.body;
 
-    }else if(sortBy==="Z-A"){
-      sortedProducts=await AddProducts.find().sort({ productName: -1 });
-
-    }else if(sortBy==="low to high"){
-       sortedProducts = await AddProducts.aggregate([
-        { $unwind: "$variants" }, 
-        { $match: { "variants.size": "small" } }, 
-        { $sort: { "variants.price": 1 } }, 
-        
-      ]);
-      
-    }else if(sortBy==="high to low"){
-      sortedProducts = await AddProducts.aggregate([
-        { $unwind: "$variants" }, 
-        { $match: { "variants.size": "small" } }, 
-        { $sort: { "variants.price": -1 } }, 
-        
-      ]);
+    if (!sortBy) {
+      return res.status(400).json({ success: false, message: "Sort criteria is required" });
     }
+
+    let sortedProducts = [];
+
     
-    
-    
-    return res.json({sortedProducts:sortedProducts,success:true})
+    if (req.session.searchInput) {
+      const searchInput = req.session.searchInput;
+
+      
+      const searchedData = await AddProducts.find({
+        $or: [
+          { productName: { $regex: searchInput, $options: 'i' } },
+          { description: { $regex: searchInput, $options: 'i' } },
+        ],
+      });
+      
+      if (searchedData.length === 0) {
+        return res.status(200).json({ sortedProducts: [], success: true });
+      }
+      
+      
+      if (sortBy === "A-Z") {
+        sortedProducts = searchedData.sort((a, b) => a.productName.localeCompare(b.productName));
+      } else if (sortBy === "Z-A") {
+        sortedProducts = searchedData.sort((a, b) => b.productName.localeCompare(a.productName));
+      } else if (sortBy === "low to high") {
+        sortedProducts = [];
+        searchedData.forEach((product) => {
+          (product.variants || [])
+            .filter((variant) => variant.size === "small")
+            .forEach((variant) => {
+              sortedProducts.push({ ...product.toObject(), variant });
+            });
+        });
+      
+        sortedProducts.sort((a, b) => a.variant.price - b.variant.price);
+      } else if (sortBy === "high to low") {
+        sortedProducts = [];
+        searchedData.forEach((product) => {
+          (product.variants || [])
+            .filter((variant) => variant.size === "small")
+            .forEach((variant) => {
+              sortedProducts.push({ ...product.toObject(), variant });
+            });
+        });
+      
+        sortedProducts.sort((a, b) => b.variant.price - a.variant.price);
+      }
+      
+    } else {
+      
+      if (sortBy === "A-Z") {
+        sortedProducts = await AddProducts.find().sort({ productName: 1 });
+      } else if (sortBy === "Z-A") {
+        sortedProducts = await AddProducts.find().sort({ productName: -1 });
+      } else if (sortBy === "low to high") {
+        sortedProducts = await AddProducts.aggregate([
+          { $unwind: "$variants" },
+          { $match: { "variants.size": "small" } },
+          { $sort: { "variants.price": 1 } },
+        ]);
+      } else if (sortBy === "high to low") {
+        sortedProducts = await AddProducts.aggregate([
+          { $unwind: "$variants" },
+          { $match: { "variants.size": "small" } },
+          { $sort: { "variants.price": -1 } },
+        ]);
+      }
+    }
+   
+    return res.json({ sortedProducts, success: true });
   } catch (error) {
-    console.log("Error from sort",error.message)
+    console.log("Error from sort:", error.message);
+    return res.status(500).json({ success: false, message: "Internal server error" });
   }
-}
+};
+
 
 
 
