@@ -19,7 +19,7 @@ const loadDashboard = async (req, res) => {
     endDate.setHours(23, 59, 59, 999);
 
     const page = parseInt(req.query.page) || 1;
-    const limit = 6;
+    const limit = 10
     const skip = (page - 1) * limit;
 
   
@@ -129,7 +129,7 @@ endDate.setHours(23, 59, 59);
 
 try{
  const page = parseInt(req.query.page) || 1;
- const limit = 6;
+ const limit = 10
  const skip = (page - 1) * limit;
 
  const query = { orderDate: { $gte: startDate, $lte: endDate },
@@ -231,7 +231,7 @@ const weekReport=async(req,res)=>{
   try {
     
     const page = parseInt(req.query.page) || 1;
-    const limit = 6;
+    const limit = 10
     const skip = (page - 1) * limit;
 
 
@@ -332,7 +332,7 @@ const monthlyReport=async(req,res)=>{
                endDate.setHours(23, 59, 59, 999);
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit = 6;
+    const limit = 10
     const skip = (page - 1) * limit;
 
   
@@ -433,7 +433,7 @@ const customReport=async(req,res)=>{
     const {startDate,endDate}=req.body
 
     const page=parseInt(req.query.page) || 1
-    const limit=6
+    const limit=10
     const skip=(page-1)* limit
 
     const query = { orderDate: { $gte: startDate, $lte: endDate } };
