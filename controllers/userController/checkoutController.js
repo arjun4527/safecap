@@ -98,17 +98,8 @@ const placeOrder=async(req,res)=>{
       return res.status(StatusCodes.BAD_REQUEST).json({success:false,message:"User not found"})
     }
 
-    const {paymentMethod,addressId}=req.body
-    // console.log("hlo",paymentMethod)
-    // console.log("hi",addressId)
-
-
-    // const now = new Date();
-    //   const currentDate=new Date(now).toLocaleDateString('en-US', {
-    //     year: 'numeric',
-    //     month: 'long',
-    //     day: 'numeric'
-    //   });
+    const {paymentMethod,addressId,}=req.body
+    
 
     if(!addressId){
       return res.status(StatusCodes.BAD_REQUEST).json({success:false,message:'Address Id is required'})
@@ -168,13 +159,25 @@ const placeOrder=async(req,res)=>{
       const variant = product.variants.find(v => v.size === item.size);
 
       if(product.is_blocked){
-        return res.status(StatusCodes.OK).json({ success: true, message: `Product is Blocked ${product.productName} (size: ${item.size})` });
+        return res.status(StatusCodes.OK).json({ success: false, message: `Product is Blocked ${product.productName} (size: ${item.size})` });
       }
     
       if (variant.stock < item.quantity) {
-        return res.status(StatusCodes.OK).json({ success: true, message: `Insufficient stock for ${product.productName} (size: ${item.size})` });
+        return res.status(StatusCodes.OK).json({ success: false, message: `Insufficient stock for ${product.productName} (size: ${item.size})` });
       }
     }
+
+    if(req.session.couponId){
+      const couponId=req.session.couponId
+
+      const coupon=await Coupon.findById(couponId)
+      if(coupon.is_blocked){
+        return res.status(StatusCodes.OK).json({ success: false, message: "Coupon is not valid,So choose another one " });
+
+      }
+    }
+
+
     
  
 

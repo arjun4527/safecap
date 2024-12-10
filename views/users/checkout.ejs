@@ -521,7 +521,8 @@
 <script>
 
 function applyCoupon(couponId){
-  
+
+
     $.ajax({
         url:"/applyCoupon",
         method:"POST",
@@ -662,7 +663,7 @@ Swal.fire({
     headers: {
         'Content-Type': "application/json"
     },
-    body: JSON.stringify({ paymentMethod: selectedPaymentMethod, addressId: selectedAddressId })
+    body: JSON.stringify({ paymentMethod: selectedPaymentMethod, addressId: selectedAddressId, })
 })
 .then(response => {
     
